@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ADVANCED SEO / META TAGS -->
+    <title>Universal Unit Converter | Precision Engineering & Currency Tool</title>
+    <meta name="description" content="Free, high-precision universal unit converter. Convert Length, Weight, Area, Speed, Pressure, Torque, Fuel Consumption, and Live Currency. Accuracy up to 6 decimal places.">
+    <meta name="keywords" content="unit converter, area converter, speed converter, live currency, torque converter, pressure converter, fuel economy converter, l/100km to mpg, nm to lb-ft">
+    <link rel="canonical" href="https://unitconverter.live/" />
+
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="Universal Unit Converter | Precision Tool">
+    <meta property="og:description" content="Convert any unit with professional accuracy. Live market currency rates and engineering units included.">
+    <meta property="og:url" content="https://unitconverter.live/">
+    <meta property="og:type" content="website">
+
+    <!-- JSON-LD Structured Data for Google (Rich Snippets) -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Universal Unit Converter Pro",
+        "url": "https://unitconverter.live/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "description": "A precision unit converter supporting engineering units, area, speed, fuel consumption, and live currency rates.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    ]
+    </script>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <style>
+        /* Default: Light Mode Theme */
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-dim: #555;
+            --input-bg: #ffffff;
+            --neon-blue: #0052cc;
+            --neon-blue-glow: rgba(0, 82, 204, 0.2);
+            --neon-green: #008a00;
+            --border: #e0e0e0;
+            --accent-soft: rgba(0, 82, 204, 0.05);
+        }
+
+        /* Dark Mode Overrides */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
+            --neon-blue: #0066FF; 
+            --neon-blue-glow: rgba(0, 102, 255, 0.4);
+            --neon-green: #00FF00;
+            --text-main: #ffffff;
+            --text-dim: #999;
+            --input-bg: #000;
+            --border: #222;
+            --accent-soft: rgba(0, 102, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header { text-align: center; padding: 60px 20px 40px; position: relative; }
+        .neon-text {
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px var(--neon-blue-glow);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .top-tools {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .tool-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        .tool-btn:hover { border-color: var(--neon-blue); background: var(--accent-soft); }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card .icon { font-size: 1.8rem; display: block; margin-bottom: 8px; opacity: 0.6; transition: 0.3s; }
+        .category-card p { margin: 0; font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+        
+        .category-card:hover { border-color: var(--neon-blue); background: var(--accent-soft); }
+        .category-card.active { 
+            border-color: var(--neon-blue); 
+            background: var(--accent-soft);
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.1);
+        }
+        .category-card.active .icon { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 8px var(--neon-blue)); }
+        .category-card.active p { color: var(--neon-blue); }
+
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .converter-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        body.dark-mode .converter-container {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .field { margin-bottom: 25px; }
+        label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--neon-blue); margin-bottom: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
+        
+        input, select {
+            width: 100%;
+            padding: 20px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 16px;
+            font-size: 1.25rem;
+            outline: none;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        /* FIXED: Dropdown truncation fix */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066FF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
+            padding-right: 45px; 
+            text-overflow: clip; /* Removed ellipsis */
+            white-space: normal; /* Allow text to wrap if needed */
+            height: auto;
+            min-height: 68px;
+            line-height: 1.2;
+        }
+
+        input:focus, select:focus { border-color: var(--neon-green); box-shadow: 0 0 0 4px rgba(0, 255, 0, 0.1); }
+
+        .form-row { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 25px; }
+        
+        .swap-btn {
+            background: var(--border);
+            border: none;
+            color: var(--text-main);
+            border-radius: 14px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex-shrink: 0;
+        }
+        .swap-btn:hover { background: var(--neon-blue); color: #fff; transform: rotate(180deg); }
+
+        .result-area {
+            background: var(--input-bg);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            margin-top: 25px;
+            border: 2px solid var(--border);
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .result-area:hover { border-color: var(--neon-blue); }
+        .result-area:active { transform: scale(0.98); }
+
+        #resultValue { font-size: 3.5rem; color: var(--neon-green); font-weight: 900; display: block; line-height: 1; word-break: break-all; }
+        #resultUnitLabel { color: var(--text-dim); font-size: 1.1rem; margin-top: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .side-panel { display: flex; flex-direction: column; gap: 25px; }
+
+        .history-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 25px;
+            flex: 1;
+        }
+        .history-card h3 { font-size: 0.8rem; text-transform: uppercase; margin-top: 0; color: var(--neon-blue); letter-spacing: 1px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+        .history-list { list-style: none; padding: 0; margin: 0; max-height: 400px; overflow-y: auto; }
+        .history-item { 
+            padding: 12px 0; 
+            border-bottom: 1px solid var(--border); 
+            font-size: 0.85rem; 
+            color: var(--text-dim);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .formula-box {
+            margin-top: 25px;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-align: center;
+            background: var(--accent-soft);
+            border-radius: 12px;
+            border: 1px dashed var(--border);
+        }
+
+        .precision-picker {
+            display: flex;
+            gap: 5px;
+            background: var(--input-bg);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .prec-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .prec-btn.active { background: var(--neon-blue); color: white; }
+
+        .quick-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .quick-table th { text-align: left; color: var(--neon-blue); background: var(--accent-soft); padding: 18px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .quick-table td { padding: 15px 18px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-green);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 800;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+        }
+
+        footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); margin-top: 60px; }
+        .kbd { background: var(--border); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.7rem; color: var(--text-main); }
+
+        @media (max-width: 900px) {
+            .layout-wrapper { grid-template-columns: 1fr; }
+            .category-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .form-row { flex-direction: column; align-items: stretch; }
+            .swap-btn { width: 50px; height: 50px; transform: rotate(90deg); align-self: center; margin: 10px 0; }
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
+            .neon-text { font-size: 1.8rem; }
+            select { font-size: 1.1rem; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-tools">
+            <button class="tool-btn" id="themeToggle" title="Switch Theme (Light/Dark)" aria-label="Toggle Theme">🌓</button>
+            <button class="tool-btn" id="shareBtn" title="Copy Site URL" aria-label="Share Link">🔗</button>
+        </div>
+        <h1 class="neon-text">Precision Units</h1>
+        <p style="color: var(--text-dim); font-weight: 500; margin-top: 12px;">The Gold Standard for Engineering & Financial Conversion</p>
+    </header>
+
+    <main>
+        <nav class="category-grid" id="catGrid">
+            <div class="category-card active" data-cat="length"><span class="icon">📏</span><p>Length</p></div>
+            <div class="category-card" data-cat="area"><span class="icon">📐</span><p>Area</p></div>
+            <div class="category-card" data-cat="weight"><span class="icon">⚖️</span><p>Weight</p></div>
+            <div class="category-card" data-cat="speed"><span class="icon">🚀</span><p>Speed</p></div>
+            <div class="category-card" data-cat="temp"><span class="icon">🌡️</span><p>Temp</p></div>
+            <div class="category-card" data-cat="pressure"><span class="icon">🎈</span><p>Pressure</p></div>
+            <div class="category-card" data-cat="torque"><span class="icon">🔧</span><p>Torque</p></div>
+            <div class="category-card" data-cat="fuel"><span class="icon">⛽</span><p>Fuel</p></div>
+            <div class="category-card" data-cat="energy"><span class="icon">⚡</span><p>Energy</p></div>
+            <div class="category-card" data-cat="currency"><span class="icon">💰</span><p>Currency</p></div>
+        </nav>
+
+        <div class="layout-wrapper">
+            <section>
+                <div class="converter-container">
+                    <div class="field">
+                        <label for="inputValue">
+                            Value Input
+                            <div class="precision-picker" id="precPicker">
+                                <button class="prec-btn" data-p="2">.00</button>
+                                <button class="prec-btn" data-p="4">.0000</button>
+                                <button class="prec-btn active" data-p="6">.000000</button>
+                            </div>
+                        </label>
+                        <input type="number" id="inputValue" value="1" step="any" inputmode="decimal">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field" style="flex:1; margin-bottom:0; min-width: 0;">
+                            <label>Source Unit</label>
+                            <select id="unitFrom"></select>
+                        </div>
+                        
+                        <button class="swap-btn" id="swapBtn" title="Press 'S' to swap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+                        </button>
+
+                        <div class="field" style="flex:1; margin-bottom:0; min-width: 0;">
+                            <label>Target Unit</label>
+                            <select id="unitTo"></select>
+                        </div>
+                    </div>
+
+                    <div class="result-area" id="resultBox">
+                        <span id="resultValue">0</span>
+                        <div id="resultUnitLabel">Result</div>
+                    </div>
+
+                    <div class="formula-box" id="formulaDisplay">
+                        Loading conversion engine...
+                    </div>
+                </div>
+
+                <table class="quick-table">
+                    <thead>
+                        <tr>
+                            <th id="tableColFrom">Standard</th>
+                            <th id="tableColTo">Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </section>
+
+            <aside class="side-panel">
+                <div class="history-card">
+                    <h3>History <span style="font-size: 0.6rem; opacity: 0.5;">Auto-saved</span></h3>
+                    <ul class="history-list" id="historyList">
+                        <li class="history-item" style="text-align:center; opacity:0.5;">No recent conversions</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <footer>
+        <p>&copy; 2026 unitconverter.live</p>
+    </footer>
+
+    <script>
+        const unitsData = {
+            length: { units: { 
+                'm': { factor: 1, name: 'Meters (m)' }, 
+                'km': { factor: 1000, name: 'Kilometers (km)' }, 
+                'cm': { factor: 0.01, name: 'Centimeters (cm)' }, 
+                'mm': { factor: 0.001, name: 'Millimeters (mm)' },
+                'ft': { factor: 0.3048, name: 'Feet (ft)' }, 
+                'in': { factor: 0.0254, name: 'Inches (in)' }, 
+                'mi': { factor: 1609.34, name: 'Miles (mi)' }
+            }},
+            area: { units: {
+                'sqm': { factor: 1, name: 'Square Meters (m²)' },
+                'sqkm': { factor: 1000000, name: 'Square Kilometers (km²)' },
+                'acre': { factor: 4046.86, name: 'Acres (ac)' },
+                'hectare': { factor: 10000, name: 'Hectares (ha)' },
+                'sqft': { factor: 0.092903, name: 'Square Feet (ft²)' },
+                'sqmi': { factor: 2589988.11, name: 'Square Miles (mi²)' }
+            }},
+            weight: { units: { 
+                'kg': { factor: 1, name: 'Kilograms (kg)' }, 
+                'g': { factor: 0.001, name: 'Grams (g)' }, 
+                'lb': { factor: 0.453592, name: 'Pounds (lb)' }, 
+                'oz': { factor: 0.0283495, name: 'Ounces (oz)' }, 
+                'ton': { factor: 1000, name: 'Metric Tons (t)' }
+            }},
+            speed: { units: {
+                'mps': { factor: 1, name: 'Meters/Sec (m/s)' },
+                'kmh': { factor: 1/3.6, name: 'Kilometers/Hour (km/h)' },
+                'mph': { factor: 0.44704, name: 'Miles/Hour (mph)' },
+                'knot': { factor: 0.514444, name: 'Knots (kn)' },
+                'mach': { factor: 340.3, name: 'Mach' }
+            }},
+            temp: { isSpecial: true, units: { 'C': { name: 'Celsius (°C)' }, 'F': { name: 'Fahrenheit (°F)' }, 'K': { name: 'Kelvin (K)' } }},
+            pressure: { units: { 'pa': { factor: 1, name: 'Pascal (Pa)' }, 'bar': { factor: 100000, name: 'Bar' }, 'psi': { factor: 6894.76, name: 'PSI' }, 'atm': { factor: 101325, name: 'Atmosphere (atm)' } }},
+            torque: { units: { 'nm': { factor: 1, name: 'Newton Meters (N·m)' }, 'lbft': { factor: 1.35582, name: 'Pound-Feet (lb-ft)' } }},
+            fuel: { isSpecial: true, units: { 'l100': { name: 'L/100km' }, 'mpg_us': { name: 'MPG (US)' }, 'kml': { name: 'km/L' } }},
+            energy: { units: { 'j': { factor: 1, name: 'Joules (J)' }, 'kj': { factor: 1000, name: 'Kilojoules (kJ)' }, 'kcal': { factor: 4184, name: 'Kilocalories (kcal)' }, 'kwh': { factor: 3600000, name: 'Kilowatt-hours (kWh)' } }},
+            currency: { isApi: true, units: { 'USD': { name: 'US Dollar (USD)' }, 'EUR': { name: 'Euro (EUR)' }, 'GBP': { name: 'British Pound (GBP)' }, 'JPY': { name: 'Japanese Yen (JPY)' }, 'INR': { name: 'Indian Rupee (INR)' } }}
+        };
+
+        let currentCat = localStorage.getItem('lastCategory') || 'length';
+        let currencyRates = {};
+        let precision = parseInt(localStorage.getItem('precision')) || 6;
+        let history = JSON.parse(localStorage.getItem('convHistory')) || [];
+
+        function showToast(msg = "Copied!") {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+
+        function init() {
+            // Theme Init: Default to light unless 'dark' explicitly saved
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            
+            catGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('.category-card');
+                if (card) setActiveCategory(card.dataset.cat);
+            });
+
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            });
+
+            document.getElementById('shareBtn').addEventListener('click', () => {
+                const el = document.createElement('textarea');
+                el.value = window.location.href;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                showToast("Link Copied!");
+            });
+
+            document.getElementById('precPicker').addEventListener('click', (e) => {
+                const btn = e.target.closest('.prec-btn');
+                if (!btn) return;
+                precision = parseInt(btn.dataset.p);
+                localStorage.setItem('precision', precision);
+                document.querySelectorAll('.prec-btn').forEach(b => b.classList.toggle('active', b === btn));
+                calculate();
+            });
+
+            window.addEventListener('keydown', (e) => {
+                if (document.activeElement.tagName === 'INPUT') return;
+                if (e.key.toLowerCase() === 's') swapBtn.click();
+            });
+
+            renderHistory();
+            setActiveCategory(currentCat);
+        }
+
+        function setActiveCategory(cat) {
+            currentCat = cat;
+            localStorage.setItem('lastCategory', cat);
+            document.querySelectorAll('.category-card').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+            updateDropdowns();
+        }
+
+        function updateDropdowns() {
+            const data = unitsData[currentCat];
+            const from = document.getElementById('unitFrom');
+            const to = document.getElementById('unitTo');
+            from.innerHTML = ''; to.innerHTML = '';
+            Object.keys(data.units).forEach(key => {
+                from.add(new Option(data.units[key].name, key));
+                to.add(new Option(data.units[key].name, key));
+            });
+            to.selectedIndex = to.options.length > 1 ? 1 : 0;
+            if(currentCat === 'currency') fetchRates(); else calculate();
+        }
+
+        async function fetchRates() {
+            document.getElementById('formulaDisplay').textContent = "Updating exchange rates...";
+            try {
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await res.json();
+                currencyRates = data.rates;
+                calculate();
+            } catch(e) { document.getElementById('formulaDisplay').textContent = "Rates unavailable."; }
+        }
+
+        function calculate() {
+            const val = parseFloat(document.getElementById('inputValue').value);
+            const fromKey = document.getElementById('unitFrom').value;
+            const toKey = document.getElementById('unitTo').value;
+            if(isNaN(val)) { document.getElementById('resultValue').textContent = "0"; return; }
+            
+            let result;
+            const catData = unitsData[currentCat];
+
+            if(currentCat === 'temp') result = convertTemp(val, fromKey, toKey);
+            else if(currentCat === 'fuel') result = convertFuel(val, fromKey, toKey);
+            else if(currentCat === 'currency' && currencyRates[toKey]) result = (val / currencyRates[fromKey]) * currencyRates[toKey];
+            else result = val * (catData.units[fromKey].factor / catData.units[toKey].factor);
+
+            const formatted = formatNumber(result, precision);
+            document.getElementById('resultValue').textContent = formatted;
+            document.getElementById('resultUnitLabel').textContent = catData.units[toKey].name;
+            
+            updateTable(fromKey, toKey);
+            updateFormula(fromKey, toKey);
+        }
+
+        function updateFormula(from, to) {
+            const display = document.getElementById('formulaDisplay');
+            if(currentCat === 'temp') display.textContent = "Scientific formula applied.";
+            else if(currentCat === 'currency') display.textContent = `Mid-market rate: 1 ${from} = ${formatNumber(currencyRates[to]/currencyRates[from], 4)} ${to}`;
+            else {
+                const f = unitsData[currentCat].units[from].factor / unitsData[currentCat].units[to].factor;
+                display.textContent = `Formula: Multiply by ${formatNumber(f, 6)}`;
+            }
+        }
+
+        function convertTemp(v, f, t) {
+            let c = f === 'C' ? v : (f === 'F' ? (v-32)*5/9 : v-273.15);
+            return t === 'C' ? c : (t === 'F' ? (c*9/5)+32 : c+273.15);
+        }
+
+        function convertFuel(v, f, t) {
+            let l = f === 'l100' ? v : (f === 'mpg_us' ? 235.215/v : 100/v);
+            return t === 'l100' ? l : (t === 'mpg_us' ? 235.215/l : 100/l);
+        }
+
+        function formatNumber(n, p) {
+            if (n === 0) return "0";
+            if (Math.abs(n) < 0.000001) return n.toExponential(4);
+            return parseFloat(n.toFixed(p)).toLocaleString(undefined, { maximumFractionDigits: p });
+        }
+
+        function updateTable(from, to) {
+            const body = document.getElementById('tableBody');
+            body.innerHTML = '';
+            document.getElementById('tableColFrom').textContent = unitsData[currentCat].units[from].name;
+            document.getElementById('tableColTo').textContent = unitsData[currentCat].units[to].name;
+            [1, 5, 10, 50, 100].forEach(v => {
+                let r;
+                if(currentCat === 'temp') r = convertTemp(v, from, to);
+                else if(currentCat === 'fuel') r = convertFuel(v, from, to);
+                else if(currentCat === 'currency') r = (v / currencyRates[from]) * currencyRates[to];
+                else r = v * (unitsData[currentCat].units[from].factor / unitsData[currentCat].units[to].factor);
+                body.insertAdjacentHTML('beforeend', `<tr><td>${v}</td><td>${formatNumber(r, 4)}</td></tr>`);
+            });
+        }
+
+        function addToHistory() {
+            const val = document.getElementById('inputValue').value;
+            const from = document.getElementById('unitFrom').value;
+            const to = document.getElementById('unitTo').value;
+            const res = document.getElementById('resultValue').textContent;
+            const item = `${val} ${from} → ${res} ${to}`;
+            if(history[0] === item) return;
+            history.unshift(item);
+            history = history.slice(0, 10);
+            localStorage.setItem('convHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (history.length === 0) return;
+            list.innerHTML = history.map(h => `<li class="history-item">${h}</li>`).join('');
+        }
+
+        document.getElementById('resultBox').addEventListener('click', () => {
+            const text = document.getElementById('resultValue').textContent.replace(/,/g, '');
+            const el = document.createElement('textarea');
+            el.value = text; document.body.appendChild(el); el.select();
+            document.execCommand('copy'); document.body.removeChild(el);
+            showToast("Result Copied!");
+            addToHistory();
+        });
+
+        const swapBtn = document.getElementById('swapBtn');
+        swapBtn.addEventListener('click', () => {
+            const from = document.getElementById('unitFrom');
+            const to = document.getElementById('unitTo');
+            const temp = from.value; from.value = to.value; to.value = temp;
+            calculate();
+        });
+
+        document.getElementById('inputValue').addEventListener('input', calculate);
+        document.getElementById('unitFrom').addEventListener('change', calculate);
+        document.getElementById('unitTo').addEventListener('change', calculate);
+        
+        window.onload = init;
+    </script>
+</body>
+</html>
