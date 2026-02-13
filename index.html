@@ -58,8 +58,8 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
-            overflow-x: hidden; 
+            transition: background 0.4s ease, color 0.4s ease;
+            overflow-x: auto; 
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
@@ -87,6 +87,7 @@
 
         main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 20px 80px; max-width: 1000px; margin: 0 auto; width: 100%; }
 
+        /* CATEGORY SECTION */
         .cat-container { width: 100%; margin-bottom: 35px; position: relative; min-height: 120px; }
         .category-grid {
             display: flex;
@@ -94,13 +95,15 @@
             flex-wrap: nowrap;
             gap: 12px;
             width: 100%;
-            padding: 10px 5px 15px;
+            padding: 10px 5px 20px; 
             scroll-behavior: smooth;
             scroll-snap-type: x mandatory;
             scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
         }
-        .category-grid::-webkit-scrollbar { height: 4px; }
-        .category-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        .category-grid::-webkit-scrollbar { height: 8px; }
+        .category-grid::-webkit-scrollbar-track { background: var(--bg-color); border-radius: 10px; }
+        .category-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; border: 2px solid var(--bg-color); }
 
         .category-card {
             flex: 0 0 95px;
@@ -180,8 +183,8 @@
         .action-btn-small {
             background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .action-btn-small:hover { color: var(--neon-blue); border-color: var(--neon-blue); }
-        .action-btn-small svg { width: 22px; height: 22px; display: block; stroke: currentColor; fill: none; stroke-width: 2.0; }
+        .action-btn-small:hover { color: var(--neon-blue); border-color: var(--neon-blue); background: var(--card-bg); }
+        .action-btn-small svg { width: 24px; height: 24px; display: block; stroke: currentColor; fill: none; stroke-width: 2.0; }
 
         .side-panel { display: flex; flex-direction: column; gap: 24px; }
         .history-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; padding: 30px; flex: 1; display: flex; flex-direction: column; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
@@ -198,25 +201,29 @@
         .quick-table th { text-align: left; color: var(--text-dim); background: var(--bg-color); padding: 18px; font-size: 0.75rem; text-transform: uppercase; font-weight: 800; }
         .quick-table td { padding: 15px 18px; border-bottom: 1px solid var(--border); color: var(--text-main); font-weight: 500; }
 
-        /* DPAD - PSI TARGET OPTIMIZED */
+        /* --- DPAD SYSTEM --- */
         .navigation-dpad {
             position: fixed;
             bottom: 30px;
             right: 30px;
             display: grid;
-            grid-template-areas: ". up ." "left center right" ". down .";
+            grid-template-areas: 
+                ". up ."
+                "left center right"
+                ". down .";
             gap: 12px;
             z-index: 5000;
             pointer-events: none;
             transform: scale(0.9);
-            opacity: 0.8;
+            opacity: 0.85;
         }
+        
         .nav-pad-btn {
             pointer-events: auto;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -224,17 +231,27 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             color: var(--text-dim);
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
         }
-        .nav-pad-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; }
-        .nav-pad-btn:hover { color: var(--neon-blue); border-color: var(--neon-blue); }
+        .nav-pad-btn:hover { color: var(--neon-blue); border-color: var(--neon-blue); transform: scale(1.1); }
+        .nav-pad-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5px; }
         
         #nav-up { grid-area: up; }
         #nav-down { grid-area: down; }
         #nav-left { grid-area: left; }
         #nav-right { grid-area: right; }
-        .nav-center-dot { grid-area: center; width: 12px; height: 12px; background: var(--neon-blue); border-radius: 50%; align-self: center; justify-self: center; opacity: 0.5; }
+        
+        .nav-center-dot { 
+            grid-area: center; 
+            width: 12px; 
+            height: 12px; 
+            background: var(--neon-blue); 
+            border-radius: 50%; 
+            align-self: center; 
+            justify-self: center; 
+            opacity: 0.5;
+        }
 
         .legal-frame { max-width: 1000px; margin: 60px auto 0; padding: 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .legal-block { border: 2px solid transparent; padding: 25px; border-radius: 24px; transition: 0.6s ease; }
@@ -261,11 +278,10 @@
 <body>
 
     <svg style="display: none;">
-        <!-- REFINED REFINED ICONS -->
         <symbol id="icon-length" viewBox="0 0 24 24"><path d="M21 7V5H3v2"/><path d="M21 19v-2H3v2"/><path d="M3 5v14"/><path d="M21 5v14"/><path d="M7 5v4"/><path d="M12 5v7"/><path d="M17 5v4"/></symbol>
         <symbol id="icon-area" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></symbol>
         <symbol id="icon-weight" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M21 7l-9-4-9 4"/><path d="M5 21l-2-7h4l-2 7z"/><path d="M21 21l-2-7h4l-2 7z"/></symbol>
-        <symbol id="icon-volume" viewBox="0 0 24 24"><path d="M7 2h10l2 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6l2-4z"/><path d="M5 6h14"/><path d="M10 2v4"/></symbol>
+        <symbol id="icon-volume" viewBox="0 0 24 24"><path d="M16 2L18 6V20A2 2 0 0 1 16 22H8A2 2 0 0 1 6 20V6L8 2H16Z M6 6H18 M10 6V2 M14 6V2 M12 11V18"/></symbol>
         <symbol id="icon-cooking" viewBox="0 0 24 24"><path d="M6 13.8V4a2 2 0 1 1 4 0v9.8a3 3 0 1 1-4 0"/><path d="M9 14.5s2.5 1 2.5 3.5-2.5 3.5-2.5 3.5"/><path d="M15 4v16"/><path d="M15 4a3 3 0 0 1 3 3v2a3 3 0 0 1-6 0V7a3 3 0 0 1 3-3z"/></symbol>
         <symbol id="icon-speed" viewBox="0 0 24 24"><path d="M3 12c0-4.97 4.03-9 9-9s9 4.03 9 9-4.03 9-9 9-9-4.03-9-9z"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="2"/></symbol>
         <symbol id="icon-temp" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/><path d="M12 9h.01"/></symbol>
@@ -337,7 +353,7 @@
                         
                         <div class="swap-btn-container">
                             <span class="swap-label-text" aria-hidden="true">Reverse</span>
-                            <button class="swap-btn" id="swapBtn" name="swap-units" title="Invert Conversion Direction" aria-label="Invert conversion direction">
+                            <button class="swap-btn" id="swapBtn" name="swap-units" title="Invert Direction" aria-label="Invert conversion direction">
                                 <svg width="22" height="22" role="img" aria-hidden="true"><use href="#icon-swap"></use></svg>
                             </button>
                         </div>
@@ -357,23 +373,23 @@
                         <label id="precLabel" style="font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
                             Display Precision 
                             <div class="precision-picker" id="precPicker" role="group" aria-labelledby="precLabel">
-                                <button class="prec-btn" data-p="2" title="Two decimals" aria-label="Set precision to two decimal places">.00</button>
-                                <button class="prec-btn" data-p="4" title="Four decimals" aria-label="Set precision to four decimal places">.0000</button>
-                                <button class="prec-btn active" data-p="6" title="Six decimals" aria-label="Set precision to six decimal places">.000000</button>
+                                <button class="prec-btn" data-p="2" title="Two decimals" aria-label="Two decimal places">.00</button>
+                                <button class="prec-btn" data-p="4" title="Four decimals" aria-label="Four decimal places">.0000</button>
+                                <button class="prec-btn active" data-p="6" title="Six decimals" aria-label="Six decimal places">.000000</button>
                             </div>
                         </label>
                     </div>
 
                     <!-- REFINED RESULT DISPLAY -->
-                    <div class="result-area" id="resultBox" title="Click anywhere to snapshot result to logs" tabindex="0" aria-live="polite" aria-atomic="true">
+                    <div class="result-area" id="resultBox" title="Snapshot current result to Laboratory Logs" tabindex="0" aria-live="polite" aria-atomic="true">
                         <div class="action-btns">
-                            <button class="action-btn-small" id="speechBtn" title="Speak Calculation Result" aria-label="Speak the result using text to speech">
+                            <button class="action-btn-small" id="speechBtn" title="Speak Result" aria-label="Listen to calculation result">
                                 <svg role="img" aria-hidden="true"><use href="#icon-speak"></use></svg>
                             </button>
-                            <button class="action-btn-small" id="captureBtn" title="Snapshot to Laboratory Log" aria-label="Add current result to session logs">
+                            <button class="action-btn-small" id="captureBtn" title="Snapshot to Log" aria-label="Capture current result to session log history">
                                 <svg role="img" aria-hidden="true"><use href="#icon-capture"></use></svg>
                             </button>
-                            <button class="action-btn-small" id="copyBtnOnly" title="Copy Numeric Result" aria-label="Copy numeric result to clipboard">
+                            <button class="action-btn-small" id="copyBtnOnly" title="Copy Result" aria-label="Copy conversion result to clipboard">
                                 <svg role="img" aria-hidden="true"><use href="#icon-copy"></use></svg>
                             </button>
                         </div>
@@ -390,7 +406,7 @@
 
                 <h2 class="section-header">Technical Reference Table</h2>
                 <div style="display: flex; justify-content: flex-end; margin-top: -45px; margin-bottom: 15px;">
-                    <button class="tool-btn" id="exportPdfBtn" title="Export Reference to PDF" style="width: auto; padding: 0 15px; font-size: 0.75rem; font-weight: 800; height: 48px; gap: 8px;" aria-label="Export table as PDF datasheet">
+                    <button class="tool-btn" id="exportPdfBtn" title="Export Datasheet as PDF" style="width: auto; padding: 0 15px; font-size: 0.75rem; font-weight: 800; height: 48px; gap: 8px;" aria-label="Download table as PDF">
                         <svg width="14" height="14" role="img" aria-hidden="true"><use href="#icon-pdf"></use></svg>
                         <span>PDF</span>
                     </button>
@@ -404,7 +420,7 @@
 
             <aside class="side-panel" aria-label="Session History Logs">
                 <div class="history-card">
-                    <h2>Laboratory Logs <button class="clear-btn" id="clearHistoryBtn" title="Wipe current session history" aria-label="Reset laboratory logs">Reset</button></h2>
+                    <h2>Laboratory Logs <button class="clear-btn" id="clearHistoryBtn" title="Reset Session Logs" aria-label="Reset laboratory logs">Reset</button></h2>
                     <ul class="history-list" id="historyList"><li class="history-item" style="text-align:center; opacity:0.5; padding: 40px 0;">No active logs.</li></ul>
                 </div>
             </aside>
@@ -416,37 +432,38 @@
         </article>
 
         <section class="legal-frame" id="legalFrame" aria-label="Legal information">
-            <h2 style="display: none;">Legal Documents</h2>
+            <h2 style="display: none;">Legal Content</h2>
             <div class="legal-block" id="legal-disclosure">
                 <h3>Legal Disclaimer</h3>
                 <p>Verify all outputs for critical hardware applications. Rounded results should be validated before deployment in high-stakes engineering or medical tasks.</p>
-                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return to top of page">↑ Return to Lab</div>
+                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return home">↑ Return to Lab</div>
             </div>
             <div class="legal-block" id="legal-terms">
                 <h3>Terms of Use</h3>
                 <p>Technical utility provided for professional verification. Redistribution of underlying logic is restricted. Rights reserved by Converter Lab.</p>
-                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return to top of page">↑ Return to Lab</div>
+                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return home">↑ Return to Lab</div>
             </div>
             <div class="legal-block" id="legal-privacy">
                 <h3>Data Privacy</h3>
                 <p>Calculations occur entirely on your local machine. No conversion history or input data is recorded on external servers.</p>
-                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return to top of page">↑ Return to Lab</div>
+                <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return home">↑ Return to Lab</div>
             </div>
         </section>
     </main>
 
-    <div class="navigation-dpad" id="navDpad" aria-label="Viewport Navigation Controls">
-        <button class="nav-pad-btn" id="nav-up" title="Scroll to Top" aria-label="Scroll to top of page">
+    <!-- --- GLOBAL PAGE NAVIGATION DPAD --- -->
+    <div class="navigation-dpad" id="navDpad" aria-label="Global View Navigation">
+        <button class="nav-pad-btn" id="nav-up" title="Scroll to Laboratory Top" aria-label="Scroll to top of page">
             <svg role="img" aria-hidden="true"><use href="#icon-up"></use></svg>
         </button>
-        <button class="nav-pad-btn" id="nav-left" title="Scroll Left" aria-label="Scroll page left">
+        <button class="nav-pad-btn" id="nav-left" title="Scroll View Left" aria-label="Scroll page viewport left">
             <svg role="img" aria-hidden="true"><use href="#icon-left"></use></svg>
         </button>
         <div class="nav-center-dot" aria-hidden="true"></div>
-        <button class="nav-pad-btn" id="nav-right" title="Scroll Right" aria-label="Scroll page right">
+        <button class="nav-pad-btn" id="nav-right" title="Scroll View Right" aria-label="Scroll page viewport right">
             <svg role="img" aria-hidden="true"><use href="#icon-right"></use></svg>
         </button>
-        <button class="nav-pad-btn" id="nav-down" title="Scroll to Legal" aria-label="Scroll to legal section">
+        <button class="nav-pad-btn" id="nav-down" title="Scroll to Technical Info" aria-label="Scroll to legal and technical section">
             <svg role="img" aria-hidden="true"><use href="#icon-down"></use></svg>
         </button>
     </div>
@@ -454,9 +471,9 @@
     <footer>
         <p>
             &copy; 2026 Converter Lab | 
-            <a id="footerDisclaimerLink" href="#legal-disclosure" title="View Legal Disclaimer">Disclaimer</a> |
-            <a id="footerTermsLink" href="#legal-terms" title="View Terms of Use">Terms</a> | 
-            <a id="footerPrivacyLink" href="#legal-privacy" title="View Data Privacy Policy">Privacy</a> | 
+            <a id="footerDisclaimerLink" href="#legal-disclosure" title="Disclaimer">Disclaimer</a> |
+            <a id="footerTermsLink" href="#legal-terms" title="Terms">Terms</a> | 
+            <a id="footerPrivacyLink" href="#legal-privacy" title="Privacy">Privacy</a> | 
             NIST SP811 Verified
         </p>
     </footer>
@@ -541,8 +558,10 @@
 
             document.getElementById('nav-up').addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
             document.getElementById('nav-down').addEventListener('click', () => document.getElementById('legalFrame').scrollIntoView({behavior: 'smooth'}));
-            document.getElementById('nav-left').addEventListener('click', () => window.scrollBy({left: -250, behavior: 'smooth'}));
-            document.getElementById('nav-right').addEventListener('click', () => window.scrollBy({left: 250, behavior: 'smooth'}));
+            
+            // D-PAD CONTROLS ENTIRE PAGE VIEWPORT
+            document.getElementById('nav-left').addEventListener('click', () => window.scrollBy({left: -300, behavior: 'smooth'}));
+            document.getElementById('nav-right').addEventListener('click', () => window.scrollBy({left: 300, behavior: 'smooth'}));
 
             document.getElementById('exportPdfBtn').addEventListener('click', () => window.print());
 
