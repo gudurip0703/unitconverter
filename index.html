@@ -38,6 +38,7 @@
         }
 
         body.dark-mode {
+            /* REFINED CHARCOAL-BLACK DEPTH */
             --bg-color: #0d0d0d;       
             --card-bg: #1a1a1a;        
             --neon-blue: #2997ff;      
@@ -46,6 +47,23 @@
             --text-dim: #a1a1a6;       
             --input-bg: #080808;       
             --border: #333333;         
+        }
+
+        /* --- APPLE BRAND SCROLLBAR (GLOBAL) --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+            border: 3px solid var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-dim);
         }
 
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
@@ -59,7 +77,7 @@
             flex-direction: column;
             min-height: 100vh;
             transition: background 0.4s ease, color 0.4s ease;
-            overflow-x: auto; 
+            overflow-x: auto; /* Enable horizontal scroll at the bottom */
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
@@ -95,15 +113,12 @@
             flex-wrap: nowrap;
             gap: 12px;
             width: 100%;
-            padding: 10px 5px 20px; 
+            padding: 10px 5px 25px; 
             scroll-behavior: smooth;
             scroll-snap-type: x mandatory;
             scrollbar-width: thin;
             scrollbar-color: var(--border) transparent;
         }
-        .category-grid::-webkit-scrollbar { height: 8px; }
-        .category-grid::-webkit-scrollbar-track { background: var(--bg-color); border-radius: 10px; }
-        .category-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; border: 2px solid var(--bg-color); }
 
         .category-card {
             flex: 0 0 95px;
@@ -113,7 +128,7 @@
             padding: 15px 5px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -129,7 +144,7 @@
 
         .layout-wrapper { display: grid; grid-template-columns: 1fr 320px; gap: 30px; width: 100%; }
 
-        /* CONVERTER SECTION */
+        /* CONVERTER MAIN UI */
         .converter-container {
             background: var(--card-bg);
             border-radius: 30px;
@@ -156,7 +171,7 @@
         .swap-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.2; }
         .swap-btn:hover { border-color: var(--neon-blue); background: var(--card-bg); transform: rotate(180deg); }
 
-        .value-input-row { margin-top: 25px; }
+        .value-input-row { margin-top: 20px; }
 
         .precision-wrapper { margin-top: 35px; margin-bottom: 10px; }
         .precision-picker { display: flex; background: var(--bg-color); border: 1px solid var(--border); padding: 3px; border-radius: 12px; width: fit-content; }
@@ -167,7 +182,7 @@
 
         /* RESULT AREA */
         .result-area {
-            background: var(--input-bg); border-radius: 24px; padding: 45px 25px; text-align: center; position: relative; cursor: pointer; transition: 0.3s; overflow: hidden;
+            background: var(--input-bg); border-radius: 24px; padding: 45px 25px; text-align: center; position: relative; transition: 0.3s; overflow: hidden;
             border: 1.5px solid var(--border); min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;
             contain: layout;
         }
@@ -201,58 +216,6 @@
         .quick-table th { text-align: left; color: var(--text-dim); background: var(--bg-color); padding: 18px; font-size: 0.75rem; text-transform: uppercase; font-weight: 800; }
         .quick-table td { padding: 15px 18px; border-bottom: 1px solid var(--border); color: var(--text-main); font-weight: 500; }
 
-        /* --- DPAD SYSTEM --- */
-        .navigation-dpad {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: grid;
-            grid-template-areas: 
-                ". up ."
-                "left center right"
-                ". down .";
-            gap: 12px;
-            z-index: 5000;
-            pointer-events: none;
-            transform: scale(0.9);
-            opacity: 0.85;
-        }
-        
-        .nav-pad-btn {
-            pointer-events: auto;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            color: var(--text-dim);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-        }
-        .nav-pad-btn:hover { color: var(--neon-blue); border-color: var(--neon-blue); transform: scale(1.1); }
-        .nav-pad-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5px; }
-        
-        #nav-up { grid-area: up; }
-        #nav-down { grid-area: down; }
-        #nav-left { grid-area: left; }
-        #nav-right { grid-area: right; }
-        
-        .nav-center-dot { 
-            grid-area: center; 
-            width: 12px; 
-            height: 12px; 
-            background: var(--neon-blue); 
-            border-radius: 50%; 
-            align-self: center; 
-            justify-self: center; 
-            opacity: 0.5;
-        }
-
         .legal-frame { max-width: 1000px; margin: 60px auto 0; padding: 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .legal-block { border: 2px solid transparent; padding: 25px; border-radius: 24px; transition: 0.6s ease; }
         .legal-block.highlight-neon-pink { border-color: var(--neon-pink); background: rgba(175, 82, 222, 0.05); }
@@ -268,7 +231,6 @@
         @media (max-width: 900px) { .layout-wrapper { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { 
             #resultValue { font-size: 2.8rem; } 
-            .navigation-dpad { bottom: 20px; right: 20px; transform: scale(0.8); opacity: 0.9; }
             header { padding-top: 80px; }
             .form-row { gap: 8px; }
             .swap-btn { width: 44px; height: 44px; }
@@ -320,6 +282,7 @@
     </header>
 
     <main>
+        <!-- Unit category grid with dedicated scrollbar -->
         <div class="cat-container">
             <nav class="category-grid" id="catGrid" aria-label="Unit categories">
                 <div class="category-card active" data-cat="length"><div class="icon-container"><svg role="img" aria-label="Length icon"><use href="#icon-length"></use></svg></div><p>Length</p></div>
@@ -380,18 +343,11 @@
                         </label>
                     </div>
 
-                    <!-- REFINED RESULT DISPLAY -->
                     <div class="result-area" id="resultBox" title="Snapshot current result to Laboratory Logs" tabindex="0" aria-live="polite" aria-atomic="true">
                         <div class="action-btns">
-                            <button class="action-btn-small" id="speechBtn" title="Speak Result" aria-label="Listen to calculation result">
-                                <svg role="img" aria-hidden="true"><use href="#icon-speak"></use></svg>
-                            </button>
-                            <button class="action-btn-small" id="captureBtn" title="Snapshot to Log" aria-label="Capture current result to session log history">
-                                <svg role="img" aria-hidden="true"><use href="#icon-capture"></use></svg>
-                            </button>
-                            <button class="action-btn-small" id="copyBtnOnly" title="Copy Result" aria-label="Copy conversion result to clipboard">
-                                <svg role="img" aria-hidden="true"><use href="#icon-copy"></use></svg>
-                            </button>
+                            <button class="action-btn-small" id="speechBtn" title="Speak Calculation Result" aria-label="Speak the result"><svg role="img" aria-hidden="true"><use href="#icon-speak"></use></svg></button>
+                            <button class="action-btn-small" id="captureBtn" title="Snapshot to Laboratory Log" aria-label="Capture current result to session logs"><svg role="img" aria-hidden="true"><use href="#icon-capture"></use></svg></button>
+                            <button class="action-btn-small" id="copyBtnOnly" title="Copy Numeric Result" aria-label="Copy result to clipboard"><svg role="img" aria-hidden="true"><use href="#icon-copy"></use></svg></button>
                         </div>
                         <div class="value-container"><span id="resultValue">0</span></div>
                         
@@ -406,7 +362,7 @@
 
                 <h2 class="section-header">Technical Reference Table</h2>
                 <div style="display: flex; justify-content: flex-end; margin-top: -45px; margin-bottom: 15px;">
-                    <button class="tool-btn" id="exportPdfBtn" title="Export Datasheet as PDF" style="width: auto; padding: 0 15px; font-size: 0.75rem; font-weight: 800; height: 48px; gap: 8px;" aria-label="Download table as PDF">
+                    <button class="tool-btn" id="exportPdfBtn" title="Print PDF Reference" style="width: auto; padding: 0 15px; font-size: 0.75rem; font-weight: 800; height: 48px; gap: 8px;" aria-label="Export table as PDF">
                         <svg width="14" height="14" role="img" aria-hidden="true"><use href="#icon-pdf"></use></svg>
                         <span>PDF</span>
                     </button>
@@ -418,9 +374,9 @@
                 </table>
             </section>
 
-            <aside class="side-panel" aria-label="Session History Logs">
+            <aside class="side-panel" aria-label="Session History">
                 <div class="history-card">
-                    <h2>Laboratory Logs <button class="clear-btn" id="clearHistoryBtn" title="Reset Session Logs" aria-label="Reset laboratory logs">Reset</button></h2>
+                    <h2>Laboratory Logs <button class="clear-btn" id="clearHistoryBtn" title="Wipe current session history" aria-label="Reset laboratory logs">Reset</button></h2>
                     <ul class="history-list" id="historyList"><li class="history-item" style="text-align:center; opacity:0.5; padding: 40px 0;">No active logs.</li></ul>
                 </div>
             </aside>
@@ -432,10 +388,10 @@
         </article>
 
         <section class="legal-frame" id="legalFrame" aria-label="Legal information">
-            <h2 style="display: none;">Legal Content</h2>
+            <h2 style="display: none;">Legal Documents</h2>
             <div class="legal-block" id="legal-disclosure">
                 <h3>Legal Disclaimer</h3>
-                <p>Verify all outputs for critical hardware applications. Rounded results should be validated before deployment in high-stakes engineering or medical tasks.</p>
+                <p>While we strive for high precision, rounding results should be independently validated before deployment in engineering or medical tasks. Rights reserved.</p>
                 <div class="back-to-lab-link" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" tabindex="0" aria-label="Return home">↑ Return to Lab</div>
             </div>
             <div class="legal-block" id="legal-terms">
@@ -451,29 +407,12 @@
         </section>
     </main>
 
-    <!-- --- GLOBAL PAGE NAVIGATION DPAD --- -->
-    <div class="navigation-dpad" id="navDpad" aria-label="Global View Navigation">
-        <button class="nav-pad-btn" id="nav-up" title="Scroll to Laboratory Top" aria-label="Scroll to top of page">
-            <svg role="img" aria-hidden="true"><use href="#icon-up"></use></svg>
-        </button>
-        <button class="nav-pad-btn" id="nav-left" title="Scroll View Left" aria-label="Scroll page viewport left">
-            <svg role="img" aria-hidden="true"><use href="#icon-left"></use></svg>
-        </button>
-        <div class="nav-center-dot" aria-hidden="true"></div>
-        <button class="nav-pad-btn" id="nav-right" title="Scroll View Right" aria-label="Scroll page viewport right">
-            <svg role="img" aria-hidden="true"><use href="#icon-right"></use></svg>
-        </button>
-        <button class="nav-pad-btn" id="nav-down" title="Scroll to Technical Info" aria-label="Scroll to legal and technical section">
-            <svg role="img" aria-hidden="true"><use href="#icon-down"></use></svg>
-        </button>
-    </div>
-
     <footer>
         <p>
             &copy; 2026 Converter Lab | 
-            <a id="footerDisclaimerLink" href="#legal-disclosure" title="Disclaimer">Disclaimer</a> |
-            <a id="footerTermsLink" href="#legal-terms" title="Terms">Terms</a> | 
-            <a id="footerPrivacyLink" href="#legal-privacy" title="Privacy">Privacy</a> | 
+            <a id="footerDisclaimerLink" href="#legal-disclosure">Disclaimer</a> |
+            <a id="footerTermsLink" href="#legal-terms">Terms</a> | 
+            <a id="footerPrivacyLink" href="#legal-privacy">Privacy</a> | 
             NIST SP811 Verified
         </p>
     </footer>
@@ -555,13 +494,6 @@
             document.getElementById('clearHistoryBtn').addEventListener('click', () => { 
                 history = []; localStorage.removeItem('convHistory'); renderHistory(); 
             });
-
-            document.getElementById('nav-up').addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
-            document.getElementById('nav-down').addEventListener('click', () => document.getElementById('legalFrame').scrollIntoView({behavior: 'smooth'}));
-            
-            // D-PAD CONTROLS ENTIRE PAGE VIEWPORT
-            document.getElementById('nav-left').addEventListener('click', () => window.scrollBy({left: -300, behavior: 'smooth'}));
-            document.getElementById('nav-right').addEventListener('click', () => window.scrollBy({left: 300, behavior: 'smooth'}));
 
             document.getElementById('exportPdfBtn').addEventListener('click', () => window.print());
 
