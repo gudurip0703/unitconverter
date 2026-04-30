@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>UnitConverter.live - Free Online Unit Converter, Height, Weight, Mortgage, Tax & Construction Tools</title>
-    <meta name="description" content="The ultimate free online tool suite. Convert height (cm to ft/in), weight (kg to lbs/st), calculate mortgage, estimate taxes, construction materials, and more. Mobile-friendly.">
-    <meta name="keywords" content="height converter, weight converter, unit converter, mortgage calculator, paycheck calculator, tax estimator, BMI calculator, currency converter, construction calculator, concrete calculator, brick calculator, printable calendar, typing test">
+    <title>UnitConverter.live - Free Online Unit Converter, Calculator, Mortgage, Tax & Construction Tools</title>
+    <meta name="description" content="The ultimate free online tool suite. Convert height, weight, currency, calculate mortgage, use scientific calculator, construction tools, and create printable journals.">
+    <meta name="keywords" content="height converter, weight converter, scientific calculator, mortgage calculator, currency converter, construction calculator, concrete calculator, brick calculator, printable calendar, journal planner, typing test">
     <meta name="author" content="UnitConverter.live">
     <meta name="robots" content="index, follow">
     
@@ -21,7 +21,7 @@
       "@type": "WebSite",
       "name": "UnitConverter.live",
       "url": "https://unitconverter.live/",
-      "description": "Free online tools including Height Converter, Weight Converter, Mortgage Calculator, Paycheck Tax Calculator, Construction Tools, BMI, and more.",
+      "description": "Free online tools including Height Converter, Weight Converter, Scientific Calculator, Mortgage Calculator, Construction Tools, BMI, and Printable Journal Planners.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://unitconverter.live/#search?q={search_term_string}",
@@ -80,6 +80,22 @@
             border: 1px dashed #c7c7cc;
         }
 
+        /* Sidebar Ads (Desktop Only) */
+        .ad-sidebar {
+            width: 100%;
+            height: 600px;
+            background: #e5e5ea;
+            display: none; /* Hidden on mobile */
+            align-items: center;
+            justify-content: center;
+            color: #8e8e93;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            border: 1px dashed #c7c7cc;
+            position: sticky;
+            top: 20px;
+        }
+
         /* --- Header --- */
         header {
             background: rgba(255, 255, 255, 0.9);
@@ -120,13 +136,31 @@
         }
         .nav-btn:hover { background: rgba(0, 122, 255, 0.1); }
 
-        /* --- Main Layout --- */
-        main {
-            flex: 1;
-            max-width: 1000px;
+        /* --- Layout Wrapper (Grid for Ads) --- */
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile: Single column */
+            gap: 20px;
+            max-width: 1400px; /* Wider to accommodate sidebars */
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 0 20px;
             width: 100%;
+            flex: 1;
+        }
+
+        @media (min-width: 1024px) {
+            .layout-wrapper {
+                grid-template-columns: 160px 1fr 160px; /* Desktop: Left Ad - Content - Right Ad */
+            }
+            .ad-sidebar {
+                display: flex; /* Show sidebars on desktop */
+            }
+        }
+
+        /* --- Main Content Area --- */
+        main {
+            /* Main content takes the center column */
+            min-width: 0; /* Prevents overflow in grid */
         }
 
         /* --- View Management --- */
@@ -185,7 +219,7 @@
             border-radius: var(--radius-lg);
             padding: 1.5rem;
             box-shadow: var(--shadow-sm);
-            max-width: 800px;
+            max-width: 100%; /* Allow full width of center column */
             margin: 0 auto;
         }
 
@@ -230,6 +264,21 @@
         }
         .btn-primary:hover { background: #0062cc; transform: scale(1.01); }
 
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-secondary:hover { background: #f5f5f7; }
+
         .result-box {
             margin-top: 2rem;
             padding: 1.5rem;
@@ -268,6 +317,44 @@
         .calc-sub-view { display: none; }
         .calc-sub-view.active { display: block; animation: fadeIn 0.3s; }
 
+        /* --- Calculator Specifics --- */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calc-btn {
+            padding: 20px;
+            font-size: 1.2rem;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .calc-btn:hover { background: #f5f5f7; }
+        .calc-btn.op { background: #f0f0f5; color: var(--accent-blue); }
+        .calc-btn.eq { background: var(--accent-orange); color: white; border-color: var(--accent-orange); }
+        .calc-display {
+            width: 100%;
+            background: #1d1d1f;
+            color: #fff;
+            padding: 20px;
+            font-size: 2rem;
+            text-align: right;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+        .sci-toggle {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
         /* --- SEO Content --- */
         .seo-content {
             margin-top: 3rem;
@@ -293,11 +380,52 @@
 
         /* --- Print Styles --- */
         @media print {
-            header, .dashboard-grid, .ad-container, .form-group, .tool-header p, footer, .btn-primary, .seo-content { display: none !important; }
-            body, main, .tool-container, .calendar-preview { background: white !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; border: none !important; }
+            header, .dashboard-grid, .ad-container, .ad-sidebar, .form-group, .tool-header p, footer, .btn-primary, .btn-secondary, .seo-content { display: none !important; }
+            body, .layout-wrapper, main, .tool-container, .calendar-preview { background: white !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; border: none !important; display: block !important; }
             .tool-header h1 { display: block; text-align: center; margin-bottom: 20px; }
             .calendar-preview { border: none; padding: 0; }
             .cal-day { border: 1px solid #ccc; }
+            .page-break { page-break-after: always; break-after: page; }
+            .page-break:last-child { page-break-after: auto; }
+        }
+
+        /* --- Calendar Specific Styles --- */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+        .cal-day-header { font-weight: bold; padding: 10px 5px; color: var(--text-secondary); background: #f9f9f9; }
+        .cal-day { 
+            padding: 10px; 
+            border: 1px solid #eee; 
+            background: white;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        .cal-day.empty { background: transparent; border: none; }
+        .cal-day.journal-mode {
+            height: 140px; 
+            background-image: repeating-linear-gradient(transparent, transparent 27px, #e0e0e0 28px);
+            background-size: 100% 28px;
+            position: relative;
+            padding: 0;
+            text-align: left;
+            align-items: flex-start;
+        }
+        .cal-day.journal-mode span {
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.9);
+            padding: 0 4px;
+            border-radius: 4px;
+            z-index: 2;
         }
     </style>
 </head>
@@ -313,292 +441,403 @@
         <button class="nav-btn" onclick="navigateTo('home')">Home</button>
     </header>
 
-    <main id="app-container">
+    <!-- LAYOUT WRAPPER: Contains Left Ad, Main Content, Right Ad -->
+    <div class="layout-wrapper">
         
-        <!-- HOME VIEW -->
-        <section id="home-view" class="view active">
-            <div class="tool-header">
-                <h1>Professional Online Tools</h1>
-                <p>Access our suite of free converters, financial calculators, and productivity tools.</p>
-            </div>
-            <div class="dashboard-grid">
-                <div class="tool-card" onclick="navigateTo('height-converter')"><div class="card-icon">📏</div><div class="card-title">Height</div></div>
-                <div class="tool-card" onclick="navigateTo('unit-converter')"><div class="card-icon">⚖️</div><div class="card-title">Weight/Unit</div></div>
-                <div class="tool-card" onclick="navigateTo('bmi-calculator')"><div class="card-icon">🩺</div><div class="card-title">BMI Calc</div></div>
-                <div class="tool-card" onclick="navigateTo('mortgage-calculator')"><div class="card-icon">🏠</div><div class="card-title">Mortgage</div></div>
-                <div class="tool-card" onclick="navigateTo('paycheck-calculator')"><div class="card-icon">💰</div><div class="card-title">Paycheck</div></div>
-                <div class="tool-card" onclick="navigateTo('construction-calculator')"><div class="card-icon">🏗️</div><div class="card-title">Construction</div></div>
-                <div class="tool-card" onclick="navigateTo('currency-converter')"><div class="card-icon">💱</div><div class="card-title">Currency</div></div>
-                <div class="tool-card" onclick="navigateTo('calendar-maker')"><div class="card-icon">📅</div><div class="card-title">Calendar</div></div>
-                <div class="tool-card" onclick="navigateTo('time-zone')"><div class="card-icon">🌍</div><div class="card-title">Time Zone</div></div>
-                <div class="tool-card" onclick="navigateTo('typing-test')"><div class="card-icon">⌨️</div><div class="card-title">Typing</div></div>
-                <div class="tool-card" onclick="navigateTo('words-to-time')"><div class="card-icon">⏱️</div><div class="card-title">Words to Time</div></div>
-                <div class="tool-card" onclick="navigateTo('compass')"><div class="card-icon">🧭</div><div class="card-title">Compass</div></div>
-            </div>
+        <!-- LEFT SIDEBAR AD -->
+        <div class="ad-sidebar left">
+            <span>Advertisement (160x600)</span>
+        </div>
 
-            <!-- SEO Content Hub for Indexing -->
-            <article class="seo-content">
-                <h3>Available Tools</h3>
-                <p><strong>Height Converter:</strong> Convert height between Centimeters (cm) and Feet/Inches (ft/in) instantly.</p>
-                <p><strong>Weight Converter:</strong> Convert weight between Kilograms (kg), Pounds (lbs), Stones (st), and Ounces (oz).</p>
-                <p><strong>Mortgage Calculator:</strong> Estimate your monthly mortgage payments, total interest, and amortization schedule.</p>
-                <p><strong>Paycheck & Tax Calculator:</strong> Calculate your net pay after federal, state, and FICA taxes. Supports 2024 tax brackets.</p>
-                <p><strong>Construction Calculator:</strong> Professional tools for concrete volume estimation, brick counting, and paint coverage. Supports Metric and Imperial units.</p>
-                <p><strong>BMI Calculator:</strong> Determine your Body Mass Index (BMI) to assess healthy weight ranges.</p>
-                <p><strong>Currency Converter:</strong> Check real-time exchange rates for USD, EUR, GBP, JPY, INR, and more.</p>
-                <p><strong>Printable Calendar:</strong> Create custom monthly calendars with different themes for printing.</p>
-                <p><strong>Time Zone Converter:</strong> Convert time between major global cities and time zones.</p>
-                <p><strong>Typing Speed Test:</strong> Test your words per minute (WPM) and typing accuracy.</p>
-                <p><strong>Words to Time:</strong> Estimate how long it takes to read or speak a specific amount of text.</p>
-            </article>
-        </section>
+        <!-- MAIN CONTENT -->
+        <main id="app-container">
+            
+            <!-- HOME VIEW -->
+            <section id="home-view" class="view active">
+                <div class="tool-header">
+                    <h1>Professional Online Tools</h1>
+                    <p>Access our suite of free converters, calculators, and productivity tools.</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="tool-card" onclick="navigateTo('height-converter')"><div class="card-icon">📏</div><div class="card-title">Height</div></div>
+                    <div class="tool-card" onclick="navigateTo('unit-converter')"><div class="card-icon">⚖️</div><div class="card-title">Weight/Unit</div></div>
+                    <div class="tool-card" onclick="navigateTo('bmi-calculator')"><div class="card-icon">🩺</div><div class="card-title">BMI Calc</div></div>
+                    <div class="tool-card" onclick="navigateTo('mortgage-calculator')"><div class="card-icon">🏠</div><div class="card-title">Mortgage</div></div>
+                    <div class="tool-card" onclick="navigateTo('construction-calculator')"><div class="card-icon">🏗️</div><div class="card-title">Construction</div></div>
+                    <div class="tool-card" onclick="navigateTo('currency-converter')"><div class="card-icon">💱</div><div class="card-title">Currency</div></div>
+                    <div class="tool-card" onclick="navigateTo('calculator')"><div class="card-icon">🧮</div><div class="card-title">Calculator</div></div>
+                    <div class="tool-card" onclick="navigateTo('calendar-maker')"><div class="card-icon">📅</div><div class="card-title">Calendar/Journal</div></div>
+                    <div class="tool-card" onclick="navigateTo('time-zone')"><div class="card-icon">🌍</div><div class="card-title">Time Zone</div></div>
+                    <div class="tool-card" onclick="navigateTo('typing-test')"><div class="card-icon">⌨️</div><div class="card-title">Typing</div></div>
+                    <div class="tool-card" onclick="navigateTo('words-to-time')"><div class="card-icon">⏱️</div><div class="card-title">Words to Time</div></div>
+                    <div class="tool-card" onclick="navigateTo('compass')"><div class="card-icon">🧭</div><div class="card-title">Compass</div></div>
+                </div>
 
-        <!-- HEIGHT CONVERTER VIEW -->
-        <section id="height-converter-view" class="view">
-            <div class="tool-header"><h1>Height Converter</h1><p>Convert between Centimeters and Feet/Inches.</p></div>
-            <div class="tool-container">
-                <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
-                    <div style="flex:1; min-width:200px;">
-                        <label>Centimeters (cm)</label>
-                        <input type="number" id="height-cm" placeholder="180" oninput="convertHeight('cm')">
+                <!-- SEO Content Hub for Indexing -->
+                <article class="seo-content">
+                    <h3>Available Tools</h3>
+                    <p><strong>Height Converter:</strong> Convert height between Centimeters (cm) and Feet/Inches (ft/in) instantly.</p>
+                    <p><strong>Weight Converter:</strong> Convert weight between Kilograms (kg), Pounds (lbs), Stones (st), and Ounces (oz).</p>
+                    <p><strong>Mortgage Calculator:</strong> Estimate your monthly mortgage payments, total interest, and amortization schedule.</p>
+                    <p><strong>Construction Calculator:</strong> Professional tools for concrete volume estimation, brick counting, and paint coverage. Supports Metric and Imperial units.</p>
+                    <p><strong>BMI Calculator:</strong> Determine your Body Mass Index (BMI) to assess healthy weight ranges.</p>
+                    <p><strong>Currency Converter:</strong> Check real-time exchange rates for USD, EUR, GBP, JPY, INR, AUD, CAD, and more.</p>
+                    <p><strong>Calculator:</strong> Basic and Scientific calculator for everyday math needs.</p>
+                    <p><strong>Printable Calendar & Journal:</strong> Create custom monthly calendars or yearly journals with ruled lines for planning.</p>
+                    <p><strong>Time Zone Converter:</strong> Convert time between major global cities and time zones.</p>
+                    <p><strong>Typing Speed Test:</strong> Test your words per minute (WPM) and typing accuracy.</p>
+                    <p><strong>Words to Time:</strong> Estimate how long it takes to read or speak a specific amount of text.</p>
+                </article>
+            </section>
+
+            <!-- HEIGHT CONVERTER VIEW -->
+            <section id="height-converter-view" class="view">
+                <div class="tool-header"><h1>Height Converter</h1><p>Convert between Centimeters and Feet/Inches.</p></div>
+                <div class="tool-container">
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
+                        <div style="flex:1; min-width:200px;">
+                            <label>Centimeters (cm)</label>
+                            <input type="number" id="height-cm" placeholder="180" min="0" oninput="convertHeight('cm')">
+                        </div>
+                        <div style="font-size:1.5rem; color:var(--text-secondary); padding-bottom:12px;">=</div>
+                        <div style="flex:1; min-width:200px;">
+                            <label>Feet</label>
+                            <input type="number" id="height-ft" placeholder="5" min="0" oninput="convertHeight('ft')">
+                        </div>
+                        <div style="flex:1; min-width:100px;">
+                            <label>Inches</label>
+                            <input type="number" id="height-in" placeholder="11" min="0" step="0.1" oninput="convertHeight('ft')">
+                        </div>
                     </div>
-                    <div style="font-size:1.5rem; color:var(--text-secondary); padding-bottom:12px;">=</div>
-                    <div style="flex:1; min-width:200px;">
-                        <label>Feet</label>
-                        <input type="number" id="height-ft" placeholder="5" oninput="convertHeight('ft')">
-                    </div>
-                    <div style="flex:1; min-width:100px;">
-                        <label>Inches</label>
-                        <input type="number" id="height-in" placeholder="11" oninput="convertHeight('ft')">
+                    <div class="result-box">
+                        <div class="result-value" id="height-display">180 cm = 5' 11"</div>
+                        <div class="result-label">Conversion Result</div>
                     </div>
                 </div>
-                <div class="result-box">
-                    <div class="result-value" id="height-display">180 cm = 5' 11"</div>
-                    <div class="result-label">Conversion Result</div>
-                </div>
-            </div>
-            <article class="seo-content"><h3>Height Conversion</h3><p>Easily convert your height from metric (centimeters) to imperial (feet and inches) or vice versa. Useful for medical records, fitness tracking, and international travel.</p></article>
-        </section>
+                <article class="seo-content"><h3>Height Conversion</h3><p>Easily convert your height from metric (centimeters) to imperial (feet and inches) or vice versa. Useful for medical records, fitness tracking, and international travel.</p></article>
+            </section>
 
-        <!-- UNIT CONVERTER VIEW (Includes Weight) -->
-        <section id="unit-converter-view" class="view">
-            <div class="tool-header"><h1>Unit Converter</h1><p>Convert Weight, Length, Volume, and Temperature.</p></div>
-            <div class="tool-container">
-                <div class="form-group"><label>Category</label><select id="unit-category" onchange="updateUnitTypes()"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option><option value="volume">Volume</option></select></div>
-                <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-                    <div style="flex:1; min-width:200px;"><label>From</label><input type="number" id="unit-input-1" placeholder="0" oninput="convertUnits('1')"><select id="unit-type-1" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
-                    <div style="font-size:1.5rem; color:var(--text-secondary); padding-top:20px;">=</div>
-                    <div style="flex:1; min-width:200px;"><label>To</label><input type="number" id="unit-input-2" placeholder="0" oninput="convertUnits('2')"><select id="unit-type-2" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
+            <!-- UNIT CONVERTER VIEW (Includes Weight) -->
+            <section id="unit-converter-view" class="view">
+                <div class="tool-header"><h1>Unit Converter</h1><p>Convert Weight, Length, Volume, and Temperature.</p></div>
+                <div class="tool-container">
+                    <div class="form-group"><label>Category</label><select id="unit-category" onchange="updateUnitTypes()"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option><option value="volume">Volume</option></select></div>
+                    <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+                        <div style="flex:1; min-width:200px;"><label>From</label><input type="number" id="unit-input-1" placeholder="0" min="0" oninput="convertUnits('1')"><select id="unit-type-1" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
+                        <div style="font-size:1.5rem; color:var(--text-secondary); padding-top:20px;">=</div>
+                        <div style="flex:1; min-width:200px;"><label>To</label><input type="number" id="unit-input-2" placeholder="0" min="0" oninput="convertUnits('2')"><select id="unit-type-2" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
+                    </div>
                 </div>
-            </div>
-            <article class="seo-content"><h3>How to Use the Unit Converter</h3><p>Select the category of measurement you wish to convert. Enter the value in the "From" field and select the original unit. The result will automatically appear in the "To" field.</p></article>
-        </section>
+                <article class="seo-content"><h3>How to Use the Unit Converter</h3><p>Select the category of measurement you wish to convert. Enter the value in the "From" field and select the original unit. The result will automatically appear in the "To" field.</p></article>
+            </section>
 
-        <!-- MORTGAGE CALCULATOR VIEW -->
-        <section id="mortgage-calculator-view" class="view">
-            <div class="tool-header"><h1>Mortgage Calculator</h1><p>Estimate your monthly mortgage payments with taxes and interest.</p></div>
-            <div class="tool-container">
-                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                    <div style="flex:1"><label>Home Price ($)</label><input type="number" id="mort-price" value="300000" oninput="calculateMortgage()"></div>
-                    <div style="flex:1"><label>Down Payment</label>
-                        <div style="display:flex; gap:5px;">
-                            <input type="number" id="mort-down" value="60000" oninput="calculateMortgage()">
-                            <select id="mort-down-type" style="width:80px" onchange="toggleDownPaymentType()"><option value="$">$</option><option value="%">%</option></select>
+            <!-- MORTGAGE CALCULATOR VIEW -->
+            <section id="mortgage-calculator-view" class="view">
+                <div class="tool-header"><h1>Mortgage Calculator</h1><p>Estimate your monthly mortgage payments with taxes and interest.</p></div>
+                <div class="tool-container">
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <div style="flex:1"><label>Home Price ($)</label><input type="number" id="mort-price" value="300000" min="0" oninput="calculateMortgage()"></div>
+                        <div style="flex:1"><label>Down Payment</label>
+                            <div style="display:flex; gap:5px;">
+                                <input type="number" id="mort-down" value="60000" min="0" oninput="calculateMortgage()">
+                                <select id="mort-down-type" style="width:80px" onchange="toggleDownPaymentType()"><option value="$">$</option><option value="%">%</option></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+                        <div style="flex:1"><label>Interest Rate (%)</label><input type="number" id="mort-rate" value="6.5" step="0.1" min="0" oninput="calculateMortgage()"></div>
+                        <div style="flex:1"><label>Loan Term (Years)</label><input type="number" id="mort-years" value="30" min="1" oninput="calculateMortgage()"></div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-value" id="mort-monthly">$1,896</div>
+                        <div class="result-label">Monthly Payment (Principal & Interest)</div>
+                        <div style="margin-top:10px; font-size:0.9rem; color:var(--text-secondary);">
+                            Total Payment: <span id="mort-total"></span> | Total Interest: <span id="mort-interest"></span>
                         </div>
                     </div>
                 </div>
-                <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-                    <div style="flex:1"><label>Interest Rate (%)</label><input type="number" id="mort-rate" value="6.5" step="0.1" oninput="calculateMortgage()"></div>
-                    <div style="flex:1"><label>Loan Term (Years)</label><input type="number" id="mort-years" value="30" oninput="calculateMortgage()"></div>
-                </div>
-                <div class="result-box">
-                    <div class="result-value" id="mort-monthly">\$1,896</div>
-                    <div class="result-label">Monthly Payment (Principal & Interest)</div>
-                    <div style="margin-top:10px; font-size:0.9rem; color:var(--text-secondary);">
-                        Total Payment: <span id="mort-total"></span> | Total Interest: <span id="mort-interest"></span>
+                <article class="seo-content"><h3>Mortgage Estimation</h3><p>Use this free mortgage calculator to estimate your monthly house payments. Input the home price, down payment, and interest rate to see how much you will pay over the lifetime of the loan.</p></article>
+            </section>
+
+            <!-- CONSTRUCTION CALCULATOR VIEW -->
+            <section id="construction-calculator-view" class="view">
+                <div class="tool-header"><h1>Construction Calculator</h1><p>Professional tools for Concrete, Bricks, and Paint estimation.</p></div>
+                <div class="tool-container">
+                    <!-- Unit Toggle -->
+                    <div style="display:flex; justify-content:center; margin-bottom:20px;">
+                        <button class="nav-btn" id="const-btn-metric" style="background:#e5e5ea; color:#000" onclick="toggleConstUnit('metric')">Metric (m/cm)</button>
+                        <button class="nav-btn" id="const-btn-imperial" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleConstUnit('imperial')">Imperial (ft/in)</button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="tab-controls">
+                        <button class="tab-btn active" onclick="switchConstTab('concrete')">Concrete</button>
+                        <button class="tab-btn" onclick="switchConstTab('bricks')">Bricks</button>
+                        <button class="tab-btn" onclick="switchConstTab('paint')">Paint</button>
+                    </div>
+
+                    <!-- Concrete Tab -->
+                    <div id="const-concrete" class="calc-sub-view active">
+                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                            <div style="flex:1"><label id="const-lbl-len">Length (m)</label><input type="number" id="conc-len" min="0" oninput="calcConcrete()"></div>
+                            <div style="flex:1"><label id="const-lbl-wid">Width (m)</label><input type="number" id="conc-wid" min="0" oninput="calcConcrete()"></div>
+                            <div style="flex:1"><label id="const-lbl-dep">Depth (m)</label><input type="number" id="conc-dep" min="0" oninput="calcConcrete()"></div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="conc-result">0</div>
+                            <div class="result-label" id="conc-unit">Cubic Meters</div>
+                        </div>
+                    </div>
+
+                    <!-- Bricks Tab -->
+                    <div id="const-bricks" class="calc-sub-view">
+                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                            <div style="flex:1"><label id="const-lbl-wall-len">Wall Length (m)</label><input type="number" id="brick-wall-len" min="0" oninput="calcBricks()"></div>
+                            <div style="flex:1"><label id="const-lbl-wall-hgt">Wall Height (m)</label><input type="number" id="brick-wall-hgt" min="0" oninput="calcBricks()"></div>
+                        </div>
+                        <div style="margin-top:1rem; font-size:0.85rem; color:var(--text-secondary);">Standard brick size (including mortar) assumed.</div>
+                        <div class="result-box">
+                            <div class="result-value" id="brick-result">0</div>
+                            <div class="result-label">Bricks Needed (inc. 5% waste)</div>
+                        </div>
+                    </div>
+
+                    <!-- Paint Tab -->
+                    <div id="const-paint" class="calc-sub-view">
+                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                            <div style="flex:1"><label id="const-lbl-paint-len">Wall Length (m)</label><input type="number" id="paint-len" min="0" oninput="calcPaint()"></div>
+                            <div style="flex:1"><label id="const-lbl-paint-hgt">Wall Height (m)</label><input type="number" id="paint-hgt" min="0" oninput="calcPaint()"></div>
+                        </div>
+                        <div style="margin-top:1rem;">
+                            <label>Coverage per <span id="paint-lbl-unit">Liter</span></label>
+                            <input type="number" id="paint-cov" value="10" min="0" oninput="calcPaint()">
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="paint-result">0</div>
+                            <div class="result-label" id="paint-res-unit">Liters Required</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <article class="seo-content"><h3>Mortgage Estimation</h3><p>Use this free mortgage calculator to estimate your monthly house payments. Input the home price, down payment, and interest rate to see how much you will pay over the lifetime of the loan.</p></article>
-        </section>
+                <article class="seo-content"><h3>Construction Estimation Tools</h3><p>Calculate concrete volume for slabs and footings. Estimate the number of bricks required for walls. Determine paint coverage for interior and exterior projects. Supports both Metric and Imperial units for global construction needs.</p></article>
+            </section>
 
-        <!-- PAYCHECK & TAX CALCULATOR VIEW -->
-        <section id="paycheck-calculator-view" class="view">
-            <div class="tool-header"><h1>Paycheck & Tax Calculator</h1><p>Calculate your net income after Federal, State, and FICA taxes.</p></div>
-            <div class="tool-container">
-                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                    <div style="flex:1"><label>Gross Pay (Per Period)</label><input type="number" id="pay-gross" value="5000" oninput="calculatePaycheck()"></div>
-                    <div style="flex:1"><label>Pay Frequency</label><select id="pay-freq" onchange="calculatePaycheck()"><option value="52">Weekly</option><option value="26">Bi-Weekly</option><option value="12" selected>Monthly</option><option value="1">Annually</option></select></div>
+            <!-- BMI CALCULATOR VIEW -->
+            <section id="bmi-calculator-view" class="view">
+                <div class="tool-header"><h1>BMI Calculator</h1><p>Calculate your Body Mass Index to assess healthy body weight.</p></div>
+                <div class="tool-container">
+                    <div class="form-group"><label>Unit System</label><div style="display:flex; gap:10px;"><button class="nav-btn" style="background:#e5e5ea; color:#000" onclick="toggleBmiUnit('metric')" id="btn-metric">Metric</button><button class="nav-btn" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleBmiUnit('imperial')" id="btn-imperial">Imperial</button></div></div>
+                    <div style="display:flex; gap:1rem;"><div style="flex:1"><label id="label-height">Height (cm)</label><input type="number" id="bmi-height" placeholder="175" min="0"></div><div style="flex:1"><label id="label-weight">Weight (kg)</label><input type="number" id="bmi-weight" placeholder="70" min="0"></div></div>
+                    <button class="btn-primary" onclick="calculateBMI()">Calculate BMI</button>
+                    <div class="result-box" id="bmi-result-box" style="display:none;"><div class="result-value" id="bmi-value">22.5</div><div class="result-label" id="bmi-category">Normal Weight</div><div style="height:8px; background:linear-gradient(to right, #3b82f6, #34c759, #ffcc00, #ff3b30); border-radius:4px; margin-top:15px; position:relative;"><div id="bmi-indicator" style="width:4px; height:100%; background:#000; position:absolute; left:45%;"></div></div></div>
                 </div>
-                <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-                    <div style="flex:1"><label>State</label><select id="pay-state" onchange="calculatePaycheck()">
-                        <option value="CA">California (CA)</option>
-                        <option value="NY">New York (NY)</option>
-                        <option value="TX">Texas (TX)</option>
-                        <option value="FL">Florida (FL)</option>
-                        <option value="WA">Washington (WA)</option>
-                        <option value="Other">Other (Est. 5%)</option>
-                    </select></div>
-                    <div style="flex:1"><label>Filing Status</label><select id="pay-status" onchange="calculatePaycheck()"><option value="single">Single</option><option value="married">Married</option></select></div>
-                </div>
-                
-                <div class="result-box" style="text-align:left;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Gross Pay:</span> <span id="res-gross" style="font-weight:600;">\$5,000.00</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:var(--accent-red);"><span>Federal Tax:</span> <span id="res-fed">-\$600.00</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:var(--accent-red);"><span>FICA (SS + Med):</span> <span id="res-fica">-\$382.50</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:var(--accent-red);"><span>State Tax:</span> <span id="res-state">-\$275.00</span></div>
-                    <hr style="border:0; border-top:1px solid #ccc; margin:10px 0;">
-                    <div style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; color:var(--accent-green);"><span>Net Pay:</span> <span id="res-net">\$3,742.50</span></div>
-                </div>
-                <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:10px; text-align:center;">*Estimates based on 2024 simplified tax brackets. Consult a tax professional for exact figures.</p>
-            </div>
-            <article class="seo-content"><h3>Take-Home Pay Estimator</h3><p>Understanding your net pay is crucial for budgeting. This tool accounts for Federal Income Tax (based on current brackets), FICA taxes (Social Security and Medicare), and estimated State taxes to give you a clear picture of your actual earnings.</p></article>
-        </section>
+                <article class="seo-content"><h3>Understanding BMI</h3><p>Body Mass Index (BMI) is a screening tool used to identify possible weight problems for adults. However, BMI is not a diagnostic tool.</p></article>
+            </section>
 
-        <!-- CONSTRUCTION CALCULATOR VIEW -->
-        <section id="construction-calculator-view" class="view">
-            <div class="tool-header"><h1>Construction Calculator</h1><p>Professional tools for Concrete, Bricks, and Paint estimation.</p></div>
-            <div class="tool-container">
-                <!-- Unit Toggle -->
-                <div style="display:flex; justify-content:center; margin-bottom:20px;">
-                    <button class="nav-btn" id="const-btn-metric" style="background:#e5e5ea; color:#000" onclick="toggleConstUnit('metric')">Metric (m/cm)</button>
-                    <button class="nav-btn" id="const-btn-imperial" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleConstUnit('imperial')">Imperial (ft/in)</button>
+            <!-- CALCULATOR VIEW (NEW) -->
+            <section id="calculator-view" class="view">
+                <div class="tool-header"><h1>Calculator</h1><p>Basic and Scientific calculations.</p></div>
+                <div class="tool-container">
+                    <div class="sci-toggle" onclick="toggleCalcMode()">Switch to Scientific Mode</div>
+                    <div class="calc-display" id="calc-display">0</div>
+                    <div class="calc-grid" id="calc-grid-basic">
+                        <button class="calc-btn op" onclick="calcClear()">C</button>
+                        <button class="calc-btn op" onclick="calcInput('(')">(</button>
+                        <button class="calc-btn op" onclick="calcInput(')')">)</button>
+                        <button class="calc-btn op" onclick="calcInput('/')">÷</button>
+                        
+                        <button class="calc-btn" onclick="calcInput('7')">7</button>
+                        <button class="calc-btn" onclick="calcInput('8')">8</button>
+                        <button class="calc-btn" onclick="calcInput('9')">9</button>
+                        <button class="calc-btn op" onclick="calcInput('*')">×</button>
+                        
+                        <button class="calc-btn" onclick="calcInput('4')">4</button>
+                        <button class="calc-btn" onclick="calcInput('5')">5</button>
+                        <button class="calc-btn" onclick="calcInput('6')">6</button>
+                        <button class="calc-btn op" onclick="calcInput('-')">-</button>
+                        
+                        <button class="calc-btn" onclick="calcInput('1')">1</button>
+                        <button class="calc-btn" onclick="calcInput('2')">2</button>
+                        <button class="calc-btn" onclick="calcInput('3')">3</button>
+                        <button class="calc-btn op" onclick="calcInput('+')">+</button>
+                        
+                        <button class="calc-btn" onclick="calcInput('0')">0</button>
+                        <button class="calc-btn" onclick="calcInput('.')">.</button>
+                        <button class="calc-btn" onclick="calcBackspace()">⌫</button>
+                        <button class="calc-btn eq" onclick="calcResult()">=</button>
+                    </div>
+                    
+                    <!-- Scientific Grid (Hidden by default) -->
+                    <div class="calc-grid" id="calc-grid-sci" style="display:none; margin-top:10px;">
+                        <button class="calc-btn op" onclick="calcInput('Math.sin(')">sin</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.cos(')">cos</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.tan(')">tan</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.log(')">log</button>
+                        
+                        <button class="calc-btn op" onclick="calcInput('Math.sqrt(')">√</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.pow(')">x^y</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.PI')">π</button>
+                        <button class="calc-btn op" onclick="calcInput('Math.E')">e</button>
+                    </div>
                 </div>
+            </section>
 
-                <!-- Tabs -->
-                <div class="tab-controls">
-                    <button class="tab-btn active" onclick="switchConstTab('concrete')">Concrete</button>
-                    <button class="tab-btn" onclick="switchConstTab('bricks')">Bricks</button>
-                    <button class="tab-btn" onclick="switchConstTab('paint')">Paint</button>
-                </div>
-
-                <!-- Concrete Tab -->
-                <div id="const-concrete" class="calc-sub-view active">
+            <!-- CALENDAR MAKER VIEW -->
+            <section id="calendar-maker-view" class="view">
+                <div class="tool-header"><h1>Printable Calendar & Journal</h1><p>Create custom monthly calendars or yearly journals with ruled lines.</p></div>
+                <div class="tool-container">
                     <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label id="const-lbl-len">Length (m)</label><input type="number" id="conc-len" oninput="calcConcrete()"></div>
-                        <div style="flex:1"><label id="const-lbl-wid">Width (m)</label><input type="number" id="conc-wid" oninput="calcConcrete()"></div>
-                        <div style="flex:1"><label id="const-lbl-dep">Depth (m)</label><input type="number" id="conc-dep" oninput="calcConcrete()"></div>
+                        <div style="flex:1"><label>Month</label><select id="cal-month" onchange="generateCalendar()"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div>
+                        <div style="flex:1"><label>Year</label><input type="number" id="cal-year" value="2024" onchange="generateCalendar()"></div>
+                        <div style="flex:1"><label>Theme</label><select id="cal-theme" onchange="generateCalendar()"><option value="theme-minimal">Minimal</option><option value="theme-blue">Blue</option><option value="theme-green">Green</option></select></div>
+                    </div>
+                    
+                    <div style="margin-top:1rem; display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="journal-mode" onchange="generateCalendar()" style="width:auto;">
+                        <label for="journal-mode" style="margin:0; cursor:pointer;">Enable Journal Mode (Ruled Lines)</label>
+                    </div>
+
+                    <button class="btn-primary" style="margin-top:1rem; background:var(--accent-green);" onclick="window.print()">Print Current Month 🖨️</button>
+                    <button class="btn-secondary" onclick="printYearlyJournal()">Print All Months (Yearly Journal) 📄</button>
+                    
+                    <div id="calendar-output" class="calendar-preview theme-minimal" style="margin-top:20px; border:1px solid #ddd; padding:20px; background:white; border-radius:8px;"></div>
+                </div>
+                <article class="seo-content"><h3>Free Printable Calendar & Journal</h3><p>Use our free generator to create a printable monthly calendar or a full year journal. Enable "Journal Mode" to add ruled lines for daily notes. Perfect for organizing your schedule or keeping a diary.</p></article>
+            </section>
+
+            <!-- CURRENCY CONVERTER VIEW -->
+            <section id="currency-converter-view" class="view">
+                <div class="tool-header"><h1>Currency Converter</h1><p>Check exchange rates between major world currencies.</p></div>
+                <div class="tool-container">
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <div style="flex:1"><label>Amount</label><input type="number" id="curr-amount" value="1" oninput="convertCurrency()"></div>
+                        <div style="flex:1"><label>From</label><select id="curr-from" onchange="convertCurrency()">
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="CHF">CHF - Swiss Franc</option>
+                            <option value="CNY">CNY - Chinese Yuan</option>
+                            <option value="HKD">HKD - Hong Kong Dollar</option>
+                            <option value="NZD">NZD - New Zealand Dollar</option>
+                            <option value="SEK">SEK - Swedish Krona</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="ZAR">ZAR - South African Rand</option>
+                        </select></div>
+                        <div style="flex:1"><label>To</label><select id="curr-to" onchange="convertCurrency()">
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="CHF">CHF - Swiss Franc</option>
+                            <option value="CNY">CNY - Chinese Yuan</option>
+                            <option value="HKD">HKD - Hong Kong Dollar</option>
+                            <option value="NZD">NZD - New Zealand Dollar</option>
+                            <option value="SEK">SEK - Swedish Krona</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="ZAR">ZAR - South African Rand</option>
+                        </select></div>
+                    </div>
+                    <div class="result-box"><div class="result-value" id="curr-result">0.92</div><div class="result-label">Converted Amount</div></div>
+                </div>
+                <article class="seo-content"><h3>Foreign Exchange Rates</h3><p>Our currency converter provides approximate exchange rates for popular currencies.</p></article>
+            </section>
+
+            <!-- TIME ZONE VIEW -->
+            <section id="time-zone-view" class="view">
+                <div class="tool-header"><h1>Time Zone Converter</h1><p>Convert time between different global cities instantly.</p></div>
+                <div class="tool-container">
+                    <div class="form-group"><label>Base Time</label><input type="datetime-local" id="tz-input" onchange="convertTime()"></div>
+                    <div style="display:flex; gap:1rem;">
+                        <div style="flex:1">
+                            <label>From</label>
+                            <select id="tz-from" onchange="convertTime()">
+                                <option value="UTC">UTC (Universal)</option>
+                                <option value="America/New_York">New York (EST/EDT)</option>
+                                <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                                <option value="Europe/London">London (GMT/BST)</option>
+                                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Asia/Kolkata">India (IST)</option>
+                                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                            </select>
+                        </div>
+                        <div style="flex:1">
+                            <label>To</label>
+                            <select id="tz-to" onchange="convertTime()">
+                                <option value="America/New_York">New York (EST/EDT)</option>
+                                <option value="UTC">UTC (Universal)</option>
+                                <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                                <option value="Europe/London">London (GMT/BST)</option>
+                                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Asia/Kolkata">India (IST)</option>
+                                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="result-box">
-                        <div class="result-value" id="conc-result">0</div>
-                        <div class="result-label" id="conc-unit">Cubic Meters</div>
+                        <div class="result-value" id="tz-result">--:--</div>
+                        <div class="result-label" id="tz-result-label">Converted Time</div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Bricks Tab -->
-                <div id="const-bricks" class="calc-sub-view">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label id="const-lbl-wall-len">Wall Length (m)</label><input type="number" id="brick-wall-len" oninput="calcBricks()"></div>
-                        <div style="flex:1"><label id="const-lbl-wall-hgt">Wall Height (m)</label><input type="number" id="brick-wall-hgt" oninput="calcBricks()"></div>
-                    </div>
-                    <div style="margin-top:1rem; font-size:0.85rem; color:var(--text-secondary);">Standard brick size (including mortar) assumed.</div>
-                    <div class="result-box">
-                        <div class="result-value" id="brick-result">0</div>
-                        <div class="result-label">Bricks Needed (inc. 5% waste)</div>
+            <!-- TYPING TEST VIEW -->
+            <section id="typing-test-view" class="view">
+                <div class="tool-header"><h1>Typing Speed Test</h1><p>Test your typing speed and accuracy in WPM.</p></div>
+                <div class="tool-container">
+                    <div id="sample-text" style="background:#f2f2f7; padding:1rem; border-radius:8px; margin-bottom:1rem; font-family:monospace; color:var(--text-secondary);">The quick brown fox jumps over the lazy dog. Programming is the art of telling a computer what to do.</div>
+                    <textarea id="typing-input" style="height:120px; font-family:monospace;" placeholder="Start typing here..." oninput="handleTyping()"></textarea>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;"><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="wpm-result">0</div><div class="result-label">WPM</div></div><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="accuracy-result">100%</div><div class="result-label">Accuracy</div></div></div>
+                    <button class="btn-primary" style="margin-top:1rem; background:var(--accent-orange);" onclick="resetTypingTest()">Reset</button>
+                </div>
+            </section>
+
+            <!-- WORDS TO TIME VIEW -->
+            <section id="words-to-time-view" class="view">
+                <div class="tool-header"><h1>Words to Time Calculator</h1><p>Estimate how long it takes to read or speak your text. Press Enter to calculate.</p></div>
+                <div class="tool-container">
+                    <div class="form-group"><label>Your Text</label><textarea id="wtt-input" style="height:100px" placeholder="Paste your text here..."></textarea></div>
+                    <div class="form-group"><label>Speed</label><select id="wtt-speed"><option value="130">Average (130 wpm)</option><option value="100">Slow (100 wpm)</option><option value="150">Fast (150 wpm)</option></select></div>
+                    <div class="result-box" id="wtt-result-box" style="display:none;">
+                        <div class="result-value" id="wtt-result">0 min</div>
+                        <div class="result-label" id="wtt-result-sec">0 seconds</div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Paint Tab -->
-                <div id="const-paint" class="calc-sub-view">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label id="const-lbl-paint-len">Wall Length (m)</label><input type="number" id="paint-len" oninput="calcPaint()"></div>
-                        <div style="flex:1"><label id="const-lbl-paint-hgt">Wall Height (m)</label><input type="number" id="paint-hgt" oninput="calcPaint()"></div>
+            <!-- COMPASS VIEW -->
+            <section id="compass-view" class="view">
+                <div class="tool-header"><h1>Digital Compass</h1><p>Visual compass based on your device location.</p></div>
+                <div class="tool-container">
+                    <div style="width:200px; height:200px; border-radius:50%; border:8px solid #e5e5ea; margin:0 auto; position:relative; display:flex; align-items:center; justify-content:center;">
+                        <div style="position:absolute; font-weight:bold;">N</div>
+                        <div style="position:absolute; bottom:10px; font-weight:bold;">S</div>
+                        <div style="position:absolute; left:10px; font-weight:bold;">W</div>
+                        <div style="position:absolute; right:10px; font-weight:bold;">E</div>
+                        <div id="compass-needle" style="width:4px; height:140px; background:linear-gradient(to bottom, red 50%, black 50%); transition:transform 0.1s;"></div>
                     </div>
-                    <div style="margin-top:1rem;">
-                        <label>Coverage per <span id="paint-lbl-unit">Liter</span></label>
-                        <input type="number" id="paint-cov" value="10" oninput="calcPaint()">
-                    </div>
-                    <div class="result-box">
-                        <div class="result-value" id="paint-result">0</div>
-                        <div class="result-label" id="paint-res-unit">Liters Required</div>
+                    <div style="text-align:center; margin-top:20px;">
+                        <p id="compass-status" style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">Waiting for device sensors...</p>
+                        <input type="range" min="0" max="360" value="0" style="width:200px" oninput="document.getElementById('compass-needle').style.transform='rotate('+this.value+'deg)'">
                     </div>
                 </div>
-            </div>
-            <article class="seo-content"><h3>Construction Estimation Tools</h3><p>Calculate concrete volume for slabs and footings. Estimate the number of bricks required for walls. Determine paint coverage for interior and exterior projects. Supports both Metric and Imperial units for global construction needs.</p></article>
-        </section>
+            </section>
 
-        <!-- BMI CALCULATOR VIEW -->
-        <section id="bmi-calculator-view" class="view">
-            <div class="tool-header"><h1>BMI Calculator</h1><p>Calculate your Body Mass Index to assess healthy body weight.</p></div>
-            <div class="tool-container">
-                <div class="form-group"><label>Unit System</label><div style="display:flex; gap:10px;"><button class="nav-btn" style="background:#e5e5ea; color:#000" onclick="toggleBmiUnit('metric')" id="btn-metric">Metric</button><button class="nav-btn" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleBmiUnit('imperial')" id="btn-imperial">Imperial</button></div></div>
-                <div style="display:flex; gap:1rem;"><div style="flex:1"><label id="label-height">Height (cm)</label><input type="number" id="bmi-height" placeholder="175"></div><div style="flex:1"><label id="label-weight">Weight (kg)</label><input type="number" id="bmi-weight" placeholder="70"></div></div>
-                <button class="btn-primary" onclick="calculateBMI()">Calculate BMI</button>
-                <div class="result-box" id="bmi-result-box" style="display:none;"><div class="result-value" id="bmi-value">22.5</div><div class="result-label" id="bmi-category">Normal Weight</div><div style="height:8px; background:linear-gradient(to right, #3b82f6, #34c759, #ffcc00, #ff3b30); border-radius:4px; margin-top:15px; position:relative;"><div id="bmi-indicator" style="width:4px; height:100%; background:#000; position:absolute; left:45%;"></div></div></div>
-            </div>
-            <article class="seo-content"><h3>Understanding BMI</h3><p>Body Mass Index (BMI) is a screening tool used to identify possible weight problems for adults. However, BMI is not a diagnostic tool.</p></article>
-        </section>
+        </main>
 
-        <!-- CALENDAR MAKER VIEW -->
-        <section id="calendar-maker-view" class="view">
-            <div class="tool-header"><h1>Printable Calendar Creator</h1><p>Design and print custom monthly calendars.</p></div>
-            <div class="tool-container">
-                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                    <div style="flex:1"><label>Month</label><select id="cal-month" onchange="generateCalendar()"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div>
-                    <div style="flex:1"><label>Year</label><input type="number" id="cal-year" value="2024" onchange="generateCalendar()"></div>
-                    <div style="flex:1"><label>Theme</label><select id="cal-theme" onchange="generateCalendar()"><option value="theme-minimal">Minimal</option><option value="theme-blue">Blue</option><option value="theme-green">Green</option></select></div>
-                </div>
-                <button class="btn-primary" style="margin-top:1rem; background:var(--accent-green);" onclick="window.print()">Print Calendar 🖨️</button>
-                <div id="calendar-output" class="calendar-preview theme-minimal" style="margin-top:20px; border:1px solid #ddd; padding:20px; background:white; border-radius:8px;"></div>
-            </div>
-            <article class="seo-content"><h3>Free Printable Calendar</h3><p>Use our free generator to create a printable monthly calendar. Perfect for organizing your schedule.</p></article>
-        </section>
+        <!-- RIGHT SIDEBAR AD -->
+        <div class="ad-sidebar right">
+            <span>Advertisement (160x600)</span>
+        </div>
 
-        <!-- CURRENCY CONVERTER VIEW -->
-        <section id="currency-converter-view" class="view">
-            <div class="tool-header"><h1>Currency Converter</h1><p>Check exchange rates between major world currencies.</p></div>
-            <div class="tool-container">
-                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                    <div style="flex:1"><label>Amount</label><input type="number" id="curr-amount" value="1" oninput="convertCurrency()"></div>
-                    <div style="flex:1"><label>From</label><select id="curr-from" onchange="convertCurrency()"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="INR">INR</option></select></div>
-                    <div style="flex:1"><label>To</label><select id="curr-to" onchange="convertCurrency()"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="INR">INR</option></select></div>
-                </div>
-                <div class="result-box"><div class="result-value" id="curr-result">0.92</div><div class="result-label">Converted Amount</div></div>
-            </div>
-            <article class="seo-content"><h3>Foreign Exchange Rates</h3><p>Our currency converter provides approximate exchange rates for popular currencies.</p></article>
-        </section>
-
-        <!-- TIME ZONE VIEW -->
-        <section id="time-zone-view" class="view">
-            <div class="tool-header"><h1>Time Zone Converter</h1><p>Convert time between different global cities instantly.</p></div>
-            <div class="tool-container">
-                <div class="form-group"><label>Base Time</label><input type="datetime-local" id="tz-input" onchange="convertTime()"></div>
-                <div style="display:flex; gap:1rem;"><div style="flex:1"><label>From</label><select id="tz-from" onchange="convertTime()"><option value="UTC">UTC</option><option value="America/New_York">New York</option><option value="Europe/London">London</option><option value="Asia/Tokyo">Tokyo</option></select></div><div style="flex:1"><label>To</label><select id="tz-to" onchange="convertTime()"><option value="America/New_York">New York</option><option value="UTC">UTC</option><option value="Europe/London">London</option><option value="Asia/Tokyo">Tokyo</option></select></div></div>
-                <div class="result-box"><div class="result-value" id="tz-result">--:--</div></div>
-            </div>
-        </section>
-
-        <!-- TYPING TEST VIEW -->
-        <section id="typing-test-view" class="view">
-            <div class="tool-header"><h1>Typing Speed Test</h1><p>Test your typing speed and accuracy in WPM.</p></div>
-            <div class="tool-container">
-                <div id="sample-text" style="background:#f2f2f7; padding:1rem; border-radius:8px; margin-bottom:1rem; font-family:monospace; color:var(--text-secondary);">The quick brown fox jumps over the lazy dog. Programming is the art of telling a computer what to do.</div>
-                <textarea id="typing-input" style="height:120px; font-family:monospace;" placeholder="Start typing here..." oninput="handleTyping()"></textarea>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;"><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="wpm-result">0</div><div class="result-label">WPM</div></div><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="accuracy-result">100%</div><div class="result-label">Accuracy</div></div></div>
-                <button class="btn-primary" style="margin-top:1rem; background:var(--accent-orange);" onclick="resetTypingTest()">Reset</button>
-            </div>
-        </section>
-
-        <!-- WORDS TO TIME VIEW -->
-        <section id="words-to-time-view" class="view">
-            <div class="tool-header"><h1>Words to Time Calculator</h1><p>Estimate how long it will take to read or speak your text.</p></div>
-            <div class="tool-container">
-                <div class="form-group"><label>Your Text</label><textarea id="wtt-input" style="height:100px" placeholder="Paste your text here..." oninput="calcWordsToTime()"></textarea></div>
-                <div class="form-group"><label>Speed</label><select id="wtt-speed" onchange="calcWordsToTime()"><option value="130">Average (130 wpm)</option><option value="100">Slow (100 wpm)</option><option value="150">Fast (150 wpm)</option></select></div>
-                <div class="result-box"><div class="result-value" id="wtt-result">0 min</div></div>
-            </div>
-        </section>
-
-        <!-- COMPASS VIEW -->
-        <section id="compass-view" class="view">
-            <div class="tool-header"><h1>Digital Compass</h1><p>A visual directional compass tool.</p></div>
-            <div class="tool-container">
-                <div style="width:200px; height:200px; border-radius:50%; border:8px solid #e5e5ea; margin:0 auto; position:relative; display:flex; align-items:center; justify-content:center;"><div style="position:absolute; font-weight:bold;">N</div><div style="position:absolute; bottom:10px; font-weight:bold;">S</div><div style="position:absolute; left:10px; font-weight:bold;">W</div><div style="position:absolute; right:10px; font-weight:bold;">E</div><div id="compass-needle" style="width:4px; height:140px; background:linear-gradient(to bottom, red 50%, black 50%); transition:transform 0.1s;"></div></div>
-                <div style="text-align:center; margin-top:20px;"><input type="range" min="0" max="360" value="0" style="width:200px" oninput="document.getElementById('compass-needle').style.transform='rotate('+this.value+'deg)'"></div>
-            </div>
-        </section>
-
-    </main>
+    </div>
 
     <div class="ad-container"><span>Advertisement (728x90)</span></div>
 
@@ -643,14 +882,24 @@
             if(hash) {
                 navigateTo(hash);
             }
+            // Init Time Zone Clock
+            setInterval(updateLiveTime, 1000);
+            updateLiveTime();
+            // Init Compass
+            initCompass();
         });
 
-        // --- Height Converter ---
+        // --- Height Converter (Fixed) ---
         function convertHeight(source) {
             const cmInput = document.getElementById('height-cm');
             const ftInput = document.getElementById('height-ft');
             const inInput = document.getElementById('height-in');
             const display = document.getElementById('height-display');
+
+            // Prevent negative values
+            if(cmInput.value < 0) cmInput.value = 0;
+            if(ftInput.value < 0) ftInput.value = 0;
+            if(inInput.value < 0) inInput.value = 0;
 
             if (source === 'cm') {
                 const cm = parseFloat(cmInput.value);
@@ -664,6 +913,7 @@
                 const feet = Math.floor(totalInches / 12);
                 const inches = (totalInches % 12).toFixed(1);
                 
+                // Only update if not focused to prevent cursor jumping
                 if(document.activeElement !== ftInput) ftInput.value = feet;
                 if(document.activeElement !== inInput) inInput.value = inches;
                 
@@ -704,6 +954,11 @@
             const val2 = parseFloat(document.getElementById('unit-input-2').value);
             const type1 = document.getElementById('unit-type-1').value;
             const type2 = document.getElementById('unit-type-2').value;
+            
+            // Prevent negative
+            if(val1 < 0) document.getElementById('unit-input-1').value = 0;
+            if(val2 < 0) document.getElementById('unit-input-2').value = 0;
+
             if (cat === 'temperature') {
                 if (source === '1') document.getElementById('unit-input-2').value = convertTemp(val1, type1, type2);
                 else document.getElementById('unit-input-1').value = convertTemp(val2, type2, type1);
@@ -758,37 +1013,6 @@
             document.getElementById('mort-monthly').innerText = '\$' + monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             document.getElementById('mort-total').innerText = '$' + totalPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             document.getElementById('mort-interest').innerText = '$' + totalInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // --- Paycheck Calculator ---
-        const fedBracketsSingle = [{ cap: 11600, rate: 0.10 }, { cap: 47150, rate: 0.12 }, { cap: 100525, rate: 0.22 }, { cap: 191950, rate: 0.24 }, { cap: 243725, rate: 0.32 }, { cap: 609350, rate: 0.35 }, { cap: Infinity, rate: 0.37 }];
-        const fedBracketsMarried = fedBracketsSingle.map(b => ({ cap: b.cap * 2, rate: b.rate }));
-        const stateRates = { 'CA': 0.09, 'NY': 0.06, 'TX': 0, 'FL': 0, 'WA': 0, 'Other': 0.05 };
-        function calculateFedTax(annualIncome, status) {
-            const brackets = status === 'married' ? fedBracketsMarried : fedBracketsSingle;
-            let tax = 0, previousCap = 0;
-            for (let b of brackets) {
-                if (annualIncome > b.cap) { tax += (b.cap - previousCap) * b.rate; previousCap = b.cap; }
-                else { tax += (annualIncome - previousCap) * b.rate; return tax; }
-            }
-            return tax;
-        }
-        function calculatePaycheck() {
-            const grossPerPeriod = parseFloat(document.getElementById('pay-gross').value) || 0;
-            const freq = parseInt(document.getElementById('pay-freq').value);
-            const stateCode = document.getElementById('pay-state').value;
-            const status = document.getElementById('pay-status').value;
-            const annualGross = grossPerPeriod * freq;
-            const annualFedTax = calculateFedTax(annualGross, status);
-            const fedTaxPerPeriod = annualFedTax / freq;
-            const ficaPerPeriod = grossPerPeriod * (0.062 + 0.0145);
-            const stateTaxPerPeriod = grossPerPeriod * (stateRates[stateCode] || 0.05);
-            const netPay = grossPerPeriod - fedTaxPerPeriod - ficaPerPeriod - stateTaxPerPeriod;
-            document.getElementById('res-gross').innerText = '$' + grossPerPeriod.toFixed(2);
-            document.getElementById('res-fed').innerText = '-$' + fedTaxPerPeriod.toFixed(2);
-            document.getElementById('res-fica').innerText = '-$' + ficaPerPeriod.toFixed(2);
-            document.getElementById('res-state').innerText = '-$' + stateTaxPerPeriod.toFixed(2);
-            document.getElementById('res-net').innerText = '$' + netPay.toFixed(2);
         }
 
         // --- Construction Calculator ---
@@ -857,85 +1081,4 @@
             const h = parseFloat(document.getElementById('bmi-height').value);
             const w = parseFloat(document.getElementById('bmi-weight').value);
             if (!h || !w) return;
-            let bmi = bmiSystem === 'metric' ? w / ((h / 100) ** 2) : (w / ((h * 12) ** 2)) * 703;
-            bmi = Math.round(bmi * 10) / 10;
-            document.getElementById('bmi-value').innerText = bmi;
-            let cat = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese';
-            document.getElementById('bmi-category').innerText = cat;
-            document.getElementById('bmi-result-box').style.display = 'block';
-        }
-
-        // --- Calendar ---
-        function generateCalendar() {
-            const month = parseInt(document.getElementById('cal-month').value);
-            const year = parseInt(document.getElementById('cal-year').value);
-            const theme = document.getElementById('cal-theme').value;
-            const container = document.getElementById('calendar-output');
-            container.className = 'calendar-preview ' + theme;
-            const date = new Date(year, month, 1);
-            const monthName = date.toLocaleString('default', { month: 'long' });
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const startDay = date.getDay();
-            let html = `<h2 style="text-align:center; margin-bottom:15px;">${monthName} ${year}</h2><div class="calendar-grid">`;
-            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(d => html += `<div class="cal-day-header">${d}</div>`);
-            for (let i = 0; i < startDay; i++) html += `<div class="cal-day empty"></div>`;
-            for (let i = 1; i <= daysInMonth; i++) html += `<div class="cal-day">${i}</div>`;
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-        const d = new Date(); document.getElementById('cal-month').value = d.getMonth(); document.getElementById('cal-year').value = d.getFullYear(); generateCalendar();
-
-        // --- Currency ---
-        const rates = { 'USD': 1, 'EUR': 0.92, 'GBP': 0.79, 'JPY': 148, 'INR': 83 };
-        function convertCurrency() {
-            const amt = parseFloat(document.getElementById('curr-amount').value);
-            const from = document.getElementById('curr-from').value;
-            const to = document.getElementById('curr-to').value;
-            if (isNaN(amt)) return;
-            const res = (amt / rates[from]) * rates[to];
-            document.getElementById('curr-result').innerText = res.toFixed(2);
-        }
-        convertCurrency();
-
-        // --- Time Zone ---
-        function convertTime() {
-            const val = document.getElementById('tz-input').value;
-            if(!val) return;
-            const d = new Date(val);
-            const toZone = document.getElementById('tz-to').value;
-            document.getElementById('tz-result').innerText = d.toLocaleTimeString('en-US', { timeZone: toZone });
-        }
-
-        // --- Typing Test ---
-        let startTime = null;
-        function handleTyping() {
-            const input = document.getElementById('typing-input').value;
-            const sample = document.getElementById('sample-text').innerText;
-            if (!startTime && input.length > 0) startTime = new Date();
-            if (input.length === 0) { startTime = null; document.getElementById('wpm-result').innerText = '0'; return; }
-            const timeDiff = (new Date() - startTime) / 1000 / 60;
-            const wpm = Math.round((input.length / 5) / timeDiff) || 0;
-            document.getElementById('wpm-result').innerText = wpm;
-            let errors = 0;
-            for(let i=0; i<input.length; i++) if(input[i] !== sample[i]) errors++;
-            const acc = Math.round(((input.length - errors) / input.length) * 100) || 0;
-            document.getElementById('accuracy-result').innerText = acc + '%';
-        }
-        function resetTypingTest() {
-            document.getElementById('typing-input').value = '';
-            startTime = null;
-            document.getElementById('wpm-result').innerText = '0';
-            document.getElementById('accuracy-result').innerText = '100%';
-        }
-
-        // --- Words to Time ---
-        function calcWordsToTime() {
-            const txt = document.getElementById('wtt-input').value;
-            const speed = parseInt(document.getElementById('wtt-speed').value);
-            const words = txt.trim().split(/\s+/).filter(w => w.length > 0).length;
-            const min = Math.ceil(words / speed);
-            document.getElementById('wtt-result').innerText = (min > 0 ? min : 0) + ' min';
-        }
-    </script>
-</body>
-</html>
+            let bmi = bmiSystem === 'metric' ? w / ((h / 100) ** 2) : (w / ((h * 12)
