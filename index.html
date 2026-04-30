@@ -1058,32 +1058,3 @@
             document.getElementById('const-' + tab).classList.add('active');
         }
         function calcConcrete() {
-            const l = parseFloat(document.getElementById('conc-len').value) || 0;
-            const w = parseFloat(document.getElementById('conc-wid').value) || 0;
-            const d = parseFloat(document.getElementById('conc-dep').value) || 0;
-            let vol = l * w * d;
-            if(constUnit === 'imperial') vol = vol / 27;
-            document.getElementById('conc-result').innerText = vol.toFixed(2);
-        }
-        function calcBricks() {
-            const l = parseFloat(document.getElementById('brick-wall-len').value) || 0;
-            const h = parseFloat(document.getElementById('brick-wall-hgt').value) || 0;
-            const area = l * h;
-            let bricks = constUnit === 'metric' ? area * 50 : area * 7;
-            bricks = bricks * 1.05;
-            document.getElementById('brick-result').innerText = Math.ceil(bricks);
-        }
-        function calcPaint() {
-            const l = parseFloat(document.getElementById('paint-len').value) || 0;
-            const h = parseFloat(document.getElementById('paint-hgt').value) || 0;
-            const cov = parseFloat(document.getElementById('paint-cov').value) || 10;
-            const area = l * h;
-            const res = area / cov;
-            document.getElementById('paint-result').innerText = res.toFixed(1);
-        }
-
-        // --- BMI ---
-        let bmiSystem = 'metric';
-        function toggleBmiUnit(sys) {
-            bmiSystem = sys;
-            document.getElementById('btn-metric').style.background = sys === 'metric' ? '#e5e5ea' : 'transparent
