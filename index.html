@@ -1,1060 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>UnitConverter.live - Free Online Unit Converter, Calculator, Mortgage, Tax & Construction Tools</title>
-    <meta name="description" content="The ultimate free online tool suite. Convert height, weight, currency, calculate mortgage, use scientific calculator, construction tools, and create printable journals.">
-    <meta name="keywords" content="height converter, weight converter, scientific calculator, mortgage calculator, currency converter, construction calculator, concrete calculator, brick calculator, printable calendar, journal planner, typing test">
-    <meta name="author" content="UnitConverter.live">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Canonical Tag -->
-    <link rel="canonical" href="https://unitconverter.live/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UnitConverter.live</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Structured Data (JSON-LD) for Indexing -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "UnitConverter.live",
-      "url": "https://unitconverter.live/",
-      "description": "Free online tools including Height Converter, Weight Converter, Scientific Calculator, Mortgage Calculator, Construction Tools, BMI, and Printable Journal Planners.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://unitconverter.live/#search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f0f0f2;
+      min-height: 100vh;
+      padding: 24px 40px 48px;
     }
-    </script>
 
-    <style>
-        :root {
-            /* Apple-inspired Color Palette */
-            --bg-color: #F5F5F7;
-            --card-bg: #FFFFFF;
-            --text-primary: #1D1D1F;
-            --text-secondary: #86868B;
-            --accent-blue: #007AFF;
-            --accent-green: #34C759;
-            --accent-orange: #FF9500;
-            --accent-red: #FF3B30;
-            --accent-purple: #AF52DE;
-            --border-color: #D2D2D7;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-            --radius-lg: 18px;
-            --radius-md: 12px;
-            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+    /* ── Logo ── */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 40px;
+      text-decoration: none;
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a2e;
+      letter-spacing: -0.3px;
+    }
+    .logo-text .accent { color: #3b7cf4; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-        body {
-            font-family: var(--font-stack);
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    /* ── Card ── */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 36px 20px 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 0.5px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+    }
+    .card:active {
+      transform: scale(0.97);
+    }
 
-        /* --- Ad Slots --- */
-        .ad-container {
-            width: 100%;
-            max-width: 728px;
-            height: 90px;
-            background: #e5e5ea;
-            margin: 1rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8e8e93;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            border: 1px dashed #c7c7cc;
-        }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f3f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
 
-        /* --- Header --- */
-        header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .card-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a2e;
+      text-align: center;
+    }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: none;
-            color: var(--accent-blue);
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: var(--transition);
-        }
-        .nav-btn:hover { background: rgba(0, 122, 255, 0.1); }
-
-        /* --- Layout Wrapper (Single Column) --- */
-        .layout-wrapper {
-            display: grid;
-            grid-template-columns: 1fr; /* Single column layout */
-            gap: 20px;
-            max-width: 1000px; /* Adjusted max-width for better readability without sidebars */
-            margin: 0 auto;
-            padding: 0 20px;
-            width: 100%;
-            flex: 1;
-        }
-
-        /* --- Main Content Area --- */
-        main {
-            min-width: 0; /* Prevents overflow in grid */
-        }
-
-        /* --- View Management --- */
-        .view { display: none; animation: fadeIn 0.4s ease-out; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Home Dashboard --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        @media (min-width: 600px) {
-            .dashboard-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        }
-
-        .tool-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid transparent;
-        }
-        .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: rgba(0,0,0,0.05); }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            background: #F2F2F7;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            font-size: 24px;
-        }
-        .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-        .card-desc { font-size: 0.8rem; color: var(--text-secondary); }
-
-        /* --- Common Tool UI --- */
-        .tool-header { margin-bottom: 2rem; text-align: center; }
-        .tool-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .tool-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 0.95rem; }
-
-        .tool-container {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            max-width: 100%; /* Allow full width of center column */
-            margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            .tool-container { padding: 2rem; }
-            .tool-header h1 { font-size: 2rem; }
-        }
-
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            background: var(--bg-color);
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: var(--transition);
-            -webkit-appearance: none; /* iOS fix */
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
-            background: #fff;
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-        }
-        .btn-primary:hover { background: #0062cc; transform: scale(1.01); }
-
-        .btn-secondary {
-            background: white;
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            padding: 14px 28px;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-secondary:hover { background: #f5f5f7; }
-
-        .result-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: #F2F2F7;
-            border-radius: var(--radius-md);
-            text-align: center;
-        }
-        .result-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
-        .result-label { font-size: 0.9rem; color: var(--text-secondary); }
-
-        /* --- Construction Calculator Specifics --- */
-        .tab-controls {
-            display: flex;
-            background: #e5e5ea;
-            padding: 4px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-        .tab-btn.active {
-            background: #fff;
-            color: var(--text-primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .calc-sub-view { display: none; }
-        .calc-sub-view.active { display: block; animation: fadeIn 0.3s; }
-
-        /* --- Calculator Specifics --- */
-        .calc-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .calc-btn {
-            padding: 20px;
-            font-size: 1.2rem;
-            border: 1px solid var(--border-color);
-            background: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .calc-btn:hover { background: #f5f5f7; }
-        .calc-btn.op { background: #f0f0f5; color: var(--accent-blue); }
-        .calc-btn.eq { background: var(--accent-orange); color: white; border-color: var(--accent-orange); }
-        .calc-display {
-            width: 100%;
-            background: #1d1d1f;
-            color: #fff;
-            padding: 20px;
-            font-size: 2rem;
-            text-align: right;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-family: monospace;
-        }
-        .sci-toggle {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        /* --- SEO Content --- */
-        .seo-content {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e5ea;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        .seo-content h3 { color: var(--text-primary); margin-bottom: 10px; font-size: 1.2rem; }
-        .seo-content p { margin-bottom: 10px; }
-
-        /* --- Footer --- */
-        footer {
-            margin-top: auto;
-            padding: 3rem 1rem;
-            text-align: center;
-            background: #fff;
-            border-top: 1px solid #e5e5ea;
-        }
-        .footer-links { margin-bottom: 1rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-        .footer-links a { color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; cursor: pointer; }
-        .copyright { color: var(--text-secondary); font-size: 0.8rem; }
-
-        /* --- Print Styles --- */
-        @media print {
-            header, .dashboard-grid, .ad-container, .form-group, .tool-header p, footer, .btn-primary, .btn-secondary, .seo-content { display: none !important; }
-            body, .layout-wrapper, main, .tool-container, .calendar-preview { background: white !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; border: none !important; display: block !important; }
-            .tool-header h1 { display: block; text-align: center; margin-bottom: 20px; }
-            .calendar-preview { border: none; padding: 0; }
-            .cal-day { border: 1px solid #ccc; }
-            .page-break { page-break-after: always; break-after: page; }
-            .page-break:last-child { page-break-after: auto; }
-        }
-
-        /* --- Calendar Specific Styles --- */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            text-align: center;
-        }
-        .cal-day-header { font-weight: bold; padding: 10px 5px; color: var(--text-secondary); background: #f9f9f9; }
-        .cal-day { 
-            padding: 10px; 
-            border: 1px solid #eee; 
-            background: white;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-        .cal-day.empty { background: transparent; border: none; }
-        .cal-day.journal-mode {
-            height: 140px; 
-            background-image: repeating-linear-gradient(transparent, transparent 27px, #e0e0e0 28px);
-            background-size: 100% 28px;
-            position: relative;
-            padding: 0;
-            text-align: left;
-            align-items: flex-start;
-        }
-        .cal-day.journal-mode span {
-            position: absolute;
-            top: 2px;
-            left: 5px;
-            font-weight: bold;
-            background: rgba(255,255,255,0.9);
-            padding: 0 4px;
-            border-radius: 4px;
-            z-index: 2;
-        }
-    </style>
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      body { padding: 20px; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+    @media (max-width: 420px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="ad-container"><span>Advertisement (728x90)</span></div>
+  <a class="logo" href="#">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="4"/>
+      <path d="M8 12h8M12 8v8"/>
+    </svg>
+    <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+  </a>
 
-    <header>
-        <!-- FIXED: Logo now uses navigateTo instead of index.html -->
-        <a href="#" onclick="navigateTo('home'); return false;" class="logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-            UnitConverter<span style="color:var(--accent-blue)">.live</span>
-        </a>
-        <button class="nav-btn" onclick="navigateTo('home')">Home</button>
-    </header>
+  <div class="grid">
 
-    <!-- LAYOUT WRAPPER: Single Column (Sidebars Removed) -->
-    <div class="layout-wrapper">
-        
-        <!-- MAIN CONTENT -->
-        <main id="app-container">
-            
-            <!-- HOME VIEW -->
-            <section id="home-view" class="view active">
-                <div class="tool-header">
-                    <h1>Professional Online Tools</h1>
-                    <p>Access our suite of free converters, calculators, and productivity tools.</p>
-                </div>
-                <div class="dashboard-grid">
-                    <div class="tool-card" onclick="navigateTo('height-converter')"><div class="card-icon">📏</div><div class="card-title">Height</div></div>
-                    <div class="tool-card" onclick="navigateTo('unit-converter')"><div class="card-icon">⚖️</div><div class="card-title">Weight/Unit</div></div>
-                    <div class="tool-card" onclick="navigateTo('bmi-calculator')"><div class="card-icon">🩺</div><div class="card-title">BMI Calc</div></div>
-                    <div class="tool-card" onclick="navigateTo('mortgage-calculator')"><div class="card-icon">🏠</div><div class="card-title">Mortgage</div></div>
-                    <div class="tool-card" onclick="navigateTo('construction-calculator')"><div class="card-icon">🏗️</div><div class="card-title">Construction</div></div>
-                    <div class="tool-card" onclick="navigateTo('currency-converter')"><div class="card-icon">💱</div><div class="card-title">Currency</div></div>
-                    <div class="tool-card" onclick="navigateTo('calculator')"><div class="card-icon">🧮</div><div class="card-title">Calculator</div></div>
-                    <div class="tool-card" onclick="navigateTo('calendar-maker')"><div class="card-icon">📅</div><div class="card-title">Calendar/Journal</div></div>
-                    <div class="tool-card" onclick="navigateTo('time-zone')"><div class="card-icon">🌍</div><div class="card-title">Time Zone</div></div>
-                    <div class="tool-card" onclick="navigateTo('typing-test')"><div class="card-icon">⌨️</div><div class="card-title">Typing</div></div>
-                    <div class="tool-card" onclick="navigateTo('words-to-time')"><div class="card-icon">⏱️</div><div class="card-title">Words to Time</div></div>
-                    <div class="tool-card" onclick="navigateTo('compass')"><div class="card-icon">🧭</div><div class="card-title">Compass</div></div>
-                </div>
+    <a class="card" href="height.html">
+      <div class="card-icon">📏</div>
+      <div class="card-label">Height</div>
+    </a>
 
-                <!-- SEO Content Hub for Indexing -->
-                <article class="seo-content">
-                    <h3>Available Tools</h3>
-                    <p><strong>Height Converter:</strong> Convert height between Centimeters (cm) and Feet/Inches (ft/in) instantly.</p>
-                    <p><strong>Weight Converter:</strong> Convert weight between Kilograms (kg), Pounds (lbs), Stones (st), and Ounces (oz).</p>
-                    <p><strong>Mortgage Calculator:</strong> Estimate your monthly mortgage payments, total interest, and amortization schedule.</p>
-                    <p><strong>Construction Calculator:</strong> Professional tools for concrete volume estimation, brick counting, and paint coverage. Supports Metric and Imperial units.</p>
-                    <p><strong>BMI Calculator:</strong> Determine your Body Mass Index (BMI) to assess healthy weight ranges.</p>
-                    <p><strong>Currency Converter:</strong> Check real-time exchange rates for USD, EUR, GBP, JPY, INR, AUD, CAD, and more.</p>
-                    <p><strong>Calculator:</strong> Basic and Scientific calculator for everyday math needs.</p>
-                    <p><strong>Printable Calendar & Journal:</strong> Create custom monthly calendars or yearly journals with ruled lines for planning.</p>
-                    <p><strong>Time Zone Converter:</strong> Convert time between major global cities and time zones.</p>
-                    <p><strong>Typing Speed Test:</strong> Test your words per minute (WPM) and typing accuracy.</p>
-                    <p><strong>Words to Time:</strong> Estimate how long it takes to read or speak a specific amount of text.</p>
-                </article>
-            </section>
+    <a class="card" href="weight.html">
+      <div class="card-icon">⚖️</div>
+      <div class="card-label">Weight/Unit</div>
+    </a>
 
-            <!-- HEIGHT CONVERTER VIEW -->
-            <section id="height-converter-view" class="view">
-                <div class="tool-header"><h1>Height Converter</h1><p>Convert between Centimeters and Feet/Inches.</p></div>
-                <div class="tool-container">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
-                        <div style="flex:1; min-width:200px;">
-                            <label>Centimeters (cm)</label>
-                            <input type="number" id="height-cm" placeholder="180" min="0" oninput="convertHeight('cm')">
-                        </div>
-                        <div style="font-size:1.5rem; color:var(--text-secondary); padding-bottom:12px;">=</div>
-                        <div style="flex:1; min-width:200px;">
-                            <label>Feet</label>
-                            <input type="number" id="height-ft" placeholder="5" min="0" oninput="convertHeight('ft')">
-                        </div>
-                        <div style="flex:1; min-width:100px;">
-                            <label>Inches</label>
-                            <input type="number" id="height-in" placeholder="11" min="0" step="0.1" oninput="convertHeight('ft')">
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-value" id="height-display">180 cm = 5' 11"</div>
-                        <div class="result-label">Conversion Result</div>
-                    </div>
-                </div>
-                <article class="seo-content"><h3>Height Conversion</h3><p>Easily convert your height from metric (centimeters) to imperial (feet and inches) or vice versa. Useful for medical records, fitness tracking, and international travel.</p></article>
-            </section>
+    <a class="card" href="bmi.html">
+      <div class="card-icon">🩺</div>
+      <div class="card-label">BMI Calc</div>
+    </a>
 
-            <!-- UNIT CONVERTER VIEW (Includes Weight) -->
-            <section id="unit-converter-view" class="view">
-                <div class="tool-header"><h1>Unit Converter</h1><p>Convert Weight, Length, Volume, and Temperature.</p></div>
-                <div class="tool-container">
-                    <div class="form-group"><label>Category</label><select id="unit-category" onchange="updateUnitTypes()"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option><option value="volume">Volume</option></select></div>
-                    <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-                        <div style="flex:1; min-width:200px;"><label>From</label><input type="number" id="unit-input-1" placeholder="0" min="0" oninput="convertUnits('1')"><select id="unit-type-1" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
-                        <div style="font-size:1.5rem; color:var(--text-secondary); padding-top:20px;">=</div>
-                        <div style="flex:1; min-width:200px;"><label>To</label><input type="number" id="unit-input-2" placeholder="0" min="0" oninput="convertUnits('2')"><select id="unit-type-2" style="margin-top:8px" onchange="convertUnits('1')"></select></div>
-                    </div>
-                </div>
-                <article class="seo-content"><h3>How to Use the Unit Converter</h3><p>Select the category of measurement you wish to convert. Enter the value in the "From" field and select the original unit. The result will automatically appear in the "To" field.</p></article>
-            </section>
+    <a class="card" href="mortgage.html">
+      <div class="card-icon">🏠</div>
+      <div class="card-label">Mortgage</div>
+    </a>
 
-            <!-- MORTGAGE CALCULATOR VIEW -->
-            <section id="mortgage-calculator-view" class="view">
-                <div class="tool-header"><h1>Mortgage Calculator</h1><p>Estimate your monthly mortgage payments with taxes and interest.</p></div>
-                <div class="tool-container">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label>Home Price ($)</label><input type="number" id="mort-price" value="300000" min="0" oninput="calculateMortgage()"></div>
-                        <div style="flex:1"><label>Down Payment</label>
-                            <div style="display:flex; gap:5px;">
-                                <input type="number" id="mort-down" value="60000" min="0" oninput="calculateMortgage()">
-                                <select id="mort-down-type" style="width:80px" onchange="toggleDownPaymentType()"><option value="$">$</option><option value="%">%</option></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-                        <div style="flex:1"><label>Interest Rate (%)</label><input type="number" id="mort-rate" value="6.5" step="0.1" min="0" oninput="calculateMortgage()"></div>
-                        <div style="flex:1"><label>Loan Term (Years)</label><input type="number" id="mort-years" value="30" min="1" oninput="calculateMortgage()"></div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-value" id="mort-monthly">$1,896</div>
-                        <div class="result-label">Monthly Payment (Principal & Interest)</div>
-                        <div style="margin-top:10px; font-size:0.9rem; color:var(--text-secondary);">
-                            Total Payment: <span id="mort-total"></span> | Total Interest: <span id="mort-interest"></span>
-                        </div>
-                    </div>
-                </div>
-                <article class="seo-content"><h3>Mortgage Estimation</h3><p>Use this free mortgage calculator to estimate your monthly house payments. Input the home price, down payment, and interest rate to see how much you will pay over the lifetime of the loan.</p></article>
-            </section>
+    <a class="card" href="construction.html">
+      <div class="card-icon">📐</div>
+      <div class="card-label">Construction</div>
+    </a>
 
-            <!-- CONSTRUCTION CALCULATOR VIEW -->
-            <section id="construction-calculator-view" class="view">
-                <div class="tool-header"><h1>Construction Calculator</h1><p>Professional tools for Concrete, Bricks, and Paint estimation.</p></div>
-                <div class="tool-container">
-                    <!-- Unit Toggle -->
-                    <div style="display:flex; justify-content:center; margin-bottom:20px;">
-                        <button class="nav-btn" id="const-btn-metric" style="background:#e5e5ea; color:#000" onclick="toggleConstUnit('metric')">Metric (m/cm)</button>
-                        <button class="nav-btn" id="const-btn-imperial" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleConstUnit('imperial')">Imperial (ft/in)</button>
-                    </div>
+    <a class="card" href="currency.html">
+      <div class="card-icon">💱</div>
+      <div class="card-label">Currency</div>
+    </a>
 
-                    <!-- Tabs -->
-                    <div class="tab-controls">
-                        <button class="tab-btn active" onclick="switchConstTab('concrete')">Concrete</button>
-                        <button class="tab-btn" onclick="switchConstTab('bricks')">Bricks</button>
-                        <button class="tab-btn" onclick="switchConstTab('paint')">Paint</button>
-                    </div>
+    <a class="card" href="calculator.html">
+      <div class="card-icon">🧮</div>
+      <div class="card-label">Calculator</div>
+    </a>
 
-                    <!-- Concrete Tab -->
-                    <div id="const-concrete" class="calc-sub-view active">
-                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                            <div style="flex:1"><label id="const-lbl-len">Length (m)</label><input type="number" id="conc-len" min="0" oninput="calcConcrete()"></div>
-                            <div style="flex:1"><label id="const-lbl-wid">Width (m)</label><input type="number" id="conc-wid" min="0" oninput="calcConcrete()"></div>
-                            <div style="flex:1"><label id="const-lbl-dep">Depth (m)</label><input type="number" id="conc-dep" min="0" oninput="calcConcrete()"></div>
-                        </div>
-                        <div class="result-box">
-                            <div class="result-value" id="conc-result">0</div>
-                            <div class="result-label" id="conc-unit">Cubic Meters</div>
-                        </div>
-                    </div>
+    <a class="card" href="calendar.html">
+      <div class="card-icon">📅</div>
+      <div class="card-label">Calendar/Journal</div>
+    </a>
 
-                    <!-- Bricks Tab -->
-                    <div id="const-bricks" class="calc-sub-view">
-                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                            <div style="flex:1"><label id="const-lbl-wall-len">Wall Length (m)</label><input type="number" id="brick-wall-len" min="0" oninput="calcBricks()"></div>
-                            <div style="flex:1"><label id="const-lbl-wall-hgt">Wall Height (m)</label><input type="number" id="brick-wall-hgt" min="0" oninput="calcBricks()"></div>
-                        </div>
-                        <div style="margin-top:1rem; font-size:0.85rem; color:var(--text-secondary);">Standard brick size (including mortar) assumed.</div>
-                        <div class="result-box">
-                            <div class="result-value" id="brick-result">0</div>
-                            <div class="result-label">Bricks Needed (inc. 5% waste)</div>
-                        </div>
-                    </div>
+    <a class="card" href="timezone.html">
+      <div class="card-icon">🌍</div>
+      <div class="card-label">Time Zone</div>
+    </a>
 
-                    <!-- Paint Tab -->
-                    <div id="const-paint" class="calc-sub-view">
-                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                            <div style="flex:1"><label id="const-lbl-paint-len">Wall Length (m)</label><input type="number" id="paint-len" min="0" oninput="calcPaint()"></div>
-                            <div style="flex:1"><label id="const-lbl-paint-hgt">Wall Height (m)</label><input type="number" id="paint-hgt" min="0" oninput="calcPaint()"></div>
-                        </div>
-                        <div style="margin-top:1rem;">
-                            <label>Coverage per <span id="paint-lbl-unit">Liter</span></label>
-                            <input type="number" id="paint-cov" value="10" min="0" oninput="calcPaint()">
-                        </div>
-                        <div class="result-box">
-                            <div class="result-value" id="paint-result">0</div>
-                            <div class="result-label" id="paint-res-unit">Liters Required</div>
-                        </div>
-                    </div>
-                </div>
-                <article class="seo-content"><h3>Construction Estimation Tools</h3><p>Calculate concrete volume for slabs and footings. Estimate the number of bricks required for walls. Determine paint coverage for interior and exterior projects. Supports both Metric and Imperial units for global construction needs.</p></article>
-            </section>
+    <a class="card" href="typing.html">
+      <div class="card-icon">⌨️</div>
+      <div class="card-label">Typing</div>
+    </a>
 
-            <!-- BMI CALCULATOR VIEW -->
-            <section id="bmi-calculator-view" class="view">
-                <div class="tool-header"><h1>BMI Calculator</h1><p>Calculate your Body Mass Index to assess healthy body weight.</p></div>
-                <div class="tool-container">
-                    <div class="form-group"><label>Unit System</label><div style="display:flex; gap:10px;"><button class="nav-btn" style="background:#e5e5ea; color:#000" onclick="toggleBmiUnit('metric')" id="btn-metric">Metric</button><button class="nav-btn" style="background:transparent; border:1px solid #d2d2d7" onclick="toggleBmiUnit('imperial')" id="btn-imperial">Imperial</button></div></div>
-                    <div style="display:flex; gap:1rem;"><div style="flex:1"><label id="label-height">Height (cm)</label><input type="number" id="bmi-height" placeholder="175" min="0"></div><div style="flex:1"><label id="label-weight">Weight (kg)</label><input type="number" id="bmi-weight" placeholder="70" min="0"></div></div>
-                    <button class="btn-primary" onclick="calculateBMI()">Calculate BMI</button>
-                    <div class="result-box" id="bmi-result-box" style="display:none;"><div class="result-value" id="bmi-value">22.5</div><div class="result-label" id="bmi-category">Normal Weight</div><div style="height:8px; background:linear-gradient(to right, #3b82f6, #34c759, #ffcc00, #ff3b30); border-radius:4px; margin-top:15px; position:relative;"><div id="bmi-indicator" style="width:4px; height:100%; background:#000; position:absolute; left:45%;"></div></div></div>
-                </div>
-                <article class="seo-content"><h3>Understanding BMI</h3><p>Body Mass Index (BMI) is a screening tool used to identify possible weight problems for adults. However, BMI is not a diagnostic tool.</p></article>
-            </section>
+    <a class="card" href="wordstotime.html">
+      <div class="card-icon">⏱️</div>
+      <div class="card-label">Words to Time</div>
+    </a>
 
-            <!-- CALCULATOR VIEW (NEW) -->
-            <section id="calculator-view" class="view">
-                <div class="tool-header"><h1>Calculator</h1><p>Basic and Scientific calculations.</p></div>
-                <div class="tool-container">
-                    <div class="sci-toggle" onclick="toggleCalcMode()">Switch to Scientific Mode</div>
-                    <div class="calc-display" id="calc-display">0</div>
-                    <div class="calc-grid" id="calc-grid-basic">
-                        <button class="calc-btn op" onclick="calcClear()">C</button>
-                        <button class="calc-btn op" onclick="calcInput('(')">(</button>
-                        <button class="calc-btn op" onclick="calcInput(')')">)</button>
-                        <button class="calc-btn op" onclick="calcInput('/')">÷</button>
-                        
-                        <button class="calc-btn" onclick="calcInput('7')">7</button>
-                        <button class="calc-btn" onclick="calcInput('8')">8</button>
-                        <button class="calc-btn" onclick="calcInput('9')">9</button>
-                        <button class="calc-btn op" onclick="calcInput('*')">×</button>
-                        
-                        <button class="calc-btn" onclick="calcInput('4')">4</button>
-                        <button class="calc-btn" onclick="calcInput('5')">5</button>
-                        <button class="calc-btn" onclick="calcInput('6')">6</button>
-                        <button class="calc-btn op" onclick="calcInput('-')">-</button>
-                        
-                        <button class="calc-btn" onclick="calcInput('1')">1</button>
-                        <button class="calc-btn" onclick="calcInput('2')">2</button>
-                        <button class="calc-btn" onclick="calcInput('3')">3</button>
-                        <button class="calc-btn op" onclick="calcInput('+')">+</button>
-                        
-                        <button class="calc-btn" onclick="calcInput('0')">0</button>
-                        <button class="calc-btn" onclick="calcInput('.')">.</button>
-                        <button class="calc-btn" onclick="calcBackspace()">⌫</button>
-                        <button class="calc-btn eq" onclick="calcResult()">=</button>
-                    </div>
-                    
-                    <!-- Scientific Grid (Hidden by default) -->
-                    <div class="calc-grid" id="calc-grid-sci" style="display:none; margin-top:10px;">
-                        <button class="calc-btn op" onclick="calcInput('Math.sin(')">sin</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.cos(')">cos</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.tan(')">tan</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.log(')">log</button>
-                        
-                        <button class="calc-btn op" onclick="calcInput('Math.sqrt(')">√</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.pow(')">x^y</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.PI')">π</button>
-                        <button class="calc-btn op" onclick="calcInput('Math.E')">e</button>
-                    </div>
-                </div>
-            </section>
+    <a class="card" href="compass.html">
+      <div class="card-icon">🧭</div>
+      <div class="card-label">Compass</div>
+    </a>
 
-            <!-- CALENDAR MAKER VIEW -->
-            <section id="calendar-maker-view" class="view">
-                <div class="tool-header"><h1>Printable Calendar & Journal</h1><p>Create custom monthly calendars or yearly journals with ruled lines.</p></div>
-                <div class="tool-container">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label>Month</label><select id="cal-month" onchange="generateCalendar()"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div>
-                        <div style="flex:1"><label>Year</label><input type="number" id="cal-year" value="2024" onchange="generateCalendar()"></div>
-                        <div style="flex:1"><label>Theme</label><select id="cal-theme" onchange="generateCalendar()"><option value="theme-minimal">Minimal</option><option value="theme-blue">Blue</option><option value="theme-green">Green</option></select></div>
-                    </div>
-                    
-                    <div style="margin-top:1rem; display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" id="journal-mode" onchange="generateCalendar()" style="width:auto;">
-                        <label for="journal-mode" style="margin:0; cursor:pointer;">Enable Journal Mode (Ruled Lines)</label>
-                    </div>
+  </div>
 
-                    <button class="btn-primary" style="margin-top:1rem; background:var(--accent-green);" onclick="window.print()">Print Current Month 🖨️</button>
-                    <button class="btn-secondary" onclick="printYearlyJournal()">Print All Months (Yearly Journal) 📄</button>
-                    
-                    <div id="calendar-output" class="calendar-preview theme-minimal" style="margin-top:20px; border:1px solid #ddd; padding:20px; background:white; border-radius:8px;"></div>
-                </div>
-                <article class="seo-content"><h3>Free Printable Calendar & Journal</h3><p>Use our free generator to create a printable monthly calendar or a full year journal. Enable "Journal Mode" to add ruled lines for daily notes. Perfect for organizing your schedule or keeping a diary.</p></article>
-            </section>
-
-            <!-- CURRENCY CONVERTER VIEW -->
-            <section id="currency-converter-view" class="view">
-                <div class="tool-header"><h1>Currency Converter</h1><p>Check exchange rates between major world currencies.</p></div>
-                <div class="tool-container">
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <div style="flex:1"><label>Amount</label><input type="number" id="curr-amount" value="1" oninput="convertCurrency()"></div>
-                        <div style="flex:1"><label>From</label><select id="curr-from" onchange="convertCurrency()">
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="EUR">EUR - Euro</option>
-                            <option value="GBP">GBP - British Pound</option>
-                            <option value="JPY">JPY - Japanese Yen</option>
-                            <option value="INR">INR - Indian Rupee</option>
-                            <option value="AUD">AUD - Australian Dollar</option>
-                            <option value="CAD">CAD - Canadian Dollar</option>
-                            <option value="CHF">CHF - Swiss Franc</option>
-                            <option value="CNY">CNY - Chinese Yuan</option>
-                            <option value="HKD">HKD - Hong Kong Dollar</option>
-                            <option value="NZD">NZD - New Zealand Dollar</option>
-                            <option value="SEK">SEK - Swedish Krona</option>
-                            <option value="SGD">SGD - Singapore Dollar</option>
-                            <option value="ZAR">ZAR - South African Rand</option>
-                        </select></div>
-                        <div style="flex:1"><label>To</label><select id="curr-to" onchange="convertCurrency()">
-                            <option value="EUR">EUR - Euro</option>
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="GBP">GBP - British Pound</option>
-                            <option value="JPY">JPY - Japanese Yen</option>
-                            <option value="INR">INR - Indian Rupee</option>
-                            <option value="AUD">AUD - Australian Dollar</option>
-                            <option value="CAD">CAD - Canadian Dollar</option>
-                            <option value="CHF">CHF - Swiss Franc</option>
-                            <option value="CNY">CNY - Chinese Yuan</option>
-                            <option value="HKD">HKD - Hong Kong Dollar</option>
-                            <option value="NZD">NZD - New Zealand Dollar</option>
-                            <option value="SEK">SEK - Swedish Krona</option>
-                            <option value="SGD">SGD - Singapore Dollar</option>
-                            <option value="ZAR">ZAR - South African Rand</option>
-                        </select></div>
-                    </div>
-                    <div class="result-box"><div class="result-value" id="curr-result">0.92</div><div class="result-label">Converted Amount</div></div>
-                </div>
-                <article class="seo-content"><h3>Foreign Exchange Rates</h3><p>Our currency converter provides approximate exchange rates for popular currencies.</p></article>
-            </section>
-
-            <!-- TIME ZONE VIEW -->
-            <section id="time-zone-view" class="view">
-                <div class="tool-header"><h1>Time Zone Converter</h1><p>Convert time between different global cities instantly.</p></div>
-                <div class="tool-container">
-                    <div class="form-group"><label>Base Time</label><input type="datetime-local" id="tz-input" onchange="convertTime()"></div>
-                    <div style="display:flex; gap:1rem;">
-                        <div style="flex:1">
-                            <label>From</label>
-                            <select id="tz-from" onchange="convertTime()">
-                                <option value="UTC">UTC (Universal)</option>
-                                <option value="America/New_York">New York (EST/EDT)</option>
-                                <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
-                                <option value="Europe/London">London (GMT/BST)</option>
-                                <option value="Europe/Paris">Paris (CET/CEST)</option>
-                                <option value="Asia/Tokyo">Tokyo (JST)</option>
-                                <option value="Asia/Kolkata">India (IST)</option>
-                                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
-                            </select>
-                        </div>
-                        <div style="flex:1">
-                            <label>To</label>
-                            <select id="tz-to" onchange="convertTime()">
-                                <option value="America/New_York">New York (EST/EDT)</option>
-                                <option value="UTC">UTC (Universal)</option>
-                                <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
-                                <option value="Europe/London">London (GMT/BST)</option>
-                                <option value="Europe/Paris">Paris (CET/CEST)</option>
-                                <option value="Asia/Tokyo">Tokyo (JST)</option>
-                                <option value="Asia/Kolkata">India (IST)</option>
-                                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-value" id="tz-result">--:--</div>
-                        <div class="result-label" id="tz-result-label">Converted Time</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TYPING TEST VIEW -->
-            <section id="typing-test-view" class="view">
-                <div class="tool-header"><h1>Typing Speed Test</h1><p>Test your typing speed and accuracy in WPM.</p></div>
-                <div class="tool-container">
-                    <div id="sample-text" style="background:#f2f2f7; padding:1rem; border-radius:8px; margin-bottom:1rem; font-family:monospace; color:var(--text-secondary);">The quick brown fox jumps over the lazy dog. Programming is the art of telling a computer what to do.</div>
-                    <textarea id="typing-input" style="height:120px; font-family:monospace;" placeholder="Start typing here..." oninput="handleTyping()"></textarea>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;"><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="wpm-result">0</div><div class="result-label">WPM</div></div><div class="result-box" style="margin:0; padding:1rem;"><div class="result-value" id="accuracy-result">100%</div><div class="result-label">Accuracy</div></div></div>
-                    <button class="btn-primary" style="margin-top:1rem; background:var(--accent-orange);" onclick="resetTypingTest()">Reset</button>
-                </div>
-            </section>
-
-            <!-- WORDS TO TIME VIEW -->
-            <section id="words-to-time-view" class="view">
-                <div class="tool-header"><h1>Words to Time Calculator</h1><p>Estimate how long it takes to read or speak your text. Press Enter to calculate.</p></div>
-                <div class="tool-container">
-                    <div class="form-group"><label>Your Text</label><textarea id="wtt-input" style="height:100px" placeholder="Paste your text here..."></textarea></div>
-                    <div class="form-group"><label>Speed</label><select id="wtt-speed"><option value="130">Average (130 wpm)</option><option value="100">Slow (100 wpm)</option><option value="150">Fast (150 wpm)</option></select></div>
-                    <div class="result-box" id="wtt-result-box" style="display:none;">
-                        <div class="result-value" id="wtt-result">0 min</div>
-                        <div class="result-label" id="wtt-result-sec">0 seconds</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- COMPASS VIEW -->
-            <section id="compass-view" class="view">
-                <div class="tool-header"><h1>Digital Compass</h1><p>Visual compass based on your device location.</p></div>
-                <div class="tool-container">
-                    <div style="width:200px; height:200px; border-radius:50%; border:8px solid #e5e5ea; margin:0 auto; position:relative; display:flex; align-items:center; justify-content:center;">
-                        <div style="position:absolute; font-weight:bold;">N</div>
-                        <div style="position:absolute; bottom:10px; font-weight:bold;">S</div>
-                        <div style="position:absolute; left:10px; font-weight:bold;">W</div>
-                        <div style="position:absolute; right:10px; font-weight:bold;">E</div>
-                        <div id="compass-needle" style="width:4px; height:140px; background:linear-gradient(to bottom, red 50%, black 50%); transition:transform 0.1s;"></div>
-                    </div>
-                    <div style="text-align:center; margin-top:20px;">
-                        <p id="compass-status" style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">Waiting for device sensors...</p>
-                        <input type="range" min="0" max="360" value="0" style="width:200px" oninput="document.getElementById('compass-needle').style.transform='rotate('+this.value+'deg)'">
-                    </div>
-                </div>
-            </section>
-
-            <!-- PRIVACY POLICY VIEW (NEW) -->
-            <section id="privacy-policy-view" class="view">
-                <div class="tool-header"><h1>Privacy Policy</h1><p>Last updated: October 2023</p></div>
-                <div class="tool-container">
-                    <h3>1. Introduction</h3>
-                    <p>Welcome to UnitConverter.live. We respect your privacy and are committed to protecting it through our compliance with this policy.</p>
-                    <br>
-                    <h3>2. Information We Collect</h3>
-                    <p>We do not collect personal identifiable information (PII) such as names or email addresses. We may collect anonymous usage data (cookies) to improve user experience and for ad personalization.</p>
-                    <br>
-                    <h3>3. Third-Party Ads</h3>
-                    <p>This website uses third-party advertising companies (like Google AdSense) to serve ads when you visit our website. These companies may use information about your visits to this and other websites in order to provide advertisements about goods and services of interest to you.</p>
-                    <br>
-                    <h3>4. Calculators & Data</h3>
-                    <p>All calculations are performed locally in your browser using JavaScript. We do not store or transmit the data you enter into our calculators (e.g., mortgage details, health stats) to our servers.</p>
-                </div>
-            </section>
-
-            <!-- TERMS OF SERVICE VIEW (NEW) -->
-            <section id="terms-of-service-view" class="view">
-                <div class="tool-header"><h1>Terms of Service</h1><p>Last updated: October 2023</p></div>
-                <div class="tool-container">
-                    <h3>1. Acceptance of Terms</h3>
-                    <p>By accessing and using UnitConverter.live, you accept and agree to be bound by the terms and provision of this agreement.</p>
-                    <br>
-                    <h3>2. Use License</h3>
-                    <p>Permission is granted to temporarily download one copy of the materials on UnitConverter.live for personal, non-commercial transitory viewing only.</p>
-                    <br>
-                    <h3>3. Disclaimer</h3>
-                    <p>The materials on UnitConverter.live are provided on an 'as is' basis. UnitConverter.live makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability.</p>
-                    <br>
-                    <h3>4. Accuracy of Calculators</h3>
-                    <p>While we strive to make our calculators and converters as accurate as possible, we cannot guarantee that the results are error-free. Results should be used for estimation purposes only.</p>
-                </div>
-            </section>
-
-            <!-- CONTACT VIEW (NEW) -->
-            <section id="contact-view" class="view">
-                <div class="tool-header"><h1>Contact Us</h1><p>Get in touch with the UnitConverter.live team.</p></div>
-                <div class="tool-container" style="text-align:center;">
-                    <div style="font-size:3rem; margin-bottom:1rem;">📧</div>
-                    <p>For general inquiries, advertising opportunities, or bug reports, please email us at:</p>
-                    <a href="mailto:admin@unitconverter.live" style="color:var(--accent-blue); font-size:1.2rem; font-weight:bold; text-decoration:none; margin:1rem 0; display:inline-block;">admin@unitconverter.live</a>
-                    <p style="margin-top:2rem; color:var(--text-secondary);">We aim to respond to all inquiries within 48 hours.</p>
-                </div>
-            </section>
-
-        </main>
-
-    </div>
-
-    <div class="ad-container"><span>Advertisement (728x90)</span></div>
-
-    <footer>
-        <!-- FIXED: Footer links now use navigateTo -->
-        <div class="footer-links">
-            <a href="#" onclick="navigateTo('privacy-policy'); return false;">Privacy Policy</a>
-            <a href="#" onclick="navigateTo('terms-of-service'); return false;">Terms of Service</a>
-            <a href="#" onclick="navigateTo('contact'); return false;">Contact</a>
-        </div>
-        <div class="copyright">&copy; 2023 UnitConverter.live. All rights reserved. Disclaimer: Information provided is for estimation purposes only.</div>
-    </footer>
-
-    <script>
-        // --- Navigation with Hash Support for Indexing ---
-        function navigateTo(viewId) {
-            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(viewId + '-view');
-            if (target) {
-                target.classList.add('active');
-                window.scrollTo(0,0);
-                if(viewId === 'home') {
-                    history.pushState(null, null, ' ');
-                } else {
-                    history.pushState(null, null, '#' + viewId);
-                }
-            }
-        }
-
-        window.addEventListener('popstate', function() {
-            const hash = window.location.hash.replace('#', '');
-            if(hash) {
-                document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-                const target = document.getElementById(hash + '-view');
-                if(target) target.classList.add('active');
-            } else {
-                navigateTo('home');
-            }
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.replace('#', '');
-            if(hash) {
-                navigateTo(hash);
-            }
-            // Init Time Zone Clock
-            setInterval(updateLiveTime, 1000);
-            updateLiveTime();
-            // Init Compass
-            initCompass();
-            // Init Words to Time
-            document.getElementById('wtt-input').addEventListener('input', calculateWordsToTime);
-        });
-
-        // --- Height Converter (Fixed) ---
-        function convertHeight(source) {
-            const cmInput = document.getElementById('height-cm');
-            const ftInput = document.getElementById('height-ft');
-            const inInput = document.getElementById('height-in');
-            const display = document.getElementById('height-display');
-
-            // Prevent negative values
-            if(cmInput.value < 0) cmInput.value = 0;
-            if(ftInput.value < 0) ftInput.value = 0;
-            if(inInput.value < 0) inInput.value = 0;
-
-            if (source === 'cm') {
-                const cm = parseFloat(cmInput.value);
-                if (isNaN(cm)) {
-                    ftInput.value = '';
-                    inInput.value = '';
-                    display.innerText = '';
-                    return;
-                }
-                const totalInches = cm / 2.54;
-                const feet = Math.floor(totalInches / 12);
-                const inches = (totalInches % 12).toFixed(1);
-                
-                // Only update if not focused to prevent cursor jumping
-                if(document.activeElement !== ftInput) ftInput.value = feet;
-                if(document.activeElement !== inInput) inInput.value = inches;
-                
-                display.innerText = `${cm} cm = ${feet}' ${inches}"`;
-            } else {
-                const ft = parseFloat(ftInput.value) || 0;
-                const inches = parseFloat(inInput.value) || 0;
-                const totalInches = (ft * 12) + inches;
-                const cm = (totalInches * 2.54).toFixed(0);
-                
-                if(document.activeElement !== cmInput) cmInput.value = cm;
-                
-                if (cm > 0) {
-                    display.innerText = `${cm} cm = ${ft}' ${inches}"`;
-                } else {
-                    display.innerText = '';
-                }
-            }
-        }
-
-        // --- Unit Converter (Includes Weight) ---
-        const unitData = { 
-            length: { base: 'm', units: { 'm': 1, 'cm': 0.01, 'mm': 0.001, 'km': 1000, 'in': 0.0254, 'ft': 0.3048, 'yd': 0.9144, 'mi': 1609.34 } }, 
-            weight: { base: 'kg', units: { 'kg': 1, 'g': 0.001, 'mg': 0.000001, 'lb': 0.453592, 'oz': 0.0283495, 'st': 6.35029 } }, 
-            volume: { base: 'l', units: { 'l': 1, 'ml': 0.001, 'gal': 3.78541 } } 
-        };
-        function updateUnitTypes() {
-            const cat = document.getElementById('unit-category').value;
-            const sel1 = document.getElementById('unit-type-1'), sel2 = document.getElementById('unit-type-2');
-            sel1.innerHTML = ''; sel2.innerHTML = '';
-            if (cat === 'temperature') { ['Celsius', 'Fahrenheit', 'Kelvin'].forEach(u => { sel1.add(new Option(u, u)); sel2.add(new Option(u, u)); }); } 
-            else { Object.keys(unitData[cat].units).forEach(u => { sel1.add(new Option(u, u)); sel2.add(new Option(u, u)); }); sel2.selectedIndex = 1; }
-            convertUnits('1');
-        }
-        function convertUnits(source) {
-            const cat = document.getElementById('unit-category').value;
-            const val1 = parseFloat(document.getElementById('unit-input-1').value);
-            const val2 = parseFloat(document.getElementById('unit-input-2').value);
-            const type1 = document.getElementById('unit-type-1').value;
-            const type2 = document.getElementById('unit-type-2').value;
-            
-            // Prevent negative
-            if(val1 < 0) document.getElementById('unit-input-1').value = 0;
-            if(val2 < 0) document.getElementById('unit-input-2').value = 0;
-
-            if (cat === 'temperature') {
-                if (source === '1') document.getElementById('unit-input-2').value = convertTemp(val1, type1, type2);
-                else document.getElementById('unit-input-1').value = convertTemp(val2, type2, type1);
-            } else {
-                const factors = unitData[cat].units;
-                if (source === '1') {
-                    if (isNaN(val1)) { document.getElementById('unit-input-2').value = ''; return; }
-                    const baseVal = val1 * factors[type1];
-                    document.getElementById('unit-input-2').value = (baseVal / factors[type2]).toFixed(4).replace(/\.?0+$/, '');
-                } else {
-                    if (isNaN(val2)) { document.getElementById('unit-input-2').value = ''; return; }
-                    const baseVal = val2 * factors[type2];
-                    document.getElementById('unit-input-1').value = (baseVal / factors[type1]).toFixed(4).replace(/\.?0+$/, '');
-                }
-            }
-        }
-        function convertTemp(val, from, to) {
-            if (isNaN(val)) return '';
-            let c = from === 'Celsius' ? val : from === 'Fahrenheit' ? (val - 32) * 5/9 : val - 273.15;
-            return to === 'Celsius' ? c.toFixed(2) : to === 'Fahrenheit' ? ((c * 9/5) + 32).toFixed(2) : (c + 273.15).toFixed(2);
-        }
-        updateUnitTypes();
-
-        // --- Mortgage Calculator ---
-        function toggleDownPaymentType() {
-            const type = document.getElementById('mort-down-type').value;
-            const price = parseFloat(document.getElementById('mort-price').value) || 0;
-            const input = document.getElementById('mort-down');
-            if (type === '%') {
-                const currentVal = parseFloat(input.value);
-                if(currentVal > price) input.value = 20;
-                else input.value = ((currentVal / price) * 100).toFixed(1);
-            } else {
-                const currentVal = parseFloat(input.value);
-                input.value = (price * (currentVal / 100)).toFixed(0);
-            }
-            calculateMortgage();
-        }
-        function calculateMortgage() {
-            const price = parseFloat(document.getElementById('mort-price').value);
-            let down = parseFloat(document.getElementById('mort-down').value);
-            const type = document.getElementById('mort-down-type').value;
-            const rate = parseFloat(document.getElementById('mort-rate').value) / 100 / 12;
-            const years = parseFloat(document.getElementById('mort-years').value);
-            const months = years * 12;
-            if (!price || !down || !rate || !years) return;
-            let principal = type === '%' ? price * (1 - (down / 100)) : price - down;
-            if (principal <= 0) { document.getElementById('mort-monthly').innerText = "\$0.00"; return; }
-            const monthlyPayment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
-            const totalPayment = monthlyPayment * months;
-            const totalInterest = totalPayment - principal;
-            document.getElementById('mort-monthly').innerText = '\$' + monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            document.getElementById('mort-total').innerText = '$' + totalPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            document.getElementById('mort-interest').innerText = '$' + totalInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // --- Construction Calculator ---
-        let constUnit = 'metric';
-        function toggleConstUnit(sys) {
-            constUnit = sys;
-            document.getElementById('const-btn-metric').style.background = sys === 'metric' ? '#e5e5ea' : 'transparent';
-            document.getElementById('const-btn-metric').style.color = sys === 'metric' ? '#000' : '#007aff';
-            document.getElementById('const-btn-imperial').style.background = sys === 'imperial' ? '#e5e5ea' : 'transparent';
-            document.getElementById('const-btn-imperial').style.color = sys === 'imperial' ? '#000' : '#007aff';
-            if(sys === 'metric') {
-                document.getElementById('const-lbl-len').innerText = 'Length (m)'; document.getElementById('const-lbl-wid').innerText = 'Width (m)'; document.getElementById('const-lbl-dep').innerText = 'Depth (m)';
-                document.getElementById('const-lbl-wall-len').innerText = 'Wall Length (m)'; document.getElementById('const-lbl-wall-hgt').innerText = 'Wall Height (m)';
-                document.getElementById('const-lbl-paint-len').innerText = 'Wall Length (m)'; document.getElementById('const-lbl-paint-hgt').innerText = 'Wall Height (m)';
-                document.getElementById('paint-lbl-unit').innerText = 'Liter'; document.getElementById('paint-res-unit').innerText = 'Liters Required'; document.getElementById('conc-unit').innerText = 'Cubic Meters';
-            } else {
-                document.getElementById('const-lbl-len').innerText = 'Length (ft)'; document.getElementById('const-lbl-wid').innerText = 'Width (ft)'; document.getElementById('const-lbl-dep').innerText = 'Depth (ft)';
-                document.getElementById('const-lbl-wall-len').innerText = 'Wall Length (ft)'; document.getElementById('const-lbl-wall-hgt').innerText = 'Wall Height (ft)';
-                document.getElementById('const-lbl-paint-len').innerText = 'Wall Length (ft)'; document.getElementById('const-lbl-paint-hgt').innerText = 'Wall Height (ft)';
-                document.getElementById('paint-lbl-unit').innerText = 'Gallon'; document.getElementById('paint-res-unit').innerText = 'Gallons Required'; document.getElementById('conc-unit').innerText = 'Cubic Yards';
-            }
-            calcConcrete(); calcBricks(); calcPaint();
-        }
-        function switchConstTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.calc-sub-view').forEach(v => v.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('const-' + tab).classList.add('active');
-        }
-        function calcConcrete() {
+</body>
+</html>

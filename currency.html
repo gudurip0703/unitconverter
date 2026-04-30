@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Currency Converter</title>
+<link href="shared.css" rel="stylesheet"/>
+<style>
+.swap-btn{background:#f0f0f2;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;margin-top:18px;}
+.swap-btn:hover{background:#e0e0e2;}
+.rate-note{font-size:12px;color:#aaa;margin-top:12px;text-align:center;}
+.flag{font-size:20px;margin-right:6px;}
+.currency-row{display:flex;align-items:center;gap:8px;}
+.currency-row select{flex:1;max-width:200px;}
+.big-amount{font-size:32px;font-weight:600;color:#3b7cf4;margin:8px 0 4px;}
+</style>
+</head>
+<body>
+<a class="logo" href="index.html">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+  <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+</a>
+<h1>Currency Converter</h1>
+<p class="subtitle">Indicative rates — updated periodically</p>
+
+<div class="card">
+  <div class="currency-row">
+    <div class="input-wrap"><div class="input-label">Amount</div><input type="number" id="amount" value="100" min="0" step="0.01"/></div>
+    <div class="input-wrap"><div class="input-label">From</div>
+      <select id="from-currency"></select>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;margin:4px 0">
+    <button class="swap-btn" onclick="swap()" title="Swap">⇅</button>
+  </div>
+  <div class="currency-row">
+    <div class="input-wrap" style="visibility:hidden"><div class="input-label">.</div><input type="number" style="visibility:hidden"/></div>
+    <div class="input-wrap"><div class="input-label">To</div>
+      <select id="to-currency"></select>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Converted amount</div>
+  <div class="big-amount" id="result">—</div>
+  <div id="rate-display" class="rate-note"></div>
+  <hr/>
+  <div class="card-label">Quick reference</div>
+  <div class="results" id="quick"></div>
+</div>
+
+<script>
+const currencies={
+  USD:{name:'US Dollar',symbol:'$',flag:'🇺🇸'},EUR:{name:'Euro',symbol:'€',flag:'🇪🇺'},GBP:{name:'Brit Pound',symbol:'£',flag:'🇬🇧'},
+  JPY:{name:'Japanese Yen',symbol:'¥',flag:'🇯🇵'},CAD:{name:'Canadian $',symbol:'C$',flag:'🇨🇦'},AUD:{name:'Australian $',symbol:'A$',flag:'🇦🇺'},
+  CHF:{name:'Swiss Franc',symbol:'Fr',flag:'🇨🇭'},CNY:{name:'Chinese Yuan',symbol:'¥',flag:'🇨🇳'},INR:{name:'Indian Rupee',symbol:'₹',flag:'🇮🇳'},
+  MXN:{name:'Mexican Peso',symbol:'$',flag:'🇲🇽'},BRL:{name:'Brazilian Real',symbol:'R$',flag:'🇧🇷'},KRW:{name:'S. Korean Won',symbol:'₩',flag:'🇰🇷'},
+  SGD:{name:'Singapore $',symbol:'S$',flag:'🇸🇬'},HKD:{name:'Hong Kong $',symbol:'HK$',flag:'🇭🇰'},NOK:{name:'Norwegian Krone',symbol:'kr',flag:'🇳🇴'},
+  SEK:{name:'Swedish Krona',symbol:'kr',flag:'🇸🇪'},NZD:{name:'New Zealand $',symbol:'NZ$',flag:'🇳🇿'},ZAR:{name:'S. African Rand',symbol:'R',flag:'🇿🇦'},
+};
+// Approximate rates to USD as base
+const rates={USD:1,EUR:0.92,GBP:0.79,JPY:149.5,CAD:1.36,AUD:1.53,CHF:0.89,CNY:7.24,INR:83.1,MXN:17.15,BRL:4.97,KRW:1325,SGD:1.34,HKD:7.82,NOK:10.55,SEK:10.42,NZD:1.63,ZAR:18.63};
+
+function populateSelect(id,defaultVal){
+  const sel=document.getElementById(id);
+  Object.entries(currencies).forEach(([code,info])=>{
+    const opt=document.createElement('option');
+    opt.value=code; opt.textContent=`${info.flag} ${code} – ${info.name}`;
+    if(code===defaultVal) opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+populateSelect('from-currency','USD');
+populateSelect('to-currency','EUR');
+
+function convert(){
+  const amount=+document.getElementById('amount').value;
+  const from=document.getElementById('from-currency').value;
+  const to=document.getElementById('to-currency').value;
+  if(isNaN(amount)) return;
+  const inUSD=amount/rates[from];
+  const result=inUSD*rates[to];
+  const sym=currencies[to].symbol;
+  document.getElementById('result').textContent=sym+result.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const rate=rates[to]/rates[from];
+  document.getElementById('rate-display').textContent=`1 ${from} = ${rate.toFixed(4)} ${to} (indicative rate)`;
+  const popular=['USD','EUR','GBP','JPY','CAD','AUD'].filter(c=>c!==from);
+  document.getElementById('quick').innerHTML=popular.map(c=>{
+    const r=(inUSD*rates[c]);
+    return`<div class="result"><div class="result-unit">${currencies[c].flag} ${c}</div><div class="result-val">${currencies[c].symbol}${r.toLocaleString(undefined,{maximumFractionDigits:2})}</div></div>`;
+  }).join('');
+}
+function swap(){
+  const f=document.getElementById('from-currency').value;
+  const t=document.getElementById('to-currency').value;
+  document.getElementById('from-currency').value=t;
+  document.getElementById('to-currency').value=f;
+  convert();
+}
+['amount','from-currency','to-currency'].forEach(id=>document.getElementById(id).addEventListener('input',convert));
+convert();
+</script>
+</body></html>

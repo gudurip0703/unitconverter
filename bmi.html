@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BMI Calculator</title>
+<link href="shared.css" rel="stylesheet"/>
+<style>
+.bmi-bar-wrap{background:#f0f0f2;border-radius:999px;height:14px;overflow:hidden;margin:10px 0;}
+.bmi-bar{height:100%;border-radius:999px;transition:width .4s,background .4s;}
+.bmi-label{font-size:28px;font-weight:600;margin-bottom:4px;}
+.bmi-category{font-size:15px;font-weight:500;}
+.scale{display:flex;gap:4px;margin-top:8px;}
+.scale-seg{flex:1;height:8px;border-radius:4px;}
+.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#aaa;margin-top:4px;}
+.toggle{display:flex;gap:0;border:1.5px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:20px;width:fit-content;}
+.toggle button{padding:8px 22px;border:none;background:#fafafa;font-family:inherit;font-size:14px;font-weight:500;color:#888;cursor:pointer;transition:background .15s,color .15s;}
+.toggle button.active{background:#3b7cf4;color:#fff;}
+</style>
+</head>
+<body>
+<a class="logo" href="index.html">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+  <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+</a>
+<h1>BMI Calculator</h1>
+<p class="subtitle">Body Mass Index — weight relative to height</p>
+
+<div class="card">
+  <div class="toggle">
+    <button class="active" onclick="setUnit('metric',this)">Metric</button>
+    <button onclick="setUnit('imperial',this)">Imperial</button>
+  </div>
+
+  <div id="metric-inputs">
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Height (cm)</div><input type="number" id="m-height" placeholder="175" min="50" max="250"/></div>
+      <div class="input-wrap"><div class="input-label">Weight (kg)</div><input type="number" id="m-weight" placeholder="70" min="1" max="500"/></div>
+    </div>
+  </div>
+
+  <div id="imperial-inputs" style="display:none">
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Height (ft)</div><input type="number" id="i-ft" placeholder="5" min="0" max="9"/></div>
+      <div class="input-wrap"><div class="input-label">Height (in)</div><input type="number" id="i-in" placeholder="9" min="0" max="11"/></div>
+      <div class="input-wrap"><div class="input-label">Weight (lbs)</div><input type="number" id="i-weight" placeholder="154" min="1" max="1000"/></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="result-card" style="display:none">
+  <div class="card-label">Your BMI</div>
+  <div class="bmi-label" id="bmi-num">—</div>
+  <div class="bmi-category" id="bmi-cat">—</div>
+  <div class="bmi-bar-wrap"><div class="bmi-bar" id="bmi-bar" style="width:0%"></div></div>
+  <div class="scale">
+    <div class="scale-seg" style="background:#5bc4f5"></div>
+    <div class="scale-seg" style="background:#6dd97a"></div>
+    <div class="scale-seg" style="background:#f5c842"></div>
+    <div class="scale-seg" style="background:#f58c42"></div>
+    <div class="scale-seg" style="background:#e84545"></div>
+  </div>
+  <div class="scale-labels"><span>Underweight</span><span>Normal</span><span>Overweight</span><span>Obese</span><span>Severely obese</span></div>
+  <hr/>
+  <div class="results">
+    <div class="result"><div class="result-unit">Healthy weight range</div><div class="result-val" id="healthy-range">—</div></div>
+    <div class="result"><div class="result-unit">Weight to reach normal</div><div class="result-val" id="weight-diff">—</div></div>
+  </div>
+</div>
+
+<script>
+let mode='metric';
+function setUnit(u,btn){
+  mode=u;
+  document.getElementById('metric-inputs').style.display=u==='metric'?'':'none';
+  document.getElementById('imperial-inputs').style.display=u==='imperial'?'':'none';
+  document.querySelectorAll('.toggle button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); calc();
+}
+function calc(){
+  let h,w;
+  if(mode==='metric'){
+    h=+document.getElementById('m-height').value/100;
+    w=+document.getElementById('m-weight').value;
+  } else {
+    const ft=+document.getElementById('i-ft').value||0;
+    const inches=+document.getElementById('i-in').value||0;
+    h=(ft*12+inches)*0.0254;
+    w=+document.getElementById('i-weight').value*0.453592;
+  }
+  if(!h||!w||h<0.5||w<1)return;
+  const bmi=w/(h*h);
+  document.getElementById('result-card').style.display='';
+  document.getElementById('bmi-num').textContent=bmi.toFixed(1);
+  let cat,color,pct;
+  if(bmi<18.5){cat='Underweight';color='#5bc4f5';pct=bmi/40*100;}
+  else if(bmi<25){cat='Normal weight';color='#6dd97a';pct=bmi/40*100;}
+  else if(bmi<30){cat='Overweight';color='#f5c842';pct=bmi/40*100;}
+  else if(bmi<35){cat='Obese';color='#f58c42';pct=bmi/40*100;}
+  else{cat='Severely obese';color='#e84545';pct=Math.min(98,bmi/40*100);}
+  document.getElementById('bmi-cat').textContent=cat;
+  document.getElementById('bmi-cat').style.color=color;
+  const bar=document.getElementById('bmi-bar');
+  bar.style.width=pct.toFixed(1)+'%'; bar.style.background=color;
+  const hMin=(18.5*h*h), hMax=(24.9*h*h);
+  document.getElementById('healthy-range').innerHTML=mode==='metric'
+    ?`${hMin.toFixed(1)}–${hMax.toFixed(1)}<small> kg</small>`
+    :`${(hMin/0.453592).toFixed(1)}–${(hMax/0.453592).toFixed(1)}<small> lbs</small>`;
+  const diff=w-hMax;
+  document.getElementById('weight-diff').innerHTML=diff>0.5
+    ?`Lose ${mode==='metric'?diff.toFixed(1)+'<small> kg</small>':(diff/0.453592).toFixed(1)+'<small> lbs</small>'}`
+    :diff<-0.5?`Gain ${mode==='metric'?(-diff).toFixed(1)+'<small> kg</small>':(-diff/0.453592).toFixed(1)+'<small> lbs</small>'}`
+    :'<span style="color:#6dd97a">You\'re in range!</span>';
+}
+['m-height','m-weight','i-ft','i-in','i-weight'].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.addEventListener('input',calc);
+});
+document.getElementById('m-height').value=175;
+document.getElementById('m-weight').value=70; calc();
+</script>
+</body></html>

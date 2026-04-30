@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Construction Converter</title>
+<link href="shared.css" rel="stylesheet"/>
+<style>
+.tabs{display:flex;gap:0;border:1.5px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:20px;flex-wrap:wrap;}
+.tabs button{padding:8px 16px;border:none;background:#fafafa;font-family:inherit;font-size:13px;font-weight:500;color:#888;cursor:pointer;transition:background .15s,color .15s;border-right:0.5px solid #e5e5e5;}
+.tabs button:last-child{border-right:none;}
+.tabs button.active{background:#3b7cf4;color:#fff;}
+</style>
+</head>
+<body>
+<a class="logo" href="index.html">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+  <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+</a>
+<h1>Construction Converter</h1>
+<p class="subtitle">Length, area, volume &amp; more for builders</p>
+
+<div class="tabs">
+  <button class="active" onclick="setTab('length',this)">Length</button>
+  <button onclick="setTab('area',this)">Area</button>
+  <button onclick="setTab('volume',this)">Volume</button>
+  <button onclick="setTab('temp',this)">Temperature</button>
+</div>
+
+<div id="tab-length">
+  <div class="card">
+    <div class="card-label">Enter length</div>
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Value</div><input type="number" id="len-val" value="1" min="0"/></div>
+      <div class="input-wrap" style="max-width:170px">
+        <div class="input-label">Unit</div>
+        <select id="len-unit">
+          <option value="m">Metres (m)</option>
+          <option value="cm">Centimetres (cm)</option>
+          <option value="mm">Millimetres (mm)</option>
+          <option value="km">Kilometres (km)</option>
+          <option value="ft">Feet (ft)</option>
+          <option value="in">Inches (in)</option>
+          <option value="yd">Yards (yd)</option>
+          <option value="mi">Miles (mi)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-label">Results</div>
+    <div class="results" id="len-results"></div>
+  </div>
+</div>
+
+<div id="tab-area" style="display:none">
+  <div class="card"><div class="card-label">Enter area</div>
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Value</div><input type="number" id="area-val" value="1" min="0"/></div>
+      <div class="input-wrap" style="max-width:200px"><div class="input-label">Unit</div>
+        <select id="area-unit">
+          <option value="m2">Square metres (m²)</option>
+          <option value="cm2">Square centimetres (cm²)</option>
+          <option value="ft2">Square feet (ft²)</option>
+          <option value="in2">Square inches (in²)</option>
+          <option value="yd2">Square yards (yd²)</option>
+          <option value="ac">Acres</option>
+          <option value="ha">Hectares</option>
+          <option value="km2">Square km (km²)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-label">Results</div><div class="results" id="area-results"></div></div>
+</div>
+
+<div id="tab-volume" style="display:none">
+  <div class="card"><div class="card-label">Enter volume</div>
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Value</div><input type="number" id="vol-val" value="1" min="0"/></div>
+      <div class="input-wrap" style="max-width:200px"><div class="input-label">Unit</div>
+        <select id="vol-unit">
+          <option value="m3">Cubic metres (m³)</option>
+          <option value="cm3">Cubic centimetres (cm³)</option>
+          <option value="ft3">Cubic feet (ft³)</option>
+          <option value="in3">Cubic inches (in³)</option>
+          <option value="l">Litres (L)</option>
+          <option value="ml">Millilitres (mL)</option>
+          <option value="gal">Gallons (US)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-label">Results</div><div class="results" id="vol-results"></div></div>
+</div>
+
+<div id="tab-temp" style="display:none">
+  <div class="card"><div class="card-label">Enter temperature</div>
+    <div class="row">
+      <div class="input-wrap"><div class="input-label">Celsius (°C)</div><input type="number" id="t-c" placeholder="0"/></div>
+      <div class="input-wrap"><div class="input-label">Fahrenheit (°F)</div><input type="number" id="t-f" placeholder="32"/></div>
+      <div class="input-wrap"><div class="input-label">Kelvin (K)</div><input type="number" id="t-k" placeholder="273.15"/></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTab(name,btn){
+  ['length','area','volume','temp'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
+  document.getElementById('tab-'+name).style.display='';
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function fmtN(n){if(Math.abs(n)<0.0001&&n!==0)return n.toExponential(3);return n>=1000?n.toLocaleString(undefined,{maximumFractionDigits:2}):parseFloat(n.toPrecision(6)).toString();}
+function renderResults(containerId,items){
+  document.getElementById(containerId).innerHTML=items.map(([unit,val])=>
+    `<div class="result"><div class="result-unit">${unit}</div><div class="result-val">${fmtN(val)}</div></div>`
+  ).join('');
+}
+
+// Length
+const lenToM={m:1,cm:0.01,mm:0.001,km:1000,ft:0.3048,in:0.0254,yd:0.9144,mi:1609.34};
+function calcLen(){
+  const v=+document.getElementById('len-val').value, u=document.getElementById('len-unit').value;
+  const m=v*lenToM[u];
+  renderResults('len-results',[['Metres',m],['Centimetres',m/0.01],['Millimetres',m/0.001],['Kilometres',m/1000],['Feet',m/0.3048],['Inches',m/0.0254],['Yards',m/0.9144],['Miles',m/1609.34]]);
+}
+document.getElementById('len-val').addEventListener('input',calcLen);
+document.getElementById('len-unit').addEventListener('change',calcLen);
+
+// Area
+const areaToM2={m2:1,cm2:0.0001,ft2:0.092903,in2:0.00064516,yd2:0.836127,ac:4046.86,ha:10000,km2:1e6};
+function calcArea(){
+  const v=+document.getElementById('area-val').value, u=document.getElementById('area-unit').value;
+  const m2=v*areaToM2[u];
+  renderResults('area-results',[['m²',m2],['cm²',m2/0.0001],['ft²',m2/0.092903],['in²',m2/0.00064516],['yd²',m2/0.836127],['Acres',m2/4046.86],['Hectares',m2/10000],['km²',m2/1e6]]);
+}
+document.getElementById('area-val').addEventListener('input',calcArea);
+document.getElementById('area-unit').addEventListener('change',calcArea);
+
+// Volume
+const volToM3={m3:1,cm3:1e-6,ft3:0.0283168,in3:1.6387e-5,l:0.001,ml:1e-6,gal:0.00378541};
+function calcVol(){
+  const v=+document.getElementById('vol-val').value, u=document.getElementById('vol-unit').value;
+  const m3=v*volToM3[u];
+  renderResults('vol-results',[['m³',m3],['cm³',m3/1e-6],['ft³',m3/0.0283168],['in³',m3/1.6387e-5],['Litres',m3/0.001],['mL',m3/1e-6],['Gallons (US)',m3/0.00378541]]);
+}
+document.getElementById('vol-val').addEventListener('input',calcVol);
+document.getElementById('vol-unit').addEventListener('change',calcVol);
+
+// Temp
+let tempBusy=false;
+function fromC(c){if(tempBusy)return;tempBusy=true;document.getElementById('t-f').value=((c*9/5)+32).toFixed(2);document.getElementById('t-k').value=(c+273.15).toFixed(2);tempBusy=false;}
+function fromF(f){if(tempBusy)return;tempBusy=true;const c=(f-32)*5/9;document.getElementById('t-c').value=c.toFixed(2);document.getElementById('t-k').value=(c+273.15).toFixed(2);tempBusy=false;}
+function fromK(k){if(tempBusy)return;tempBusy=true;const c=k-273.15;document.getElementById('t-c').value=c.toFixed(2);document.getElementById('t-f').value=((c*9/5)+32).toFixed(2);tempBusy=false;}
+document.getElementById('t-c').addEventListener('input',e=>fromC(+e.target.value));
+document.getElementById('t-f').addEventListener('input',e=>fromF(+e.target.value));
+document.getElementById('t-k').addEventListener('input',e=>fromK(+e.target.value));
+
+calcLen(); calcArea(); calcVol();
+</script>
+</body></html>

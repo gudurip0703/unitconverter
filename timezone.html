@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Time Zone Converter</title>
+<link href="shared.css" rel="stylesheet"/>
+<style>
+.tz-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;background:#f7f8fc;border-radius:12px;padding:14px;}
+.tz-flag{font-size:28px;line-height:1;}
+.tz-info{flex:1;}
+.tz-city{font-size:15px;font-weight:600;color:#1a1a2e;}
+.tz-time{font-size:28px;font-weight:600;color:#3b7cf4;margin:2px 0;}
+.tz-date{font-size:12px;color:#aaa;}
+.tz-offset{font-size:12px;color:#888;margin-top:2px;}
+.remove-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:18px;padding:4px;}
+.remove-btn:hover{color:#e84545;}
+input[type=datetime-local]{font-size:15px;}
+</style>
+</head>
+<body>
+<a class="logo" href="index.html">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+  <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+</a>
+<h1>Time Zone Converter</h1>
+<p class="subtitle">Compare times across cities worldwide</p>
+
+<div class="card">
+  <div class="card-label">Source time</div>
+  <div class="row">
+    <div class="input-wrap"><div class="input-label">Date &amp; Time</div><input type="datetime-local" id="src-time"/></div>
+    <div class="input-wrap" style="max-width:220px"><div class="input-label">Time zone</div>
+      <select id="src-tz"></select>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">Add cities to compare</div>
+  <div class="row" style="margin-bottom:12px">
+    <select id="add-tz" style="flex:1"></select>
+    <button class="btn" onclick="addZone()">Add</button>
+  </div>
+  <div id="tz-list"></div>
+</div>
+
+<script>
+const zones=[
+  {city:'New York',flag:'🇺🇸',tz:'America/New_York'},{city:'Los Angeles',flag:'🇺🇸',tz:'America/Los_Angeles'},
+  {city:'Chicago',flag:'🇺🇸',tz:'America/Chicago'},{city:'London',flag:'🇬🇧',tz:'Europe/London'},
+  {city:'Paris',flag:'🇫🇷',tz:'Europe/Paris'},{city:'Berlin',flag:'🇩🇪',tz:'Europe/Berlin'},
+  {city:'Dubai',flag:'🇦🇪',tz:'Asia/Dubai'},{city:'Mumbai',flag:'🇮🇳',tz:'Asia/Kolkata'},
+  {city:'Singapore',flag:'🇸🇬',tz:'Asia/Singapore'},{city:'Tokyo',flag:'🇯🇵',tz:'Asia/Tokyo'},
+  {city:'Sydney',flag:'🇦🇺',tz:'Australia/Sydney'},{city:'Auckland',flag:'🇳🇿',tz:'Pacific/Auckland'},
+  {city:'São Paulo',flag:'🇧🇷',tz:'America/Sao_Paulo'},{city:'Mexico City',flag:'🇲🇽',tz:'America/Mexico_City'},
+  {city:'Toronto',flag:'🇨🇦',tz:'America/Toronto'},{city:'Cairo',flag:'🇪🇬',tz:'Africa/Cairo'},
+  {city:'Nairobi',flag:'🇰🇪',tz:'Africa/Nairobi'},{city:'Seoul',flag:'🇰🇷',tz:'Asia/Seoul'},
+  {city:'Beijing',flag:'🇨🇳',tz:'Asia/Shanghai'},{city:'Moscow',flag:'🇷🇺',tz:'Europe/Moscow'},
+  {city:'Istanbul',flag:'🇹🇷',tz:'Europe/Istanbul'},{city:'Lagos',flag:'🇳🇬',tz:'Africa/Lagos'},
+];
+let active=['America/New_York','Europe/London','Asia/Tokyo','Australia/Sydney'];
+
+function populateSelects(){
+  ['src-tz','add-tz'].forEach(id=>{
+    const sel=document.getElementById(id);
+    zones.forEach(z=>{
+      const opt=document.createElement('option');
+      opt.value=z.tz; opt.textContent=`${z.flag} ${z.city}`;
+      sel.appendChild(opt);
+    });
+  });
+  document.getElementById('src-tz').value='America/New_York';
+}
+
+function getSourceDate(){
+  const val=document.getElementById('src-time').value;
+  if(!val) return new Date();
+  return new Date(val);
+}
+
+function render(){
+  const srcTz=document.getElementById('src-tz').value;
+  const base=getSourceDate();
+  document.getElementById('tz-list').innerHTML=active.map(tz=>{
+    const z=zones.find(z=>z.tz===tz)||{city:tz,flag:'🌐',tz};
+    const fmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:true});
+    const dateFmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',month:'short',day:'numeric'});
+    const offsetFmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,timeZoneName:'short'});
+    const parts=offsetFmt.formatToParts(base);
+    const tzName=parts.find(p=>p.type==='timeZoneName')?.value||tz;
+    return`<div class="tz-row">
+      <div class="tz-flag">${z.flag}</div>
+      <div class="tz-info">
+        <div class="tz-city">${z.city}</div>
+        <div class="tz-time">${fmt.format(base)}</div>
+        <div class="tz-date">${dateFmt.format(base)}</div>
+        <div class="tz-offset">${tzName}</div>
+      </div>
+      <button class="remove-btn" onclick="removeZone('${tz}')">×</button>
+    </div>`;
+  }).join('');
+}
+
+function addZone(){
+  const tz=document.getElementById('add-tz').value;
+  if(!active.includes(tz)) active.push(tz);
+  render();
+}
+function removeZone(tz){ active=active.filter(z=>z!==tz); render(); }
+
+// Set default datetime to now
+const now=new Date();
+const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+document.getElementById('src-time').value=local;
+
+populateSelects();
+render();
+['src-time','src-tz'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+setInterval(()=>{if(!document.getElementById('src-time').value){render();}},1000);
+</script>
+</body></html>
