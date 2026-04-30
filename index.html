@@ -80,22 +80,6 @@
             border: 1px dashed #c7c7cc;
         }
 
-        /* Sidebar Ads (Desktop Only) */
-        .ad-sidebar {
-            width: 100%;
-            height: 600px;
-            background: #e5e5ea;
-            display: none; /* Hidden on mobile */
-            align-items: center;
-            justify-content: center;
-            color: #8e8e93;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            border: 1px dashed #c7c7cc;
-            position: sticky;
-            top: 20px;
-        }
-
         /* --- Header --- */
         header {
             background: rgba(255, 255, 255, 0.9);
@@ -136,30 +120,20 @@
         }
         .nav-btn:hover { background: rgba(0, 122, 255, 0.1); }
 
-        /* --- Layout Wrapper (Grid for Ads) --- */
+        /* --- Layout Wrapper (Single Column) --- */
         .layout-wrapper {
             display: grid;
-            grid-template-columns: 1fr; /* Mobile: Single column */
+            grid-template-columns: 1fr; /* Single column layout */
             gap: 20px;
-            max-width: 1400px; /* Wider to accommodate sidebars */
+            max-width: 1000px; /* Adjusted max-width for better readability without sidebars */
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
             flex: 1;
         }
 
-        @media (min-width: 1024px) {
-            .layout-wrapper {
-                grid-template-columns: 160px 1fr 160px; /* Desktop: Left Ad - Content - Right Ad */
-            }
-            .ad-sidebar {
-                display: flex; /* Show sidebars on desktop */
-            }
-        }
-
         /* --- Main Content Area --- */
         main {
-            /* Main content takes the center column */
             min-width: 0; /* Prevents overflow in grid */
         }
 
@@ -380,7 +354,7 @@
 
         /* --- Print Styles --- */
         @media print {
-            header, .dashboard-grid, .ad-container, .ad-sidebar, .form-group, .tool-header p, footer, .btn-primary, .btn-secondary, .seo-content { display: none !important; }
+            header, .dashboard-grid, .ad-container, .form-group, .tool-header p, footer, .btn-primary, .btn-secondary, .seo-content { display: none !important; }
             body, .layout-wrapper, main, .tool-container, .calendar-preview { background: white !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; border: none !important; display: block !important; }
             .tool-header h1 { display: block; text-align: center; margin-bottom: 20px; }
             .calendar-preview { border: none; padding: 0; }
@@ -442,14 +416,9 @@
         <button class="nav-btn" onclick="navigateTo('home')">Home</button>
     </header>
 
-    <!-- LAYOUT WRAPPER: Contains Left Ad, Main Content, Right Ad -->
+    <!-- LAYOUT WRAPPER: Single Column (Sidebars Removed) -->
     <div class="layout-wrapper">
         
-        <!-- LEFT SIDEBAR AD -->
-        <div class="ad-sidebar left">
-            <span>Advertisement (160x600)</span>
-        </div>
-
         <!-- MAIN CONTENT -->
         <main id="app-container">
             
@@ -880,11 +849,6 @@
 
         </main>
 
-        <!-- RIGHT SIDEBAR AD -->
-        <div class="ad-sidebar right">
-            <span>Advertisement (160x600)</span>
-        </div>
-
     </div>
 
     <div class="ad-container"><span>Advertisement (728x90)</span></div>
@@ -1075,4 +1039,51 @@
             document.getElementById('const-btn-imperial').style.background = sys === 'imperial' ? '#e5e5ea' : 'transparent';
             document.getElementById('const-btn-imperial').style.color = sys === 'imperial' ? '#000' : '#007aff';
             if(sys === 'metric') {
-                document.getElementById('const-lbl-len').innerText = 'Length (m)'; document.getElementById('const-lbl-wid').innerText = 'Width (m)'; document.getElementById('const-lbl-dep').innerText
+                document.getElementById('const-lbl-len').innerText = 'Length (m)'; document.getElementById('const-lbl-wid').innerText = 'Width (m)'; document.getElementById('const-lbl-dep').innerText = 'Depth (m)';
+                document.getElementById('const-lbl-wall-len').innerText = 'Wall Length (m)'; document.getElementById('const-lbl-wall-hgt').innerText = 'Wall Height (m)';
+                document.getElementById('const-lbl-paint-len').innerText = 'Wall Length (m)'; document.getElementById('const-lbl-paint-hgt').innerText = 'Wall Height (m)';
+                document.getElementById('paint-lbl-unit').innerText = 'Liter'; document.getElementById('paint-res-unit').innerText = 'Liters Required'; document.getElementById('conc-unit').innerText = 'Cubic Meters';
+            } else {
+                document.getElementById('const-lbl-len').innerText = 'Length (ft)'; document.getElementById('const-lbl-wid').innerText = 'Width (ft)'; document.getElementById('const-lbl-dep').innerText = 'Depth (ft)';
+                document.getElementById('const-lbl-wall-len').innerText = 'Wall Length (ft)'; document.getElementById('const-lbl-wall-hgt').innerText = 'Wall Height (ft)';
+                document.getElementById('const-lbl-paint-len').innerText = 'Wall Length (ft)'; document.getElementById('const-lbl-paint-hgt').innerText = 'Wall Height (ft)';
+                document.getElementById('paint-lbl-unit').innerText = 'Gallon'; document.getElementById('paint-res-unit').innerText = 'Gallons Required'; document.getElementById('conc-unit').innerText = 'Cubic Yards';
+            }
+            calcConcrete(); calcBricks(); calcPaint();
+        }
+        function switchConstTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.calc-sub-view').forEach(v => v.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('const-' + tab).classList.add('active');
+        }
+        function calcConcrete() {
+            const l = parseFloat(document.getElementById('conc-len').value) || 0;
+            const w = parseFloat(document.getElementById('conc-wid').value) || 0;
+            const d = parseFloat(document.getElementById('conc-dep').value) || 0;
+            let vol = l * w * d;
+            if(constUnit === 'imperial') vol = vol / 27;
+            document.getElementById('conc-result').innerText = vol.toFixed(2);
+        }
+        function calcBricks() {
+            const l = parseFloat(document.getElementById('brick-wall-len').value) || 0;
+            const h = parseFloat(document.getElementById('brick-wall-hgt').value) || 0;
+            const area = l * h;
+            let bricks = constUnit === 'metric' ? area * 50 : area * 7;
+            bricks = bricks * 1.05;
+            document.getElementById('brick-result').innerText = Math.ceil(bricks);
+        }
+        function calcPaint() {
+            const l = parseFloat(document.getElementById('paint-len').value) || 0;
+            const h = parseFloat(document.getElementById('paint-hgt').value) || 0;
+            const cov = parseFloat(document.getElementById('paint-cov').value) || 10;
+            const area = l * h;
+            const res = area / cov;
+            document.getElementById('paint-result').innerText = res.toFixed(1);
+        }
+
+        // --- BMI ---
+        let bmiSystem = 'metric';
+        function toggleBmiUnit(sys) {
+            bmiSystem = sys;
+            document.getElementById('btn-metric').style.background = sys === 'metric' ? '#e5e5ea' : 'transparent
