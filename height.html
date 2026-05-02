@@ -1,95 +1,11 @@
-diff --git a/height.html b/height.html
-index d22b74f19a6adf675a81caea79a86e145e3a4dec..11fc018486eaa0fb889e4d1bcb600beb13bf6253 100644
---- a/height.html
-+++ b/height.html
-@@ -1,46 +1,50 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
- <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
--<title>Height Converter</title>
-+<title>Height Converter | UnitConverter.live</title>
-+<meta name="description" content="Convert height between centimeters, meters, feet, inches, millimeters, and yards instantly."/>
-+<meta name="robots" content="index,follow"/>
-+<link rel="canonical" href="https://unitconverter.live/height.html"/>
- <link href="shared.css" rel="stylesheet"/>
- <style>
- input[type=range]{width:100%;accent-color:#3b7cf4;margin-top:8px;}
- .slider-labels{display:flex;justify-content:space-between;font-size:12px;color:#bbb;margin-top:4px;}
- .viz{display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:4px;}
- .bar-col{display:flex;flex-direction:column;align-items:center;flex:1;}
- .bar{border-radius:6px 6px 0 0;transition:height .3s;min-height:4px;width:100%;}
- .bar-top{font-size:10px;color:#aaa;margin-bottom:3px;}
- .bar-bot{font-size:11px;color:#aaa;margin-top:3px;}
- </style>
- </head>
- <body>
- <a class="logo" href="index.html">
-   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
-   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
- </a>
-+<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Height</span></nav>
- <h1>Height Converter</h1>
- <p class="subtitle">Enter any value — all fields update instantly</p>
- 
- <div class="card">
-   <div class="card-label">Imperial</div>
-   <div class="row">
-     <div class="input-wrap"><div class="input-label">Feet</div><input type="number" id="ft" min="0" max="9" placeholder="5"/></div>
-     <div style="padding-top:18px;color:#ccc;font-size:20px">′</div>
-     <div class="input-wrap"><div class="input-label">Inches</div><input type="number" id="inch" min="0" max="11.9" step="0.1" placeholder="9"/></div>
-     <div style="padding-top:18px;color:#ccc;font-size:20px">″</div>
-   </div>
- </div>
- 
- <div class="card">
-   <div class="card-label">Metric</div>
-   <div class="row">
-     <div class="input-wrap"><div class="input-label">Centimetres</div><input type="number" id="cm" min="0" max="300" placeholder="175"/></div>
-     <div class="input-wrap" style="max-width:130px"><div class="input-label">Metres</div><input type="number" id="m" min="0" max="3" step="0.001" placeholder="1.75"/></div>
-   </div>
-   <div style="margin-top:16px">
-     <input type="range" id="slider" min="50" max="250" value="175" step="1"/>
-     <div class="slider-labels"><span>50 cm</span><span>150 cm</span><span>250 cm</span></div>
-   </div>
- </div>
- 
-@@ -68,26 +72,30 @@ function viz(h){
-   document.getElementById('viz').innerHTML=comps.map(c=>{
-     const val=c.dyn?h:c.cm,px=Math.round(val/max*maxH);
-     return`<div class="bar-col"><div class="bar-top">${val}cm</div><div class="bar" style="height:${px}px;background:${c.color}"></div><div class="bar-bot">${c.label}</div></div>`;
-   }).join('');
- }
- function fromCm(v){
-   if(isNaN(v)||v<0)return;
-   const totalIn=v/2.54,feet=Math.floor(totalIn/12),inches=totalIn%12;
-   busy=true;
-   ftEl.value=feet; inEl.value=inches.toFixed(1);
-   mEl.value=(v/100).toFixed(3); slider.value=Math.min(250,Math.max(50,Math.round(v)));
-   document.getElementById('r-cm').innerHTML=v.toFixed(1)+'<small>cm</small>';
-   document.getElementById('r-m').innerHTML=(v/100).toFixed(3)+'<small>m</small>';
-   document.getElementById('r-ft').textContent=`${feet}′ ${inches.toFixed(1)}″`;
-   document.getElementById('r-in').innerHTML=totalIn.toFixed(1)+'<small>in</small>';
-   document.getElementById('r-mm').innerHTML=Math.round(v*10)+'<small>mm</small>';
-   document.getElementById('r-yd').innerHTML=(v/91.44).toFixed(3)+'<small>yd</small>';
-   viz(Math.round(v)); busy=false;
- }
- cmEl.addEventListener('input',()=>{if(!busy)fromCm(+cmEl.value);});
- mEl.addEventListener('input',()=>{if(!busy)fromCm(+mEl.value*100);});
- slider.addEventListener('input',()=>{if(!busy)fromCm(+slider.value);});
- [ftEl,inEl].forEach(el=>el.addEventListener('input',()=>{if(!busy)fromCm(((+ftEl.value||0)*12+(+inEl.value||0))*2.54);}));
- fromCm(175);
- </script>
-+
-+<footer class="site-footer">
-+  <a href="index.html">Home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="mailto:admin@unitconverter.live">Contact</a>
-+</footer>
- </body></html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Height Converter</title>
+<title>Height Converter | UnitConverter.live</title>
+<meta name="description" content="Convert height between centimeters, meters, feet, inches, millimeters, and yards instantly."/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://unitconverter.live/height.html"/>
 <link href="shared.css" rel="stylesheet"/>
 <style>
 input[type=range]{width:100%;accent-color:#3b7cf4;margin-top:8px;}
@@ -106,6 +22,7 @@ input[type=range]{width:100%;accent-color:#3b7cf4;margin-top:8px;}
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
 </a>
+<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Height</span></nav>
 <h1>Height Converter</h1>
 <p class="subtitle">Enter any value — all fields update instantly</p>
 
@@ -147,34 +64,66 @@ input[type=range]{width:100%;accent-color:#3b7cf4;margin-top:8px;}
 </div>
 
 <script>
-const ftEl=document.getElementById('ft'),inEl=document.getElementById('inch'),cmEl=document.getElementById('cm'),mEl=document.getElementById('m'),slider=document.getElementById('slider');
+const ftEl=document.getElementById('ft'),
+      inEl=document.getElementById('inch'),
+      cmEl=document.getElementById('cm'),
+      mEl=document.getElementById('m'),
+      slider=document.getElementById('slider');
+
 let busy=false;
-const comps=[{label:'Door',cm:203,color:'#e0e8ff'},{label:'You',cm:175,color:'#3b7cf4',dyn:true},{label:'NBA',cm:200,color:'#fde8c8'},{label:'Jockey',cm:157,color:'#d8f5e8'}];
+const comps=[
+  {label:'Door',cm:203,color:'#e0e8ff'},
+  {label:'You',cm:175,color:'#3b7cf4',dyn:true},
+  {label:'NBA',cm:200,color:'#fde8c8'},
+  {label:'Jockey',cm:157,color:'#d8f5e8'}
+];
+
 function viz(h){
   const max=220,maxH=68;
   document.getElementById('viz').innerHTML=comps.map(c=>{
     const val=c.dyn?h:c.cm,px=Math.round(val/max*maxH);
-    return`<div class="bar-col"><div class="bar-top">${val}cm</div><div class="bar" style="height:${px}px;background:${c.color}"></div><div class="bar-bot">${c.label}</div></div>`;
+    return `<div class="bar-col"><div class="bar-top">${val}cm</div><div class="bar" style="height:${px}px;background:${c.color}"></div><div class="bar-bot">${c.label}</div></div>`;
   }).join('');
 }
+
 function fromCm(v){
   if(isNaN(v)||v<0)return;
   const totalIn=v/2.54,feet=Math.floor(totalIn/12),inches=totalIn%12;
   busy=true;
-  ftEl.value=feet; inEl.value=inches.toFixed(1);
-  mEl.value=(v/100).toFixed(3); slider.value=Math.min(250,Math.max(50,Math.round(v)));
+  ftEl.value=feet;
+  inEl.value=inches.toFixed(1);
+  mEl.value=(v/100).toFixed(3);
+  slider.value=Math.min(250,Math.max(50,Math.round(v)));
   document.getElementById('r-cm').innerHTML=v.toFixed(1)+'<small>cm</small>';
   document.getElementById('r-m').innerHTML=(v/100).toFixed(3)+'<small>m</small>';
   document.getElementById('r-ft').textContent=`${feet}′ ${inches.toFixed(1)}″`;
   document.getElementById('r-in').innerHTML=totalIn.toFixed(1)+'<small>in</small>';
   document.getElementById('r-mm').innerHTML=Math.round(v*10)+'<small>mm</small>';
   document.getElementById('r-yd').innerHTML=(v/91.44).toFixed(3)+'<small>yd</small>';
-  viz(Math.round(v)); busy=false;
+  viz(Math.round(v));
+  busy=false;
 }
+
 cmEl.addEventListener('input',()=>{if(!busy)fromCm(+cmEl.value);});
 mEl.addEventListener('input',()=>{if(!busy)fromCm(+mEl.value*100);});
 slider.addEventListener('input',()=>{if(!busy)fromCm(+slider.value);});
-[ftEl,inEl].forEach(el=>el.addEventListener('input',()=>{if(!busy)fromCm(((+ftEl.value||0)*12+(+inEl.value||0))*2.54);}));
+[ftEl,inEl].forEach(el=>el.addEventListener('input',()=>{
+  if(!busy)fromCm(((+ftEl.value||0)*12+(+inEl.value||0))*2.54);
+}));
+
 fromCm(175);
 </script>
+
+<div class="card">
+  <h2 style="font-size:20px;margin-bottom:10px">Height conversion guide</h2>
+  <ul style="padding-left:18px;color:#475569;line-height:1.7;font-size:14px">
+    <li>1 inch = 2.54 cm</li>
+    <li>1 foot = 12 inches</li>
+    <li>1 meter = 100 cm</li>
+  </ul>
+</div>
+
+<footer class="site-footer">
+  <a href="index.html">Home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="mailto:admin@unitconverter.live">Contact</a>
+</footer>
 </body></html>
