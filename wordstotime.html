@@ -1,3 +1,157 @@
+diff --git a/wordstotime.html b/wordstotime.html
+index 6688c467b4dfe5eee5566640d1d687aaf740d8d1..b45fd1ac90b0938fb46439ff8219f043cce4aadf 100644
+--- a/wordstotime.html
++++ b/wordstotime.html
+@@ -1,68 +1,75 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+-<title>Words to Time</title>
++<title>Words to Time | UnitConverter.live</title>
++<meta name="description" content="Estimate speaking time from a word count."/>
++<meta name="robots" content="index,follow"/>
++<link rel="canonical" href="https://unitconverter.live/wordstotime.html"/>
+ <link href="shared.css" rel="stylesheet"/>
+ <style>
+ textarea{min-height:180px;font-weight:400;font-size:15px;line-height:1.7;}
+ .big{font-size:40px;font-weight:600;color:#3b7cf4;}
+ input[type=range]{width:100%;accent-color:#3b7cf4;}
+ .speaker-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#888;margin-top:4px;}
+ </style>
++
++<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is reading time estimated?","acceptedAnswer":{"@type":"Answer","text":"Reading time is estimated from word count and selected WPM rate."}},{"@type":"Question","name":"How is speaking time estimated?","acceptedAnswer":{"@type":"Answer","text":"Speaking time uses an average pace around 130 words per minute."}}]}</script>
+ </head>
+ <body>
+ <a class="logo" href="index.html">
+   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+ </a>
++<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Wordstotime</span></nav>
+ <h1>Words to Reading Time</h1>
+ <p class="subtitle">Paste your text or enter a word count</p>
+ 
+ <div class="card">
+   <div class="card-label">Paste text or type</div>
+   <textarea id="text-input" placeholder="Paste your article, essay, or script here…" oninput="calc()"></textarea>
++  <div style="margin-top:8px"><button class="btn secondary" style="padding:6px 12px;font-size:13px" onclick="clearAll()">Clear</button></div>
+   <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+     <span style="font-size:13px;color:#888">Or enter word count:</span>
+     <div style="flex:1;max-width:140px"><input type="number" id="word-count" placeholder="500" min="0" oninput="calcFromCount()"/></div>
+   </div>
+ </div>
+ 
+ <div class="card">
+   <div class="card-label">Reading speed</div>
+   <input type="range" id="wpm-slider" min="100" max="700" value="238" step="10" oninput="updateSlider();calc()"/>
+   <div class="speaker-row">
+     <span>Slow (100)</span>
+     <span id="wpm-display" style="font-weight:600;color:#1a1a2e">238 WPM (average)</span>
+     <span>Fast (700)</span>
+   </div>
+   <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+     <button class="btn secondary" style="font-size:13px;padding:6px 14px" onclick="setWPM(150)">Slow reader</button>
+     <button class="btn secondary" style="font-size:13px;padding:6px 14px" onclick="setWPM(238)">Average</button>
+     <button class="btn secondary" style="font-size:13px;padding:6px 14px" onclick="setWPM(400)">Fast reader</button>
+-    <button class="btn secondary" style="font-size:13px;padding:6px 14px" onclick="setWPM(150)">Speaking pace</button>
++    <button class="btn secondary" style="font-size:13px;padding:6px 14px" onclick="setWPM(130)">Speaking pace</button>
+   </div>
+ </div>
+ 
+ <div class="card">
+   <div class="card-label">Results</div>
+   <div class="big" id="reading-time">—</div>
+   <div style="font-size:14px;color:#888;margin-top:4px" id="reading-sub">Paste text above to get started</div>
+   <hr/>
+   <div class="results">
+     <div class="result accent"><div class="result-unit">Word count</div><div class="result-val" id="r-words">—</div></div>
+     <div class="result"><div class="result-unit">Character count</div><div class="result-val" id="r-chars">—</div></div>
+     <div class="result"><div class="result-unit">Sentence count</div><div class="result-val" id="r-sents">—</div></div>
+     <div class="result"><div class="result-unit">Paragraph count</div><div class="result-val" id="r-paras">—</div></div>
+     <div class="result"><div class="result-unit">Speaking time</div><div class="result-val" id="r-speak">—</div></div>
+     <div class="result"><div class="result-unit">Avg word length</div><div class="result-val" id="r-avgword">—</div></div>
+   </div>
+ </div>
+ 
+ <script>
+ function fmtTime(minutes){
+   if(minutes<1) return Math.round(minutes*60)+' seconds';
+   const h=Math.floor(minutes/60), m=Math.round(minutes%60);
+   if(h===0) return m+' minute'+(m===1?'':'s');
+   return h+' hr '+(m>0?m+' min':'');
+ }
+@@ -72,39 +79,69 @@ function updateSlider(){
+   let label=v<200?'slow reader':v<300?'average':v<450?'fast reader':'speed reader';
+   document.getElementById('wpm-display').textContent=`${v} WPM (${label})`;
+ }
+ function getStats(txt){
+   const words=txt.trim().split(/\s+/).filter(Boolean);
+   const sentences=txt.split(/[.!?]+/).filter(s=>s.trim());
+   const paragraphs=txt.split(/\n\s*\n/).filter(s=>s.trim());
+   const avgWord=words.length?words.reduce((s,w)=>s+w.replace(/[^a-zA-Z]/g,'').length,0)/words.length:0;
+   return{words:words.length,chars:txt.length,sentences:sentences.length,paragraphs:Math.max(1,paragraphs.length),avgWord};
+ }
+ function renderResults(wordCount,stats){
+   const wpm=+document.getElementById('wpm-slider').value;
+   const readMin=wordCount/wpm;
+   const speakMin=wordCount/130;
+   document.getElementById('reading-time').textContent=fmtTime(readMin);
+   document.getElementById('reading-sub').textContent=`at ${wpm} words per minute`;
+   document.getElementById('r-words').textContent=wordCount.toLocaleString();
+   document.getElementById('r-chars').textContent=(stats?stats.chars:wordCount*5).toLocaleString();
+   document.getElementById('r-sents').textContent=stats?stats.sentences.toLocaleString():'—';
+   document.getElementById('r-paras').textContent=stats?stats.paragraphs.toLocaleString():'—';
+   document.getElementById('r-speak').textContent=fmtTime(speakMin);
+   document.getElementById('r-avgword').textContent=stats?(stats.avgWord.toFixed(1)+' chars'):'—';
+ }
+ function calc(){
+   const txt=document.getElementById('text-input').value;
+-  if(!txt.trim()){document.getElementById('reading-time').textContent='—';document.getElementById('reading-sub').textContent='Paste text above to get started';return;}
++  if(!txt.trim()){
++    document.getElementById('reading-time').textContent='—';
++    document.getElementById('reading-sub').textContent='Paste text above to get started';
++    ['r-words','r-chars','r-sents','r-paras','r-speak','r-avgword'].forEach(id=>document.getElementById(id).textContent='—');
++    return;
++  }
+   const stats=getStats(txt);
+   document.getElementById('word-count').value=stats.words;
+   renderResults(stats.words,stats);
+ }
++function clearAll(){
++  document.getElementById('text-input').value='';
++  document.getElementById('word-count').value='';
++  calcFromCount();
++}
++
+ function calcFromCount(){
+   const n=+document.getElementById('word-count').value;
+-  if(!n)return;
++  if(!n){
++    document.getElementById('reading-time').textContent='—';
++    document.getElementById('reading-sub').textContent='Paste text above to get started';
++    ['r-words','r-chars','r-sents','r-paras','r-speak','r-avgword'].forEach(id=>document.getElementById(id).textContent='—');
++    return;
++  }
+   document.getElementById('text-input').value='';
+   renderResults(n,null);
+ }
+ updateSlider();
+ </script>
++
++
++<div class="card">
++  <h2 style="font-size:20px;margin-bottom:10px">Words-to-time FAQ</h2>
++  <ul style="padding-left:18px;color:#475569;line-height:1.7;font-size:14px">
++    <li><strong>Reading time</strong> is based on your selected WPM rate.</li>
++    <li><strong>Speaking time</strong> uses a default pace around 130 WPM.</li>
++    <li>For video scripts, add 10–20% extra for pauses and transitions.</li>
++  </ul>
++</div>
++
++<footer class="site-footer">
++  <a href="index.html">Home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="mailto:admin@unitconverter.live">Contact</a>
++</footer>
+ </body></html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
