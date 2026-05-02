@@ -3,168 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UnitConverter.live</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title>UnitConverter.live | Professional Unit Converters & Smart Calculators</title>
+  <meta name="description" content="Premium online calculators and converters for weight, height, currency, BMI, mortgage, timezone, and more. Fast, accurate, and mobile-friendly." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://unitconverter.live/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="UnitConverter.live" />
+  <meta property="og:description" content="Professional tools for conversions and calculations." />
+  <meta property="og:url" content="https://unitconverter.live/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f0f0f2;
-      min-height: 100vh;
-      padding: 24px 40px 48px;
-    }
-
-    /* ── Logo ── */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 40px;
-      text-decoration: none;
-    }
-    .logo-text {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1a1a2e;
-      letter-spacing: -0.3px;
-    }
-    .logo-text .accent { color: #3b7cf4; }
-
-    /* ── Grid ── */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    /* ── Card ── */
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 36px 20px 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      border: 0.5px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
-    }
-    .card:active {
-      transform: scale(0.97);
-    }
-
-    .card-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      background: #f3f4f8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .card-label {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1a2e;
-      text-align: center;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 720px) {
-      body { padding: 20px; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    }
-    @media (max-width: 420px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    :root{--bg:#f3f6fc;--surface:#fff;--text:#0f172a;--muted:#64748b;--brand:#0a84ff;--border:rgba(15,23,42,.08);--shadow:0 14px 34px rgba(15,23,42,.08)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;background:radial-gradient(1100px 520px at 15% -15%,#e7f0ff 0%,transparent 58%),var(--bg);color:var(--text);padding:24px}
+    .container{max-width:1080px;margin:0 auto}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}.logo-text{font-size:20px;font-weight:800;color:var(--text)}.logo-text span{color:var(--brand)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;background:linear-gradient(140deg,#ffffff,#f6f9ff);border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:var(--shadow);margin-bottom:22px}
+    .badge{display:inline-block;background:#eaf3ff;color:#0b5fd9;font-weight:700;border-radius:999px;padding:8px 12px;font-size:12px;letter-spacing:.04em}
+    h1{font-size:44px;line-height:1.07;letter-spacing:-.7px;margin:14px 0 10px}.lead{font-size:16px;color:var(--muted);line-height:1.65;max-width:60ch}
+    .hero-side{display:grid;gap:12px}.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px}.stat b{font-size:20px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit;box-shadow:0 6px 20px rgba(15,23,42,.04);transition:.18s}
+    .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(15,23,42,.1)}.icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:#edf4ff}
+    .label{font-size:14px;font-weight:600}
+    .footer{margin-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}.footer a{color:#0a84ff;text-decoration:none}
+    @media(max-width:900px){h1{font-size:34px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"UnitConverter.live",
+    "url":"https://unitconverter.live/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://unitconverter.live/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
+  <div class="container">
+    <div class="top">
+      <a class="logo" href="index.html" aria-label="UnitConverter.live home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+        <div class="logo-text">UnitConverter<span>.live</span></div>
+      </a>
+    </div>
 
-  <a class="logo" href="#">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="4"/>
-      <path d="M8 12h8M12 8v8"/>
-    </svg>
-    <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
-  </a>
+    <section class="hero">
+      <div>
+        <span class="badge">PROFESSIONAL TOOLKIT</span>
+        <h1>Accurate, fast and premium conversion tools for everyday work.</h1>
+        <p class="lead">Use reliable calculators and converters for health, finance, time, measurement and productivity. Designed for speed, clarity, and mobile use.</p>
+      </div>
+      <div class="hero-side">
+        <div class="stat"><b>12+</b><div>Utility tools in one place</div></div>
+        <div class="stat"><b>Instant</b><div>Real-time conversion and calculation</div></div>
+        <div class="stat"><b>Free</b><div>No login required, works on all devices</div></div>
+      </div>
+    </section>
 
-  <div class="grid">
+    <main class="grid">
+      <a class="card" href="height.html"><div class="icon">📏</div><div class="label">Height</div></a>
+      <a class="card" href="weight.html"><div class="icon">⚖️</div><div class="label">Weight/Unit</div></a>
+      <a class="card" href="bmi.html"><div class="icon">🩺</div><div class="label">BMI Calculator</div></a>
+      <a class="card" href="mortgage.html"><div class="icon">🏠</div><div class="label">Mortgage</div></a>
+      <a class="card" href="construction.html"><div class="icon">📐</div><div class="label">Construction</div></a>
+      <a class="card" href="currency.html"><div class="icon">💱</div><div class="label">Currency</div></a>
+      <a class="card" href="calculator.html"><div class="icon">🧮</div><div class="label">Calculator</div></a>
+      <a class="card" href="calendar.html"><div class="icon">📅</div><div class="label">Calendar / Journal</div></a>
+      <a class="card" href="timezone.html"><div class="icon">🌍</div><div class="label">Time Zone</div></a>
+      <a class="card" href="typing.html"><div class="icon">⌨️</div><div class="label">Typing Test</div></a>
+      <a class="card" href="wordstotime.html"><div class="icon">⏱️</div><div class="label">Words to Time</div></a>
+      <a class="card" href="compass.html"><div class="icon">🧭</div><div class="label">Compass</div></a>
+    </main>
 
-    <a class="card" href="height.html">
-      <div class="card-icon">📏</div>
-      <div class="card-label">Height</div>
-    </a>
-
-    <a class="card" href="weight.html">
-      <div class="card-icon">⚖️</div>
-      <div class="card-label">Weight/Unit</div>
-    </a>
-
-    <a class="card" href="bmi.html">
-      <div class="card-icon">🩺</div>
-      <div class="card-label">BMI Calc</div>
-    </a>
-
-    <a class="card" href="mortgage.html">
-      <div class="card-icon">🏠</div>
-      <div class="card-label">Mortgage</div>
-    </a>
-
-    <a class="card" href="construction.html">
-      <div class="card-icon">📐</div>
-      <div class="card-label">Construction</div>
-    </a>
-
-    <a class="card" href="currency.html">
-      <div class="card-icon">💱</div>
-      <div class="card-label">Currency</div>
-    </a>
-
-    <a class="card" href="calculator.html">
-      <div class="card-icon">🧮</div>
-      <div class="card-label">Calculator</div>
-    </a>
-
-    <a class="card" href="calendar.html">
-      <div class="card-icon">📅</div>
-      <div class="card-label">Calendar/Journal</div>
-    </a>
-
-    <a class="card" href="timezone.html">
-      <div class="card-icon">🌍</div>
-      <div class="card-label">Time Zone</div>
-    </a>
-
-    <a class="card" href="typing.html">
-      <div class="card-icon">⌨️</div>
-      <div class="card-label">Typing</div>
-    </a>
-
-    <a class="card" href="wordstotime.html">
-      <div class="card-icon">⏱️</div>
-      <div class="card-label">Words to Time</div>
-    </a>
-
-    <a class="card" href="compass.html">
-      <div class="card-icon">🧭</div>
-      <div class="card-label">Compass</div>
-    </a>
-
+    <div class="footer">
+      <div>© 2026 UnitConverter.live</div>
+      <div><a href="privacy-policy.html">Privacy Policy</a> · <a href="terms-of-service.html">Terms of Service</a> · <a href="mailto:admin@unitconverter.live">Contact: admin@unitconverter.live</a></div>
+    </div>
   </div>
-
 </body>
 </html>
