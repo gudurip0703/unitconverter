@@ -88,9 +88,21 @@ const today=new Date();
 let viewYear=today.getFullYear(), viewMonth=today.getMonth();
 let selectedDate=null;
 const entries={};
-const stored=localStorage.getItem('ucalendar_entries');
 let entries={};
-try{entries=stored?JSON.parse(stored):{};}catch(e){entries={};}
+function safeGetEntries(){
+  try{
+    const stored=window.localStorage?localStorage.getItem('ucalendar_entries'):null;
+    return stored?JSON.parse(stored):{};
+  }catch(e){
+    return {};
+  }
+}
+function safeSetEntries(){
+  try{
+    if(window.localStorage) localStorage.setItem('ucalendar_entries',JSON.stringify(entries));
+  }catch(e){}
+}
+entries=safeGetEntries();
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -128,7 +140,7 @@ function saveEntry(){
   if(!selectedDate)return;
   const text=document.getElementById('journal-text').value.trim();
   if(text) entries[selectedDate]=text; else delete entries[selectedDate];
-  localStorage.setItem('ucalendar_entries',JSON.stringify(entries));
+  safeSetEntries();
   renderCalendar(); renderEntries();
 }
 function clearEntry(){
