@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Calendar / Journal</title>
 <title>Calendar / Journal | UnitConverter.live</title>
 <meta name="description" content="Simple calendar and journal tool to track notes by date."/>
 <meta name="robots" content="index,follow"/>
@@ -32,28 +33,29 @@ textarea{resize:vertical;min-height:120px;font-size:14px;font-weight:400;line-he
 .print-actions{display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px;}
 @media print{
   body{background:#fff;padding:0 !important;}
-  .logo,.subtitle,.print-actions,#journal-card,#entries-card,.site-footer,.breadcrumb{display:none !important;}
+  .logo,.subtitle,.print-actions,#journal-card,#entries-card{display:none !important;}
   h1{margin:0 0 12px 0;font-size:24px;}
   .card{box-shadow:none;border:1px solid #ddd;}
   .cal-day{min-height:34px;display:flex;align-items:center;justify-content:center;}
   @page{size:A4 portrait;margin:12mm;}
 }
+
 </style>
 
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are entries saved?","acceptedAnswer":{"@type":"Answer","text":"Entries are stored locally in your browser using localStorage."}},{"@type":"Question","name":"Can I print the calendar?","acceptedAnswer":{"@type":"Answer","text":"Yes, use the Print / Save PDF button to export the visible month."}}]}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are entries saved?","acceptedAnswer":{"@type":"Answer","text":"Entries are stored locally in your browser using localStorage."}},{"@type":"Question","name":"Can I print the calendar?","acceptedAnswer":{"@type":"Answer","text":"Yes, use the Print / Save PDF button to export the visible month."}}]}</script>
 </head>
 <body>
 <a class="logo" href="index.html">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
 </a>
-<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Calendar / Journal</span></nav>
+<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Calendar</span></nav>
 <h1>Calendar / Journal</h1>
 <p class="subtitle">Browse dates and write daily journal entries</p>
 
+<div class="card">
 <div class="print-actions">
+  <select id="print-mode" aria-label="Print mode"><option value="month">Current month</option><option value="year" selected>Full year</option></select>
   <button class="btn secondary" onclick="printCalendar()">Print / Save PDF</button>
 </div>
 
@@ -66,6 +68,7 @@ textarea{resize:vertical;min-height:120px;font-size:14px;font-weight:400;line-he
   <div class="cal-grid" id="cal-grid"></div>
 </div>
 
+<div class="card">
 <div class="card" id="journal-card">
   <div class="journal-date" id="journal-date">Select a day to write</div>
   <textarea id="journal-text" placeholder="Write your thoughts for this day…" oninput="saveEntry()"></textarea>
@@ -84,6 +87,7 @@ textarea{resize:vertical;min-height:120px;font-size:14px;font-weight:400;line-he
 const today=new Date();
 let viewYear=today.getFullYear(), viewMonth=today.getMonth();
 let selectedDate=null;
+const entries={};
 const stored=localStorage.getItem('ucalendar_entries');
 let entries={};
 try{entries=stored?JSON.parse(stored):{};}catch(e){entries={};}
@@ -91,20 +95,16 @@ const months=['January','February','March','April','May','June','July','August',
 const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 function dateKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-
 function renderCalendar(){
   document.getElementById('cal-month-label').textContent=`${months[viewMonth]} ${viewYear}`;
   const first=new Date(viewYear,viewMonth,1).getDay();
   const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
   const daysInPrev=new Date(viewYear,viewMonth,0).getDate();
-
   let html=days.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
-
   for(let i=0;i<first;i++){
     const d=daysInPrev-first+i+1;
     html+=`<div class="cal-day other-month">${d}</div>`;
   }
-
   for(let d=1;d<=daysInMonth;d++){
     const key=dateKey(viewYear,viewMonth,d);
     const isToday=today.getFullYear()===viewYear&&today.getMonth()===viewMonth&&today.getDate()===d;
@@ -112,20 +112,11 @@ function renderCalendar(){
     const hasEntry=!!entries[key];
     html+=`<div class="cal-day ${isToday?'today':''} ${isSel?'selected':''} ${hasEntry?'has-entry':''}" onclick="selectDay(${viewYear},${viewMonth},${d})">${d}</div>`;
   }
-
   const remaining=42-(first+daysInMonth);
   for(let d=1;d<=remaining;d++) html+=`<div class="cal-day other-month">${d}</div>`;
-
   document.getElementById('cal-grid').innerHTML=html;
 }
-
-function changeMonth(dir){
-  viewMonth+=dir;
-  if(viewMonth>11){viewMonth=0;viewYear++;}
-  if(viewMonth<0){viewMonth=11;viewYear--;}
-  renderCalendar();
-}
-
+function changeMonth(dir){viewMonth+=dir;if(viewMonth>11){viewMonth=0;viewYear++;}if(viewMonth<0){viewMonth=11;viewYear--;}renderCalendar();}
 function selectDay(y,m,d){
   selectedDate=dateKey(y,m,d);
   const dt=new Date(y,m,d);
@@ -133,7 +124,6 @@ function selectDay(y,m,d){
   document.getElementById('journal-text').value=entries[selectedDate]||'';
   renderCalendar();
 }
-
 function saveEntry(){
   if(!selectedDate)return;
   const text=document.getElementById('journal-text').value.trim();
@@ -141,18 +131,52 @@ function saveEntry(){
   localStorage.setItem('ucalendar_entries',JSON.stringify(entries));
   renderCalendar(); renderEntries();
 }
-
 function clearEntry(){
   document.getElementById('journal-text').value='';
   saveEntry();
 }
+function buildMonthGrid(year,month){
+  const first=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const daysInPrev=new Date(year,month,0).getDate();
+  let html='<div class="cal-grid">'+days.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+  for(let i=0;i<first;i++){
+    const d=daysInPrev-first+i+1;
+    html+=`<div class="cal-day other-month">${d}</div>`;
+  }
+  for(let d=1;d<=daysInMonth;d++) html+=`<div class="cal-day">${d}</div>`;
+  const remaining=42-(first+daysInMonth);
+  for(let d=1;d<=remaining;d++) html+=`<div class="cal-day other-month">${d}</div>`;
+  return html+'</div>';
+}
 
 function printCalendar(){
-  const label=document.getElementById('cal-month-label').textContent;
-  const original=document.title;
-  document.title=`Printable Calendar - ${label}`;
-  window.print();
-  document.title=original;
+  const mode=document.getElementById('print-mode').value;
+  if(mode==='month'){
+    const label=document.getElementById('cal-month-label').textContent;
+    const original=document.title;
+    document.title=`Printable Calendar - ${label}`;
+    window.print();
+    document.title=original;
+    return;
+  }
+  const y=viewYear;
+  const yearHtml=months.map((name,m)=>`<section class="year-month"><h2>${name} ${y}</h2>${buildMonthGrid(y,m)}</section>`).join('');
+  const w=window.open('', '_blank');
+  if(!w)return;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Printable Calendar - ${y}</title><style>
+    body{font-family:Arial,sans-serif;padding:12px;color:#111;}
+    h1{margin:0 0 8px 0;font-size:24px;} .year-wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .year-month{border:1px solid #ddd;border-radius:8px;padding:8px;break-inside:avoid;}
+    .year-month h2{margin:0 0 6px 0;font-size:16px;text-align:center;}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+    .cal-day-name,.cal-day{font-size:10px;text-align:center;padding:4px 0;border-radius:4px;}
+    .cal-day-name{font-weight:700;color:#666;} .other-month{color:#bbb;}
+    @media print{@page{size:A4 portrait;margin:10mm;}}
+  </style></head><body><h1>${y} Calendar</h1><div class="year-wrap">${yearHtml}</div></body></html>`);
+  w.document.close();
+  w.focus();
+  w.print();
 }
 
 function escapeHtml(str){
@@ -161,19 +185,20 @@ function escapeHtml(str){
 
 function renderEntries(){
   const all=Object.entries(entries).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,6);
+  document.getElementById('entry-list').innerHTML=all.map(([k,v])=>`<div class="entry-item"><div class="entry-item-date">${new Date(k+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',year:'numeric',month:'short',day:'numeric'})}</div><div class="entry-item-text">${v.substring(0,120)}${v.length>120?'…':''}</div></div>`).join('') || '<div style="color:#aaa;font-size:13px">No entries yet.</div>';
   document.getElementById('entry-list').innerHTML=all.map(([k,v])=>`<div class="entry-item"><div class="entry-item-date">${new Date(k+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',year:'numeric',month:'short',day:'numeric'})}</div><div class="entry-item-text">${escapeHtml(v.substring(0,120))}${v.length>120?'…':''}</div></div>`).join('') || '<div style="color:#aaa;font-size:13px">No entries yet.</div>';
 }
-
 selectDay(today.getFullYear(),today.getMonth(),today.getDate());
 renderEntries();
 </script>
+
 
 <div class="card">
   <h2 style="font-size:20px;margin-bottom:10px">Calendar / Journal help</h2>
   <ul style="padding-left:18px;color:#475569;line-height:1.7;font-size:14px">
     <li>Click a date to write a journal entry.</li>
     <li>Entries are saved in your browser for quick revisit.</li>
-    <li>Use Print / Save PDF to export your visible month.</li>
+    <li>Choose Current month or Full year before printing.</li>
   </ul>
 </div>
 
