@@ -202,6 +202,17 @@ function renderEntries(){
 }
 selectDay(today.getFullYear(),today.getMonth(),today.getDate());
 renderEntries();
+function initCalendar(){
+  try{
+    renderCalendar();
+    selectDay(today.getFullYear(),today.getMonth(),today.getDate());
+    renderEntries();
+  }catch(err){
+    const grid=document.getElementById('cal-grid');
+    if(grid) grid.innerHTML='<div style="grid-column:1/-1;padding:12px;color:#b91c1c;font-size:14px">Calendar failed to load. Please refresh the page.</div>';
+  }
+}
+initCalendar();
 </script>
 
 
