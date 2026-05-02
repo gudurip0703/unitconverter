@@ -1,3 +1,133 @@
+diff --git a/typing.html b/typing.html
+index 36475525a784319f0655833e3d332a7ccaf2759a..8d6560f45c5c9d2d4a0e81e8a4b816f90e9990c1 100644
+--- a/typing.html
++++ b/typing.html
+@@ -1,52 +1,58 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+-<title>Typing Speed Test</title>
++<title>Typing Speed Test | UnitConverter.live</title>
++<meta name="description" content="Typing speed test with WPM and accuracy tracking."/>
++<meta name="robots" content="index,follow"/>
++<link rel="canonical" href="https://unitconverter.live/typing.html"/>
+ <link href="shared.css" rel="stylesheet"/>
+ <style>
+ .passage{background:#f7f8fc;border-radius:14px;padding:20px;font-size:18px;line-height:1.9;letter-spacing:.01em;user-select:none;margin-bottom:14px;}
+ .passage .correct{color:#3b7cf4;}
+-.passage .wrong{color:#e84545;text-decoration:underline;}
++.passage .wrong{color:#f59e0b;background:#fff7ed;border-radius:4px;}
+ .passage .cursor{border-left:2px solid #3b7cf4;margin-left:-1px;animation:blink 1s step-start infinite;}
+ @keyframes blink{50%{opacity:0;}}
+ #type-input{opacity:0;position:absolute;pointer-events:none;}
+ .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+ .stat{background:#f7f8fc;border-radius:12px;padding:14px;text-align:center;}
+ .stat-val{font-size:28px;font-weight:600;color:#3b7cf4;}
+ .stat-label{font-size:12px;color:#aaa;margin-top:2px;}
+ .btn-row{display:flex;gap:10px;margin-top:14px;}
+ #click-prompt{font-size:13px;color:#aaa;text-align:center;margin-top:8px;}
+ select{max-width:200px;}
+ </style>
++
++<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is WPM calculated?","acceptedAnswer":{"@type":"Answer","text":"WPM is estimated from typed characters divided by 5 and elapsed minutes."}},{"@type":"Question","name":"How do I improve accuracy?","acceptedAnswer":{"@type":"Answer","text":"Type slowly first, then increase speed while keeping error rate low."}}]}</script>
+ </head>
+ <body>
+ <a class="logo" href="index.html">
+   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+ </a>
++<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Typing</span></nav>
+ <h1>Typing Speed Test</h1>
+ <p class="subtitle">Measure your WPM and accuracy</p>
+ 
+ <div class="card">
+   <div class="row" style="margin-bottom:14px">
+     <div class="input-wrap" style="max-width:200px"><div class="input-label">Duration</div>
+       <select id="duration" onchange="reset()">
+         <option value="30">30 seconds</option>
+         <option value="60" selected>60 seconds</option>
+         <option value="120">2 minutes</option>
+       </select>
+     </div>
+     <div class="input-wrap" style="max-width:200px"><div class="input-label">Difficulty</div>
+       <select id="difficulty" onchange="reset()">
+         <option value="easy">Easy</option>
+         <option value="medium" selected>Medium</option>
+         <option value="hard">Hard</option>
+       </select>
+     </div>
+   </div>
+ 
+   <div class="passage" id="passage" onclick="focusInput()"></div>
+   <div id="click-prompt">Click on the text above to start typing</div>
+   <input type="text" id="type-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+ 
+@@ -92,46 +98,62 @@ function render(pos){
+       html+=`<span class="${ok?'correct':'wrong'}">${text[i]}</span>`;
+     } else if(i===pos){
+       html+=`<span class="cursor">${text[i]}</span>`;
+     } else {
+       html+=`<span>${text[i]}</span>`;
+     }
+   }
+   document.getElementById('passage').innerHTML=html;
+ }
+ function focusInput(){
+   document.getElementById('type-input').focus();
+   if(!started&&!finished){document.getElementById('click-prompt').textContent='';}
+ }
+ document.getElementById('type-input').addEventListener('input',function(){
+   if(finished)return;
+   if(!started){
+     started=true; startTime=Date.now();
+     timer=setInterval(tick,1000);
+   }
+   const val=this.value;
+   typed=val.length;
+   let errs=0;
+   for(let i=0;i<val.length;i++) if(val[i]!==text[i]) errs++;
+   errors=errs;
+   const elapsed=(Date.now()-startTime)/1000/60;
+-  const wpm=elapsed>0?Math.round((typed/5)/elapsed):0;
+-  const acc=typed>0?Math.round(((typed-errors)/typed)*100):100;
++  const wpmRaw=elapsed>0?Math.round((typed/5)/elapsed):0;
++  const accRaw=typed>0?Math.round(((typed-errors)/typed)*100):100;
++  const wpm=Math.max(0,wpmRaw);
++  const acc=Math.max(0,Math.min(100,accRaw));
+   document.getElementById('s-wpm').textContent=wpm;
+   document.getElementById('s-acc').textContent=acc+'%';
+   document.getElementById('s-chars').textContent=typed;
+   render(typed);
+   if(typed>=text.length) endTest();
+ });
+ function tick(){
+   timeLeft--;
+   document.getElementById('s-time').textContent=timeLeft+'s';
+   if(timeLeft<=0) endTest();
+ }
+ function endTest(){
+   clearInterval(timer); finished=true;
+   document.getElementById('type-input').blur();
+   document.getElementById('click-prompt').textContent='Test complete! Click "New test" to try again.';
+ }
+ reset();
+ </script>
++
++
++<div class="card">
++  <h2 style="font-size:20px;margin-bottom:10px">Typing test tips</h2>
++  <ul style="padding-left:18px;color:#475569;line-height:1.7;font-size:14px">
++    <li>Focus on accuracy first, then increase speed.</li>
++    <li>Keep wrists neutral and avoid looking at the keyboard.</li>
++    <li>Use New test to practice different difficulty levels.</li>
++  </ul>
++</div>
++
++<footer class="site-footer">
++  <a href="index.html">Home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="mailto:admin@unitconverter.live">Contact</a>
++</footer>
+ </body></html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
