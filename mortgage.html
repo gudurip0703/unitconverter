@@ -46,7 +46,8 @@ td:last-child{text-align:right;font-weight:500;}
         <option value="10">10 years</option>
       </select>
     </div>
-    <div style="margin-top:12px"><button class="btn secondary" onclick="resetMortgage()">Clear</button></div>
+  </div>
+  <div style="margin-top:12px"><button class="btn secondary" type="button" onclick="resetMortgage()">Clear</button></div>
 </div>
 
 <div class="card" id="results">
@@ -102,11 +103,11 @@ function calc(){
   drawPie(loan,totalInterest);
 }
 function resetMortgage(){
-  document.getElementById('price').value='';
-  document.getElementById('down').value='';
-  document.getElementById('rate').value='';
+  document.getElementById('price').value='400000';
+  document.getElementById('down').value='80000';
+  document.getElementById('rate').value='6.5';
   document.getElementById('term').value='30';
-  clearResults();
+  calc();
 }
 
 function drawPie(principal,interest){
