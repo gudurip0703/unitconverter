@@ -1,3 +1,157 @@
+diff --git a/timezone.html b/timezone.html
+index b8ab7baea8649827e37fbd4e4e72f74b71b2e4e6..7e04b1ff1807e6648aec613b6b9501ca59756a7b 100644
+--- a/timezone.html
++++ b/timezone.html
+@@ -1,121 +1,146 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+-<title>Time Zone Converter</title>
++<title>Time Zone Converter | UnitConverter.live</title>
++<meta name="description" content="Convert times across time zones for planning meetings and travel."/>
++<meta name="robots" content="index,follow"/>
++<link rel="canonical" href="https://unitconverter.live/timezone.html"/>
+ <link href="shared.css" rel="stylesheet"/>
+ <style>
+ .tz-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;background:#f7f8fc;border-radius:12px;padding:14px;}
+ .tz-flag{font-size:28px;line-height:1;}
+ .tz-info{flex:1;}
+ .tz-city{font-size:15px;font-weight:600;color:#1a1a2e;}
+ .tz-time{font-size:28px;font-weight:600;color:#3b7cf4;margin:2px 0;}
+ .tz-date{font-size:12px;color:#aaa;}
+ .tz-offset{font-size:12px;color:#888;margin-top:2px;}
+ .remove-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:18px;padding:4px;}
+-.remove-btn:hover{color:#e84545;}
++.remove-btn:hover{color:#f59e0b;}
+ input[type=datetime-local]{font-size:15px;}
+ </style>
++
++<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this include daylight saving time?","acceptedAnswer":{"@type":"Answer","text":"Yes, browser timezone APIs include DST offsets automatically."}},{"@type":"Question","name":"Can I remove all cities quickly?","acceptedAnswer":{"@type":"Answer","text":"Yes, use the Clear button in the compare section."}}]}</script>
+ </head>
+ <body>
+ <a class="logo" href="index.html">
+   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+   <span class="logo-text">UnitConverter<span class="accent">.live</span></span>
+ </a>
++<nav class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Timezone</span></nav>
+ <h1>Time Zone Converter</h1>
+ <p class="subtitle">Compare times across cities worldwide</p>
+ 
+ <div class="card">
+   <div class="card-label">Source time</div>
+   <div class="row">
+     <div class="input-wrap"><div class="input-label">Date &amp; Time</div><input type="datetime-local" id="src-time"/></div>
+     <div class="input-wrap" style="max-width:220px"><div class="input-label">Time zone</div>
+       <select id="src-tz"></select>
+     </div>
+   </div>
+ </div>
+ 
+ <div class="card">
+   <div class="card-label">Add cities to compare</div>
+   <div class="row" style="margin-bottom:12px">
+     <select id="add-tz" style="flex:1"></select>
+     <button class="btn" onclick="addZone()">Add</button>
++    <button class="btn secondary" onclick="clearZones()">Clear</button>
+   </div>
+   <div id="tz-list"></div>
+ </div>
+ 
+ <script>
+ const zones=[
+   {city:'New York',flag:'🇺🇸',tz:'America/New_York'},{city:'Los Angeles',flag:'🇺🇸',tz:'America/Los_Angeles'},
+   {city:'Chicago',flag:'🇺🇸',tz:'America/Chicago'},{city:'London',flag:'🇬🇧',tz:'Europe/London'},
+   {city:'Paris',flag:'🇫🇷',tz:'Europe/Paris'},{city:'Berlin',flag:'🇩🇪',tz:'Europe/Berlin'},
+   {city:'Dubai',flag:'🇦🇪',tz:'Asia/Dubai'},{city:'Mumbai',flag:'🇮🇳',tz:'Asia/Kolkata'},
+   {city:'Singapore',flag:'🇸🇬',tz:'Asia/Singapore'},{city:'Tokyo',flag:'🇯🇵',tz:'Asia/Tokyo'},
+   {city:'Sydney',flag:'🇦🇺',tz:'Australia/Sydney'},{city:'Auckland',flag:'🇳🇿',tz:'Pacific/Auckland'},
+   {city:'São Paulo',flag:'🇧🇷',tz:'America/Sao_Paulo'},{city:'Mexico City',flag:'🇲🇽',tz:'America/Mexico_City'},
+   {city:'Toronto',flag:'🇨🇦',tz:'America/Toronto'},{city:'Cairo',flag:'🇪🇬',tz:'Africa/Cairo'},
+   {city:'Nairobi',flag:'🇰🇪',tz:'Africa/Nairobi'},{city:'Seoul',flag:'🇰🇷',tz:'Asia/Seoul'},
+   {city:'Beijing',flag:'🇨🇳',tz:'Asia/Shanghai'},{city:'Moscow',flag:'🇷🇺',tz:'Europe/Moscow'},
+   {city:'Istanbul',flag:'🇹🇷',tz:'Europe/Istanbul'},{city:'Lagos',flag:'🇳🇬',tz:'Africa/Lagos'},
+ ];
+ let active=['America/New_York','Europe/London','Asia/Tokyo','Australia/Sydney'];
+ 
+ function populateSelects(){
+   ['src-tz','add-tz'].forEach(id=>{
+     const sel=document.getElementById(id);
+     zones.forEach(z=>{
+       const opt=document.createElement('option');
+       opt.value=z.tz; opt.textContent=`${z.flag} ${z.city}`;
+       sel.appendChild(opt);
+     });
+   });
+   document.getElementById('src-tz').value='America/New_York';
+ }
+ 
+ function getSourceDate(){
+   const val=document.getElementById('src-time').value;
+   if(!val) return new Date();
+   return new Date(val);
+ }
+ 
+ function render(){
+-  const srcTz=document.getElementById('src-tz').value;
+   const base=getSourceDate();
++  if(active.length===0){
++    document.getElementById('tz-list').innerHTML='<div style="color:#94a3b8;font-size:13px">No cities selected. Add a city to compare time zones.</div>';
++    return;
++  }
+   document.getElementById('tz-list').innerHTML=active.map(tz=>{
+     const z=zones.find(z=>z.tz===tz)||{city:tz,flag:'🌐',tz};
+     const fmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:true});
+     const dateFmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',month:'short',day:'numeric'});
+     const offsetFmt=new Intl.DateTimeFormat('en-US',{timeZone:tz,timeZoneName:'short'});
+     const parts=offsetFmt.formatToParts(base);
+     const tzName=parts.find(p=>p.type==='timeZoneName')?.value||tz;
+     return`<div class="tz-row">
+       <div class="tz-flag">${z.flag}</div>
+       <div class="tz-info">
+         <div class="tz-city">${z.city}</div>
+         <div class="tz-time">${fmt.format(base)}</div>
+         <div class="tz-date">${dateFmt.format(base)}</div>
+         <div class="tz-offset">${tzName}</div>
+       </div>
+       <button class="remove-btn" onclick="removeZone('${tz}')">×</button>
+     </div>`;
+   }).join('');
+ }
+ 
+ function addZone(){
+   const tz=document.getElementById('add-tz').value;
+   if(!active.includes(tz)) active.push(tz);
+   render();
+ }
+ function removeZone(tz){ active=active.filter(z=>z!==tz); render(); }
++function clearZones(){active=[];render();}
+ 
+ // Set default datetime to now
+ const now=new Date();
+ const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+ document.getElementById('src-time').value=local;
+ 
+ populateSelects();
+ render();
+ ['src-time','src-tz'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+ setInterval(()=>{if(!document.getElementById('src-time').value){render();}},1000);
+ </script>
++
++
++<div class="card">
++  <h2 style="font-size:20px;margin-bottom:10px">Time zone converter FAQ</h2>
++  <ul style="padding-left:18px;color:#475569;line-height:1.7;font-size:14px">
++    <li><strong>Does it account for daylight saving?</strong> Yes, browser time zone APIs include DST adjustments.</li>
++    <li><strong>Can I compare many cities?</strong> Use Add to compare multiple cities side by side.</li>
++    <li><strong>Best for scheduling?</strong> Set source time first, then compare output cities.</li>
++  </ul>
++</div>
++
++<footer class="site-footer">
++  <a href="index.html">Home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="mailto:admin@unitconverter.live">Contact</a>
++</footer>
+ </body></html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
