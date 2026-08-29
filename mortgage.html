@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Mortgage Calculator</title>
 <title>Mortgage Calculator | UnitConverter.live</title>
 <meta name="description" content="Estimate monthly mortgage payments, total interest, and loan summary with adjustable inputs."/>
 <meta name="robots" content="index,follow"/>
@@ -88,8 +87,7 @@ function calc(){
   const annualRate=+document.getElementById('rate').value/100;
   const years=+document.getElementById('term').value;
   const loan=price-down;
-  if(loan<=0||annualRate<=0)return;
-  if(price<=0||down<0||years<=0||loan<=0){clearResults();return;}
+  if(price<=0||down<0||years<=0||loan<=0||annualRate<0){clearResults();return;}
   const r=annualRate/12, n=years*12;
   const monthly=annualRate===0?loan/n:loan*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
   const total=monthly*n;
@@ -120,7 +118,6 @@ function drawPie(principal,interest){
   ctx.beginPath();ctx.moveTo(50,50);ctx.arc(50,50,46,0,pAngle);ctx.closePath();ctx.fillStyle='#3b7cf4';ctx.fill();
   ctx.beginPath();ctx.moveTo(50,50);ctx.arc(50,50,46,pAngle,Math.PI*2);ctx.closePath();ctx.fillStyle='#f5c842';ctx.fill();
 }
-['price','down','rate','term'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
 ['price','down','rate'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
 document.getElementById('term').addEventListener('change',calc);
 calc();
