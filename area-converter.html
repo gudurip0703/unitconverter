@@ -23,7 +23,29 @@
 <div class="input-wrap"><div class="input-label">To</div><select id="to"><option value="0.0001">Square centimeters (cm²)</option><option value="1" selected>Square meters (m²)</option><option value="1000000">Square kilometers (km²)</option><option value="0.00064516">Square inches (in²)</option><option value="0.83612736">Square yards (yd²)</option><option value="0.09290304">Square feet (ft²)</option><option value="4046.8564224">Acres (ac)</option><option value="10000">Hectares (ha)</option></select></div>
 </div><div style="margin-top:14px"><button class="btn secondary" id="swap" type="button">Swap units</button></div></div>
 <div class="card"><div class="card-label">Result</div><div class="result accent"><div class="result-unit" id="equation">Conversion</div><div class="result-val" id="result" aria-live="polite">—</div></div></div>
-<div class="content-section"><h2>Area conversion for property and projects</h2><p>Convert floor plans, lots, farms and surface measurements between metric and U.S. customary area units.</p><h3>Common conversions</h3><ul><li>1 square meter = 10.7639 square feet</li><li>1 acre = 43,560 square feet</li><li>1 hectare = 2.47105 acres</li></ul><h3>How this calculator works</h3><p>Every value is converted through square meters before being expressed in the selected output unit.</p></div>
+<div class="content-section">
+<h2>Area conversion for rooms, land and projects</h2>
+<p>This area converter translates surface measurements among square centimeters, square meters, square kilometers, square inches, square feet, square yards, acres and hectares. It is useful when comparing floor plans, landscaping quantities, property listings and construction estimates that use different measurement systems.</p>
+<h3>How area conversion works</h3>
+<p>Area is two-dimensional, so its conversion factor is the square of the related length factor. One foot equals 0.3048 meters, but one square foot equals 0.09290304 square meters. The calculator converts the starting value through square meters before producing the selected output, which keeps every unit pair consistent.</p>
+<h3>Worked examples</h3>
+<ul>
+<li><strong>1,000 square feet to square meters:</strong> 1,000 × 0.09290304 = 92.90304 m².</li>
+<li><strong>2 acres to square feet:</strong> 2 × 43,560 = 87,120 ft².</li>
+<li><strong>5 hectares to acres:</strong> 5 × 2.47105381 = approximately 12.3553 acres.</li>
+</ul>
+<h3>Which area unit should you use?</h3>
+<p>Square feet and square meters are practical for rooms, homes and commercial floor space. Acres are common for U.S. parcels, farms and larger lots. Hectares are widely used for land measurement in metric countries. Square kilometers are better for cities, parks and large geographic regions.</p>
+<h3>From dimensions to area</h3>
+<p>If you only know a rectangle’s length and width, first make sure both measurements use the same unit, then multiply them. A room measuring 12 feet by 10 feet has an area of 120 square feet. Irregular sites may need to be separated into simpler shapes or measured by a surveyor.</p>
+<h3>Common mistakes to avoid</h3>
+<p>Never use a normal length conversion factor for area. Also distinguish acres from square miles: one square mile contains 640 acres. Real-estate descriptions can be rounded, and usable interior area may follow local definitions that differ from the gross dimensions.</p>
+<h3>Frequently asked questions</h3>
+<h4>How many square feet are in an acre?</h4><p>One acre contains exactly 43,560 square feet.</p>
+<h4>How many acres are in one hectare?</h4><p>One hectare is approximately 2.47105 acres.</p>
+<h4>Does this calculator estimate property value?</h4><p>No. It converts area only; zoning, location, condition and market factors determine value.</p>
+<p class="review-note"><strong>Calculation review:</strong> Tested using established square-meter base factors. Last reviewed September 19, 2026.</p>
+</div>
 <script>
 const value=document.getElementById('value'),from=document.getElementById('from'),to=document.getElementById('to'),result=document.getElementById('result'),equation=document.getElementById('equation');
 function format(n){if(!Number.isFinite(n))return '—';const a=Math.abs(n);return (a!==0&&(a>=1e9||a<1e-6))?n.toExponential(8):n.toLocaleString(undefined,{maximumFractionDigits:10});}
