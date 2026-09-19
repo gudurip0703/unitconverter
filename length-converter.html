@@ -23,7 +23,29 @@
 <div class="input-wrap"><div class="input-label">To</div><select id="to"><option value="0.001">Millimeters (mm)</option><option value="0.01">Centimeters (cm)</option><option value="1">Meters (m)</option><option value="1000">Kilometers (km)</option><option value="0.0254">Inches (in)</option><option value="0.3048" selected>Feet (ft)</option><option value="0.9144">Yards (yd)</option><option value="1609.344">Miles (mi)</option></select></div>
 </div><div style="margin-top:14px"><button class="btn secondary" id="swap" type="button">Swap units</button></div></div>
 <div class="card"><div class="card-label">Result</div><div class="result accent"><div class="result-unit" id="equation">Conversion</div><div class="result-val" id="result" aria-live="polite">—</div></div></div>
-<div class="content-section"><h2>Metric and imperial length conversion</h2><p>Use this calculator for everyday distance, height, construction and travel measurements. Choose any starting and destination units; the answer updates immediately.</p><h3>Common conversions</h3><ul><li>1 inch = 2.54 centimeters</li><li>1 foot = 0.3048 meters</li><li>1 mile = 1.609344 kilometers</li></ul><h3>How this calculator works</h3><p>Every value is converted through meters using exact or established conversion factors.</p></div>
+<div class="content-section">
+<h2>How to convert length accurately</h2>
+<p>This length converter handles everyday metric and imperial measurements for building projects, travel distances, room dimensions, product sizes and school calculations. Enter a value, select the original unit and choose the unit you need. The result updates immediately, and the displayed equation helps you confirm that the correct direction was selected.</p>
+<h3>Length conversion method</h3>
+<p>The calculator converts the starting value to meters and then converts meters to the selected output unit. The underlying relationships are fixed: one inch is exactly 2.54 centimeters, one foot is exactly 0.3048 meters, one yard is exactly 0.9144 meters and one international mile is exactly 1,609.344 meters. Using a shared base unit avoids inconsistent results when converting between two non-metric units.</p>
+<h3>Worked examples</h3>
+<ul>
+<li><strong>6 feet to meters:</strong> 6 × 0.3048 = 1.8288 meters.</li>
+<li><strong>10 kilometers to miles:</strong> 10,000 ÷ 1,609.344 = approximately 6.21371 miles.</li>
+<li><strong>36 inches to centimeters:</strong> 36 × 2.54 = 91.44 centimeters.</li>
+</ul>
+<h3>Choosing the right unit</h3>
+<p>Millimeters are useful for small manufacturing dimensions and material thickness. Centimeters are common for household objects and body measurements. Meters work well for rooms, lots and short outdoor distances. Kilometers and miles are normally used for road travel. Inches, feet and yards remain common in U.S. construction and home improvement work.</p>
+<h3>Common mistakes to avoid</h3>
+<p>Do not confuse square units with length units: square feet measure area, while feet measure a single dimension. When measuring a room, convert the length and width separately before multiplying them for area. Also check whether a written value such as 5.6 feet means 5.6 decimal feet or 5 feet 6 inches; those are different measurements.</p>
+<h3>Accuracy and rounding</h3>
+<p>The calculator retains additional precision during calculation and rounds only the displayed result. For construction cuts, surveying or regulated work, follow the precision required by the project and verify the result against the applicable specification.</p>
+<h3>Frequently asked questions</h3>
+<h4>How many centimeters are in one inch?</h4><p>One inch equals exactly 2.54 centimeters.</p>
+<h4>How many feet are in one meter?</h4><p>One meter is approximately 3.28084 feet.</p>
+<h4>Can I convert miles directly to centimeters?</h4><p>Yes. Select miles as the starting unit and centimeters as the output unit; the calculator performs the intermediate conversion automatically.</p>
+<p class="review-note"><strong>Calculation review:</strong> Tested with exact metric–imperial reference relationships. Last reviewed September 19, 2026.</p>
+</div>
 <script>
 const value=document.getElementById('value'),from=document.getElementById('from'),to=document.getElementById('to'),result=document.getElementById('result'),equation=document.getElementById('equation');
 function format(n){if(!Number.isFinite(n))return '—';const a=Math.abs(n);return (a!==0&&(a>=1e9||a<1e-6))?n.toExponential(8):n.toLocaleString(undefined,{maximumFractionDigits:10});}
