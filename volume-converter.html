@@ -23,7 +23,29 @@
 <div class="input-wrap"><div class="input-label">To</div><select id="to"><option value="0.001">Milliliters (mL)</option><option value="1">Liters (L)</option><option value="1000">Cubic meters (m³)</option><option value="0.00492892159375">Teaspoons (US) (tsp)</option><option value="0.01478676478125">Tablespoons (US) (tbsp)</option><option value="0.0295735295625">Fluid ounces (US) (fl oz)</option><option value="0.2365882365">Cups (US) (cup)</option><option value="0.473176473">Pints (US) (pt)</option><option value="0.946352946">Quarts (US) (qt)</option><option value="3.785411784" selected>Gallons (US) (gal)</option><option value="28.316846592">Cubic feet (ft³)</option></select></div>
 </div><div style="margin-top:14px"><button class="btn secondary" id="swap" type="button">Swap units</button></div></div>
 <div class="card"><div class="card-label">Result</div><div class="result accent"><div class="result-unit" id="equation">Conversion</div><div class="result-val" id="result" aria-live="polite">—</div></div></div>
-<div class="content-section"><h2>Liquid, cooking and cubic volume conversion</h2><p>Use U.S. cooking units and metric or cubic measurements for recipes, containers, tanks and project estimates.</p><h3>Common conversions</h3><ul><li>1 U.S. gallon = 3.785411784 liters</li><li>1 U.S. cup = 236.588 milliliters</li><li>1 cubic meter = 1,000 liters</li></ul><h3>How this calculator works</h3><p>Every value is converted through liters. U.S. customary liquid measures are used where labeled.</p></div>
+<div class="content-section">
+<h2>Volume conversion for liquids, recipes and containers</h2>
+<p>This volume converter handles metric, U.S. liquid and cubic measurements. Use it for recipe quantities, beverage containers, tank capacity and project estimates. Select the exact labeled unit because a cup, pint or gallon can represent different quantities in different measurement systems; this calculator labels its customary cooking units as U.S. units.</p>
+<h3>How the conversion works</h3>
+<p>Every selection is converted to liters and then into the requested output unit. One U.S. gallon equals exactly 3.785411784 liters, one U.S. fluid ounce equals 29.5735295625 milliliters and one cubic meter equals 1,000 liters. Keeping liters as the shared base ensures consistent answers across liquid and cubic units.</p>
+<h3>Worked examples</h3>
+<ul>
+<li><strong>2 U.S. gallons to liters:</strong> 2 × 3.785411784 = 7.570823568 liters.</li>
+<li><strong>3 U.S. cups to milliliters:</strong> 3 × 236.5882365 = approximately 709.765 mL.</li>
+<li><strong>2 cubic feet to liters:</strong> 2 × 28.316846592 = 56.633693184 liters.</li>
+</ul>
+<h3>Volume versus weight</h3>
+<p>Volume describes the space a substance occupies; weight describes how heavy it is. One cup of flour and one cup of water have the same volume but not the same weight. Converting a recipe from cups to grams therefore requires the ingredient’s density and cannot be done with a general volume converter alone.</p>
+<h3>Common mistakes to avoid</h3>
+<p>Check whether a source means U.S. or imperial gallons; an imperial gallon is larger and is not included in the U.S.-labeled selection. Do not confuse fluid ounces, which measure volume, with ounces used for weight. For very small recipe amounts, measuring spoons can also vary slightly in practice.</p>
+<h3>Accuracy and rounding</h3>
+<p>The calculator preserves extra precision and then formats the displayed answer. Household containers and kitchen tools are not always calibrated precisely. For medication, laboratory work or industrial filling, use approved measuring equipment and follow the applicable instructions.</p>
+<h3>Frequently asked questions</h3>
+<h4>How many liters are in a U.S. gallon?</h4><p>One U.S. gallon equals exactly 3.785411784 liters.</p>
+<h4>How many milliliters are in a U.S. cup?</h4><p>One U.S. customary cup equals approximately 236.588 milliliters.</p>
+<h4>Can this convert cups to grams?</h4><p>No. That requires the density of the specific ingredient.</p>
+<p class="review-note"><strong>Calculation review:</strong> Tested with U.S. liquid and metric reference factors. Last reviewed September 19, 2026.</p>
+</div>
 <script>
 const value=document.getElementById('value'),from=document.getElementById('from'),to=document.getElementById('to'),result=document.getElementById('result'),equation=document.getElementById('equation');
 function format(n){if(!Number.isFinite(n))return '—';const a=Math.abs(n);return (a!==0&&(a>=1e9||a<1e-6))?n.toExponential(8):n.toLocaleString(undefined,{maximumFractionDigits:10});}
