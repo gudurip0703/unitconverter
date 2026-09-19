@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Mortgage Calculator</title>
+<title>Mortgage Calculator | UnitConverter.live</title>
+<meta name="description" content="Estimate monthly mortgage payments, total interest, and loan summary with adjustable inputs."/>
 <meta name="robots" content="index,follow"/>
 <link rel="canonical" href="https://unitconverter.live/mortgage.html"/>
 <link href="shared.css" rel="stylesheet"/>
@@ -18,13 +21,6 @@ th{text-align:left;color:#aaa;font-weight:500;padding:6px 0;border-bottom:0.5px 
 td{padding:6px 0;border-bottom:0.5px solid #f5f5f5;color:#1a1a2e;}
 td:last-child{text-align:right;font-weight:500;}
 </style>
-<title>Mortgage Calculator: Monthly Payment | UnitConverter.live</title>
-<meta name="description" content="Estimate monthly mortgage payments, loan amount, total payment and total interest for different home prices, down payments, rates and terms."/>
-<meta name="keywords" content="mortgage calculator, monthly mortgage payment, home loan calculator, mortgage interest calculator, amortization estimate"/>
-<meta property="og:title" content="Mortgage Calculator: Monthly Payment | UnitConverter.live"/>
-<meta property="og:description" content="Estimate monthly mortgage payments, loan amount, total payment and total interest for different home prices, down payments, rates and terms."/>
-<meta property="og:url" content="https://unitconverter.live/mortgage.html"/>
-<meta property="og:type" content="website"/>
 </head>
 <body>
 <a class="logo" href="index.html">
@@ -92,7 +88,8 @@ function calc(){
   const annualRate=+document.getElementById('rate').value/100;
   const years=+document.getElementById('term').value;
   const loan=price-down;
-  if(price<=0||down<0||years<=0||loan<=0||annualRate<0){clearResults();return;}
+  if(loan<=0||annualRate<=0)return;
+  if(price<=0||down<0||years<=0||loan<=0){clearResults();return;}
   const r=annualRate/12, n=years*12;
   const monthly=annualRate===0?loan/n:loan*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
   const total=monthly*n;
@@ -123,6 +120,7 @@ function drawPie(principal,interest){
   ctx.beginPath();ctx.moveTo(50,50);ctx.arc(50,50,46,0,pAngle);ctx.closePath();ctx.fillStyle='#3b7cf4';ctx.fill();
   ctx.beginPath();ctx.moveTo(50,50);ctx.arc(50,50,46,pAngle,Math.PI*2);ctx.closePath();ctx.fillStyle='#f5c842';ctx.fill();
 }
+['price','down','rate','term'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
 ['price','down','rate'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
 document.getElementById('term').addEventListener('change',calc);
 calc();
@@ -138,6 +136,20 @@ calc();
     <li>Results are estimates; actual lender fees/taxes are extra.</li>
   </ul>
 </div>
+
+<section class="content-section">
+  <h2>How a mortgage payment estimate works</h2>
+  <p>A fixed-rate mortgage payment is based on the loan principal, monthly interest rate and total number of monthly payments. The principal is the home price minus the down payment. The standard amortization formula spreads principal and interest over the selected term so the scheduled principal-and-interest payment remains level.</p>
+  <p>The calculator’s monthly figure is an estimate, not a loan offer. A complete housing payment may also include property taxes, homeowners insurance, mortgage insurance, homeowners-association dues and other charges. Closing costs and prepaid items are usually paid separately or added to financing when permitted.</p>
+  <h3>Worked example</h3><p>For a $300,000 home with a $60,000 down payment, the starting loan principal is $240,000. At 6% annual interest for 30 years, the estimated principal-and-interest payment is about $1,439 per month before taxes, insurance and fees.</p>
+  <h3>Compare more than the monthly payment</h3>
+  <p>A longer term can reduce the required monthly payment but may substantially increase total interest. A shorter term usually raises the monthly amount while reducing the time interest accrues. Compare both payment and total interest rather than selecting a term from the monthly number alone.</p>
+  <p>A larger down payment reduces the amount borrowed and may affect mortgage-insurance requirements, but it also uses cash that could be needed for closing, repairs or emergencies. Consider the complete financial picture and obtain an official loan estimate before making a commitment.</p>
+  <h3>Inputs that cause confusion</h3><ul><li>Enter the annual interest rate, not a monthly percentage.</li><li>Use the exact term offered by the lender.</li><li>Advertised rates may require points or specific qualifications.</li><li>Principal and interest do not equal the complete housing cost.</li></ul>
+  <h3>Use scenarios instead of one estimate</h3><p>Try several realistic combinations: a higher or lower purchase price, different down payments, and both shorter and longer terms. Keep a separate monthly allowance for taxes, insurance, maintenance, utilities and association dues. An affordable loan payment can still create an unaffordable total housing budget when these items are ignored. Rates and qualification standards can change, so save assumptions with the date rather than treating a calculation as permanent. Before buying or refinancing, compare official disclosures and ask questions about adjustable rates, prepayment terms and lender fees.</p>
+  <h3>Frequently asked questions</h3>
+  <p><strong>Are taxes and insurance included?</strong> The core amortization result covers principal and interest; add other housing costs separately.</p><p><strong>What happens at 0% interest?</strong> The principal is divided evenly by the total monthly payments.</p><p><strong>Why is a lender’s figure different?</strong> It may use a different rate, timing, fees, escrow items or mortgage-insurance amount.</p>
+</section>
 
 <footer class="site-footer">
   <a href="index.html">Home</a> · <a href="about.html">About</a> · <a href="methodology.html">Methodology</a> · <a href="disclaimer.html">Disclaimer</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a> · <a href="contact.html">Contact</a>
