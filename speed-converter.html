@@ -23,7 +23,29 @@
 <div class="input-wrap"><div class="input-label">To</div><select id="to"><option value="0.2777777777778" selected>Kilometers per hour (km/h)</option><option value="0.44704">Miles per hour (mph)</option><option value="1">Meters per second (m/s)</option><option value="0.3048">Feet per second (ft/s)</option><option value="0.5144444444444">Knots (kn)</option></select></div>
 </div><div style="margin-top:14px"><button class="btn secondary" id="swap" type="button">Swap units</button></div></div>
 <div class="card"><div class="card-label">Result</div><div class="result accent"><div class="result-unit" id="equation">Conversion</div><div class="result-val" id="result" aria-live="polite">—</div></div></div>
-<div class="content-section"><h2>Road, marine and scientific speed conversion</h2><p>Convert familiar road speeds, marine knots and metric rates. This is useful for travel, exercise, transport and classroom calculations.</p><h3>Common conversions</h3><ul><li>60 mph = 96.5606 km/h</li><li>100 km/h = 62.1371 mph</li><li>1 knot = 1.852 km/h</li></ul><h3>How this calculator works</h3><p>Every value is converted through meters per second using internationally established relationships.</p></div>
+<div class="content-section">
+<h2>Speed conversion for roads, exercise and marine travel</h2>
+<p>This speed converter compares miles per hour, kilometers per hour, meters per second, feet per second and knots. It is useful for road travel, running pace comparisons, marine navigation and classroom calculations. Enter a speed, select its current unit and choose the output unit; the equation updates with the result.</p>
+<h3>How speed conversion works</h3>
+<p>The calculator converts every starting value through meters per second. One mile per hour equals exactly 0.44704 meters per second, one kilometer per hour equals 0.277777… meters per second and one international knot equals one nautical mile per hour, or 0.514444… meters per second.</p>
+<h3>Worked examples</h3>
+<ul>
+<li><strong>60 mph to km/h:</strong> 60 × 1.609344 = 96.56064 km/h.</li>
+<li><strong>100 km/h to mph:</strong> 100 ÷ 1.609344 = approximately 62.1371 mph.</li>
+<li><strong>10 m/s to mph:</strong> 10 ÷ 0.44704 = approximately 22.3694 mph.</li>
+</ul>
+<h3>Understanding knots</h3>
+<p>A knot is a speed of one nautical mile per hour. Because a nautical mile is based on navigation and equals exactly 1.852 kilometers, one knot equals 1.852 km/h. Knots are commonly used for ships, aircraft and weather observations rather than road speed limits.</p>
+<h3>Speed is not pace</h3>
+<p>Speed states distance traveled per unit of time, such as miles per hour. Pace states the time required for one unit of distance, such as minutes per mile. They are related but not interchangeable: doubling speed halves the time needed to cover the same distance.</p>
+<h3>Common mistakes to avoid</h3>
+<p>Distinguish mph from m/s and km/h; similar abbreviations can represent very different values. A speed conversion does not account for traffic, road conditions, wind, current or stopping distance. Always follow posted limits and applicable safety guidance.</p>
+<h3>Frequently asked questions</h3>
+<h4>What is 60 mph in kilometers per hour?</h4><p>60 mph equals 96.56064 km/h.</p>
+<h4>How fast is one knot?</h4><p>One knot equals 1.852 km/h or approximately 1.15078 mph.</p>
+<h4>Does this calculate travel time?</h4><p>No. Travel time also requires distance; divide distance by average speed when the units are compatible.</p>
+<p class="review-note"><strong>Calculation review:</strong> Tested against exact international mile and nautical-mile relationships. Last reviewed September 19, 2026.</p>
+</div>
 <script>
 const value=document.getElementById('value'),from=document.getElementById('from'),to=document.getElementById('to'),result=document.getElementById('result'),equation=document.getElementById('equation');
 function format(n){if(!Number.isFinite(n))return '—';const a=Math.abs(n);return (a!==0&&(a>=1e9||a<1e-6))?n.toExponential(8):n.toLocaleString(undefined,{maximumFractionDigits:10});}
